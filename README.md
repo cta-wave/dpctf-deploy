@@ -30,6 +30,7 @@ and sets the version tag to "0.0.0".
 
 Running the created image in a properly configured container set the desired image version:
 
+`docker-compose.yml`
 ```yaml
 services:
   dpctf:
