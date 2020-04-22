@@ -33,7 +33,7 @@
       "manual": 300000
   },
   "enable_results_import": false,
-  "web_root": "/wave",
+  "web_root": "/_wave",
   "persisting_interval": 20,
   "api_titles": []
 }
