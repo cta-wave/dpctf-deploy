@@ -8,7 +8,7 @@ it in a container with proper configuration.
 To build the image, simply run
 
 ```shell
-# ./build.sh <commit-id/branch/tag> <image-version>
+./build.sh <commit-id/branch/tag> <image-version>
 ```
 
 In this command **commit-id/branch/tag** specifies what code base to use 
@@ -20,7 +20,7 @@ tagged with. This allows to have multiple image with different versions.
 For example:
 
 ```shell
-# ./build.sh dpctf-v0.0.0 0.0.0
+./build.sh dpctf-v0.0.0 0.0.0
 ```
 
 This will create a docker image for the code base tagged with "dpctf-v0.0.0" 
@@ -48,7 +48,7 @@ this should be enough.
 To then start the container run the following command:
 
 ```shell
-# docker-compose up -d
+docker-compose up -d
 ```
 
 This will use the configuration in the `docker-compose.yml` to create a new 
@@ -65,19 +65,19 @@ the name of the container you want to perform the action on.
 Start container
 
 ```shell
-# docker start <container_name>
+docker start <container_name>
 ```
 
 Stop container
 
 ```shell
-# docker stop <container_name>
+docker stop <container_name>
 ```
 
 View logs
 
 ```shell
-# docker logs <container_name>
+docker logs <container_name>
 ```
 
 In our case, **container_name** is `dpctf`, unless it was changed in the `docker-compose.yml`.
