@@ -81,3 +81,12 @@ docker logs <container_name>
 ```
 
 In our case, **container_name** is `dpctf`, unless it was changed in the `docker-compose.yml`.
+
+## Running tests
+
+To run the test, access the following URL in the browser, assuming default port is used:
+```
+http://localhost:8000/_wave/index.html
+```
+
+For further information on how to configure sessions and general usage see [the documentation](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/usage/usage.md)
