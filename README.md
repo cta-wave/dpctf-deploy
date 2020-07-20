@@ -12,10 +12,11 @@ To build the image, simply run
 ```
 
 In this command **commit-id/branch/tag** specifies what code base to use 
-from the [WMAS repository](https://github.com/cta-wave/WMAS) in the created 
+from the [DPCTF Test Runner repository](https://github.com/cta-wave/dpctf-test-runner) in the created 
 image. As indicated, this can be a commit id, a branch name or a tag. 
 **image-version** specifies the version string the created docker image is 
 tagged with. This allows to have multiple image with different versions.
+The build script will name the image `dpctf:<image-version`.
 
 For example:
 
@@ -24,11 +25,12 @@ For example:
 ```
 
 This will create a docker image for the code base tagged with "dpctf-v0.0.0" 
-and sets the version tag to "0.0.0".
+and sets the version tag to "0.0.0". The resulting image will have the name
+`dpctf:0.0.0`.
 
 ## Running the created image in a container
 
-Running the created image in a properly configured container set the desired image version:
+To run the created image in a properly configured container, set the desired image version:
 
 `docker-compose.yml`
 ```yaml
@@ -43,7 +45,7 @@ reference it when using docker commands specific to containers like start,
 stop, view logs and so on. **image** specifies what image to use to create the 
 container. In this example, we use the version string of the example from the 
 section "Create Image". The file contains further configurations, but for now 
-this should be enough.
+this should suffice.
 
 To then start the container run the following command:
 
@@ -89,6 +91,7 @@ To run the test, access the following URL in the browser, assuming default port 
 http://localhost:8000/_wave/index.html
 ```
 
+Please also see the DPCTF section in the DPCTF Test Runner [Readme file](https://github.com/cta-wave/dpctf-test-runner#dpctf-info).
 For further information on how to configure sessions and general usage see [the documentation](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/usage/usage.md) (please make sure that dpctf is selected when configuring a new session).
 
 Additionally, it is possible to run tests using the [REST API](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/rest-api/README.md).
