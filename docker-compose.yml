@@ -9,8 +9,8 @@ services:
       - "8000:8000"
     network_mode: "host"
     volumes:
-      - ./results:/home/ubuntu/WMAS/results
-      - ./config.json:/home/ubuntu/WMAS/config.json
+      - ./results:/home/ubuntu/DPCTF/results
+      - ./config.json:/home/ubuntu/DPCTF/config.json
     extra_hosts:
       - "www1.xn--n8j6ds53lwwkrqhv28a.web-platform.test:127.0.0.1"
       - "op88.web-platform.test:127.0.0.1"
