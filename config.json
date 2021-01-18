@@ -1,4 +1,5 @@
 {
+  "browser_host": "web-platform.test",
   "wave": {
     "aliases": [],
     "results": "./results",
