@@ -22,6 +22,7 @@ RUN git init &&\
     git remote add origin https://github.com/cta-wave/dpctf-test-runner.git
 
 ARG commit
+ARG runner-rev
 
 USER root
 RUN npm install --global https://github.com/fraunhoferfokus/wptreport.git#wmats2018
@@ -29,6 +30,8 @@ USER ubuntu
 
 RUN git fetch origin $commit
 RUN git reset --hard FETCH_HEAD
+
+ARG tests-rev
 
 RUN ./import-tests.sh
 

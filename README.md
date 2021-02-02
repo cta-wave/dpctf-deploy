@@ -47,17 +47,22 @@ container. In this example, we use the version string of the example from the
 section "Create Image". The file contains further configurations, but for now 
 this should suffice.
 
+Every directory mapped into the container has to have its owner set to user id
+1000 in order for the test runner to perform read and write actions.
+
 To then start the container run the following command:
 
 ```shell
 docker-compose up -d
 ```
 
-This will use the configuration in the `docker-compose.yml` to create a new 
+This will use the configuration in the `docker-compose.yml` to create a new
 container and run it in the background.
 
-The test runner can be configured using the `config.json`. All test results 
-will be stored in the `results` directory.
+The test runner can be configured using the `config.json`. For more details 
+see the [docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md).
+
+All test results will be stored in the `results` directory.
 
 ## Controlling the running container
 
