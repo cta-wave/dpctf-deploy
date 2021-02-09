@@ -96,6 +96,10 @@ To run the test, access the following URL in the browser, assuming default port 
 http://localhost:8000/_wave/index.html
 ```
 
+To access the host machine by its IP address, add the `host_override` 
+parameter to the config.json. For more details see 
+[the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override)
+
 Please also see the DPCTF section in the DPCTF Test Runner [Readme file](https://github.com/cta-wave/dpctf-test-runner#dpctf-info).
 For further information on how to configure sessions and general usage see [the documentation](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/usage/usage.md) (please make sure that dpctf is selected when configuring a new session).
 
