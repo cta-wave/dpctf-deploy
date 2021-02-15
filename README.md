@@ -104,3 +104,50 @@ Please also see the DPCTF section in the DPCTF Test Runner [Readme file](https:/
 For further information on how to configure sessions and general usage see [the documentation](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/usage/usage.md) (please make sure that dpctf is selected when configuring a new session).
 
 Additionally, it is possible to run tests using the [REST API](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/rest-api/README.md).
+
+## Mapping new content into the container
+
+It may be useful to be able to use custom content with the test runner. This requires modification of the `docker-compose.yml` for any directory or file that should be mapped into the container.
+
+Inside the `docker-compose.yml` under `volumes`, add a new line per file or directory to map:
+
+```yaml
+    volumes:
+      - <src_host_path>:<dest_container_path>
+```
+
+The `src_host_path` can be an absolute or relative path. The `dest_container_path` should be `/home/ubuntu/DPCTF/<dest_name>`, to make it available for serving from the test runners web server.
+
+For example, to map a new group of tests named 'test-group' and a custom `test-config.json`:
+
+```
+ls
+
+docker-compose.yml
+test-group
+test-config.json
+```
+
+```yaml
+    volumes:
+      - ./test-group:/home/ubuntu/DPCTF/test-group
+      - ./test-config.json:/home/ubuntu/DPCTF/test-config.json
+```
+
+Then restart the container using docker-compose command:
+
+```
+docker-compose up -d
+```
+
+Files are now accessible under the relative path to the test runner directory:
+
+Test files inside 'test-group':
+```
+http://web-platform.test:8000/test-group/
+```
+
+`test-config.json`:
+```
+http://web-platform.test:8000/test-config.json
+```
