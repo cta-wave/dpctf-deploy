@@ -8,7 +8,7 @@ it in a container with proper configuration.
 To build the image, simply run
 
 ```shell
-./build.sh <commit-id/branch/tag> <image-version>
+./build.sh <commit-id/branch/tag> <image-version> [<tests-revision> [<runner-revision>]]
 ```
 
 In this command **commit-id/branch/tag** specifies what code base to use 
@@ -16,17 +16,39 @@ from the [DPCTF Test Runner repository](https://github.com/cta-wave/dpctf-test-r
 image. As indicated, this can be a commit id, a branch name or a tag. 
 **image-version** specifies the version string the created docker image is 
 tagged with. This allows to have multiple image with different versions.
-The build script will name the image `dpctf:<image-version`.
+The build script will name the image `dpctf:<image-version`.  
+**tests-revision** is an optional parameter used to circumvent caching of used 
+dpctf-tests when building the image. The provided value has no semantics, 
+therefore, when rebuilding the image for different dpctf-tests it is 
+sufficient to provide some value that differs from previous builds.  
+**runner-revision** is an optional parameter used similarly to the 
+tests-revision parameter, but in regards to the used dpctf runner version. 
+This is especially useful when using branch names, which keep their names 
+while the underlying code may change.
 
 For example:
 
 ```shell
-./build.sh dpctf-v0.0.0 0.0.0
+./build.sh master latest
 ```
 
-This will create a docker image for the code base tagged with "dpctf-v0.0.0" 
-and sets the version tag to "0.0.0". The resulting image will have the name
-`dpctf:0.0.0`.
+To rebuild the image using the cache but retrigger the download of the tests, 
+use the tests revision parameter:
+
+```shell
+./build.sh master latest 1
+```
+
+To rebuild the image using the chache but retrigger the download of the test 
+runner, use the runner revision parameter:
+
+```shell
+./build.sh master latest 1 1
+```
+
+This will create a docker image for the latest code base on the master branch 
+and sets the version tag to "latest". The resulting image will have the name
+`dpctf:latest`.
 
 ## Running the created image in a container
 
@@ -37,7 +59,7 @@ To run the created image in a properly configured container, set the desired ima
 services:
   dpctf:
     container_name: dpctf
-    image: dpctf:0.0.0
+    image: dpctf:latest
 ```
 
 **container_name** defines the name of the container, so we can later 
