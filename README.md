@@ -16,7 +16,7 @@ from the [DPCTF Test Runner repository](https://github.com/cta-wave/dpctf-test-r
 image. As indicated, this can be a commit id, a branch name or a tag. 
 **image-version** specifies the version string the created docker image is 
 tagged with. This allows to have multiple image with different versions.
-The build script will name the image `dpctf:<image-version`.  
+The build script will name the image `dpctf:<image-version>`.  
 **tests-revision** is an optional parameter used to circumvent caching of used 
 dpctf-tests when building the image. The provided value has no semantics, 
 therefore, when rebuilding the image for different dpctf-tests it is 
@@ -39,7 +39,7 @@ use the tests revision parameter:
 ./build.sh master latest 1
 ```
 
-To rebuild the image using the chache but retrigger the download of the test 
+To rebuild the image using the cache but retrigger the download of the test 
 runner, use the runner revision parameter:
 
 ```shell
