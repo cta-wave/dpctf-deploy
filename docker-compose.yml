@@ -3,11 +3,11 @@ version: '3'
 services:
   dpctf:
     container_name: dpctf
-    image: dpctf:0.0.0
+    image: dpctf:latest
     restart: always
-    #ports:
-      #- "8000:8000"
-    network_mode: "host"
+    ports:
+      - "8000:8000"
+    network_mode: "bridge"
     volumes:
       - ./results:/home/ubuntu/DPCTF/results
       - ./config.json:/home/ubuntu/DPCTF/config.json
