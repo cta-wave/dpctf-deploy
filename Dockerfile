@@ -25,7 +25,7 @@ ARG commit
 ARG runner-rev
 
 USER root
-RUN npm install --global https://github.com/fraunhoferfokus/wptreport.git#wmats2018
+RUN npm install --global https://github.com/cta-wave/wptreport.git
 USER ubuntu
 
 RUN git fetch origin $commit
