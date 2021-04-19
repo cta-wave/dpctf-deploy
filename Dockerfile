@@ -21,12 +21,12 @@ WORKDIR DPCTF
 RUN git init &&\
     git remote add origin https://github.com/cta-wave/dpctf-test-runner.git
 
+USER root
+RUN npm install --global https://github.com/cta-wave/wptreport.git#main
+USER ubuntu
+
 ARG commit
 ARG runner-rev
-
-USER root
-RUN npm install --global https://github.com/cta-wave/wptreport.git
-USER ubuntu
 
 RUN git fetch origin $commit
 RUN git reset --hard FETCH_HEAD
