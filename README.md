@@ -3,6 +3,14 @@
 This repository contains configuration files to build a docker image and run 
 it in a container with proper configuration.
 
+## Requirements
+
+- Docker v20
+- docker-compose v1.29
+- **Windows** and **Linux** require root permissions for the provided commands. 
+  - [Run docker without root on Linux](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
+  - [Run docker without admin on Windows](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
+
 ## Create Image
 
 To build the image, simply run
@@ -86,47 +94,6 @@ see the [docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/w
 
 All test results will be stored in the `results` directory.
 
-## Controlling the running container
-
-You can control the running container using a set of commands, which receive 
-the name of the container you want to perform the action on.
-
-Start container
-
-```shell
-docker start <container_name>
-```
-
-Stop container
-
-```shell
-docker stop <container_name>
-```
-
-View logs
-
-```shell
-docker logs <container_name>
-```
-
-In our case, **container_name** is `dpctf`, unless it was changed in the `docker-compose.yml`.
-
-## Running tests
-
-To run the test, access the following URL in the browser, assuming default port is used:
-```
-http://localhost:8000/_wave/index.html
-```
-
-To access the host machine by its IP address, add the `host_override` 
-parameter to the config.json. For more details see 
-[the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override)
-
-Please also see the DPCTF section in the DPCTF Test Runner [Readme file](https://github.com/cta-wave/dpctf-test-runner#dpctf-info).
-For further information on how to configure sessions and general usage see [the documentation](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/usage/usage.md) (please make sure that dpctf is selected when configuring a new session).
-
-Additionally, it is possible to run tests using the [REST API](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/rest-api/README.md).
-
 ## Mapping new content into the container
 
 It may be useful to be able to use custom content with the test runner. This requires modification of the `docker-compose.yml` for any directory or file that should be mapped into the container.
@@ -173,3 +140,79 @@ http://web-platform.test:8000/test-group/
 ```
 http://web-platform.test:8000/test-config.json
 ```
+
+## Controlling the running container
+
+You can control the running container using a set of commands, which receive 
+the name of the container you want to perform the action on.
+
+Start container
+
+```shell
+docker start <container_name>
+```
+
+Stop container
+
+```shell
+docker stop <container_name>
+```
+
+View logs
+
+```shell
+docker logs <container_name>
+```
+
+In our case, **container_name** is `dpctf`, unless it was changed in the `docker-compose.yml`.
+
+## Running tests
+
+In general, to access the test runners landing page, it can be accessed under the following URL:
+```
+http://<host-domain/ip>:<port>/_wave/index.html
+```
+
+- **host-domain/ip**: The domain or IP of the machine that hosts the DPCTF 
+test runner. To access the host machine by its IP address, add the `host_override` 
+parameter to the config.json. For more details see 
+[the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override)
+- **port**: The port number the DPCTF test runner is runner on
+
+Please also see the DPCTF section in the DPCTF Test Runner [Readme file](https://github.com/cta-wave/dpctf-test-runner#dpctf-info).
+For further information on how to configure sessions and general usage see [the documentation](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/usage/usage.md) (please make sure that dpctf is selected when configuring a new session).
+
+Additionally, it is possible to run tests using the [REST API](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/rest-api/README.md).
+
+### Run on host machine
+
+![Single Machine Setup](./same-machine-setup.jpg)
+
+The most simple use case is to execute the test on the same machine as the 
+DPCTF test runner is running on. Run the docker container and access the 
+landing page to execute tests and configure the session. As everything runs on 
+the same machine, the host can be localhost. Use the "Configure Session" 
+button on the landing page to configure and start the session.
+
+### Run on separate DUT (TV, Mobile, etc.)
+
+![PC-DUT Setup](./pc-dut-setup.jpg)
+
+Another common use case is to have a separate device under test, like a TV or 
+mobile device, to run the tests on. Run the docker container on a PC and 
+configure the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override)
+ parameter to equal the IP of the test runners machine is reachable by. Then 
+access the landing page on the DUT using this IP. On the PC open the URL 
+`/_wave/configuration.html` and enter the session token displayed on the 
+landing page to configure and start the session.
+
+### Run on separate DUT using companion device
+
+![PC-DUT-Companion Setup](./pc-dut-companion-setup.jpg)
+
+A companion device may be used to configure and manage a test session. In this 
+setup, the test runner is hosted on one device, whereas another device is used 
+to configure and monitor the test session that runs on the DUT. Run the docker 
+container on a machine, open the landing page on the DUT and scan the QR code 
+using a mobile device. On the mobile device, configure the session as needed 
+and start the test execution.
