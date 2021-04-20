@@ -177,7 +177,7 @@ http://<host-domain/ip>:<port>/_wave/index.html
 test runner. To access the host machine by its IP address, add the `host_override` 
 parameter to the config.json. For more details see 
 [the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override)
-- **port**: The port number the DPCTF test runner is runner on
+- **port**: The port number the DPCTF test runner is runner on (default port is `8000`)
 
 Please also see the DPCTF section in the DPCTF Test Runner [Readme file](https://github.com/cta-wave/dpctf-test-runner#dpctf-info).
 For further information on how to configure sessions and general usage see [the documentation](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/usage/usage.md) (please make sure that dpctf is selected when configuring a new session).
@@ -189,22 +189,24 @@ Additionally, it is possible to run tests using the [REST API](https://github.co
 ![Single Machine Setup](./same-machine-setup.jpg)
 
 The most simple use case is to execute the test on the same machine as the 
-DPCTF test runner is running on. Run the docker container and access the 
-landing page to execute tests and configure the session. As everything runs on 
-the same machine, the host can be localhost. Use the "Configure Session" 
-button on the landing page to configure and start the session.
+DPCTF test runner is running on. 
+
+1. Run the docker container on the host machine
+2. Open the landing page `http://localhost:<port>/_wave/index.html` in Browser (As everything runs on the same machine, the host can be `localhost` used)
+3. Use the "Configure Session" button on the landing page to configure and start the session
 
 ### Run on separate DUT (TV, Mobile, etc.)
 
 ![PC-DUT Setup](./pc-dut-setup.jpg)
 
 Another common use case is to have a separate device under test, like a TV or 
-mobile device, to run the tests on. Run the docker container on a PC and 
-configure the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override)
- parameter to equal the IP of the test runners machine is reachable by. Then 
-access the landing page on the DUT using this IP. On the PC open the URL 
-`/_wave/configuration.html` and enter the session token displayed on the 
-landing page to configure and start the session.
+mobile device, to run the tests on. 
+
+1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override) parameter to the IP of the host  machine. 
+2. Run the docker container on the host machine
+3. Open the landing page `http://<host_ip>:<port>/_wave/index.html` on the DUT (TV, mobile, ...)
+4. On the host machine open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the 
+landing page (on TV or mobile) to configure and start the session.
 
 ### Run on separate DUT using companion device
 
@@ -212,7 +214,11 @@ landing page to configure and start the session.
 
 A companion device may be used to configure and manage a test session. In this 
 setup, the test runner is hosted on one device, whereas another device is used 
-to configure and monitor the test session that runs on the DUT. Run the docker 
-container on a machine, open the landing page on the DUT and scan the QR code 
-using a mobile device. On the mobile device, configure the session as needed 
-and start the test execution.
+to configure and monitor the test session that runs on the DUT. 
+
+1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override) parameter to the IP of the host  machine. 
+2. Run the docker container on the host machine
+3. Open the landing page `http://<host_ip>:<port>/_wave/index.html` on the DUT (TV, mobile, ...)
+4. Access configuration page to configure and start session using one of these options:
+   * Open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the landing page
+   * Scan the QR code displayed on the landing page
