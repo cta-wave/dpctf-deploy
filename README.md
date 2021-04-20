@@ -5,11 +5,11 @@ it in a container with proper configuration.
 
 ## Requirements
 
-- Docker v20
-- docker-compose v1.29
-- **Windows** and **Linux** require root permissions for the provided commands. 
+- Docker (tested with v20.10.6)
+- docker-compose (tested with v1.29.1)
+- **Windows** and **Linux** require root/admin permissions for the provided commands. Please follow these instructions to run docker without root/admin:
   - [Run docker without root on Linux](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
-  - [Run docker without admin on Windows](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
+  - [Run docker without admin on Windows](https://docs.docker.com/docker-for-windows/install/#install-docker-desktop-on-windows)
 
 ## Create Image
 
