@@ -79,7 +79,7 @@ section "Create Image". The file contains further configurations, but for now
 this should suffice.
 
 Every directory mapped into the container has to have its owner set to user id
-1000 in order for the test runner to perform read and write actions.
+1000 in order for the test runner to perform read and write actions. (e.g. `results` directory)
 
 To then start the container run the following command:
 
