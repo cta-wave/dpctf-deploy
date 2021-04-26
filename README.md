@@ -56,7 +56,8 @@ runner, use the runner revision parameter:
 
 This will create a docker image for the latest code base on the master branch 
 and sets the version tag to "latest". The resulting image will have the name
-`dpctf:latest`.
+`dpctf:latest`.  
+Please make sure to re-create the container (run `docker-compose up -d`) each time you create a new image. 
 
 ## Running the created image in a container
 
