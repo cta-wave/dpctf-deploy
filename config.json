@@ -4,7 +4,7 @@
     "aliases": [],
     "results": "./results",
     "timeouts": {
-        "automatic": 60000,
+        "automatic": 300000,
         "manual": 300000
     },
     "enable_results_import": false,
