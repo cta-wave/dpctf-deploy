@@ -15,11 +15,12 @@ RUN rm /bin/sh &&\
     ln -s /bin/bash /bin/sh
 USER ubuntu
 
-
 RUN mkdir DPCTF && cd DPCTF
 WORKDIR DPCTF
 RUN git init &&\
     git remote add origin https://github.com/cta-wave/dpctf-test-runner.git
+
+COPY check-ownership.sh .
 
 USER root
 RUN npm install --global https://github.com/cta-wave/wptreport.git#main
@@ -37,4 +38,4 @@ RUN ./import-tests.sh
 
 EXPOSE 8000
 
-CMD ./wpt serve-wave --report
+CMD ./check-ownership.sh && ./wpt serve-wave --report
