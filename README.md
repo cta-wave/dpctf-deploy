@@ -177,7 +177,7 @@ http://<host-domain/ip>:<port>/_wave/index.html
 - **host-domain/ip**: The domain or IP of the machine that hosts the DPCTF 
 test runner. To access the host machine by its IP address, add the `host_override` 
 parameter to the config.json. For more details see 
-[the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override)
+[the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override)
 - **port**: The port number the DPCTF test runner is runner on (default port is `8000`)
 
 Please also see the DPCTF section in the DPCTF Test Runner [Readme file](https://github.com/cta-wave/dpctf-test-runner#dpctf-info).
@@ -203,7 +203,7 @@ DPCTF test runner is running on.
 Another common use case is to have a separate device under test, like a TV or 
 mobile device, to run the tests on. 
 
-1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override) parameter to the IP of the host  machine. 
+1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override) parameter to the IP of the host  machine. 
 2. Run the docker container on the host machine
 3. Open the landing page `http://<host_ip>:<port>/_wave/index.html` on the DUT (TV, mobile, ...)
 4. On the host machine open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the 
@@ -217,7 +217,7 @@ A companion device may be used to configure and manage a test session. In this
 setup, the test runner is hosted on one device, whereas another device is used 
 to configure and monitor the test session that runs on the DUT. 
 
-1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#211-host-override) parameter to the IP of the host  machine. 
+1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override) parameter to the IP of the host  machine. 
 2. Run the docker container on the host machine
 3. Open the landing page `http://<host_ip>:<port>/_wave/index.html` on the DUT (TV, mobile, ...)
 4. Access configuration page to configure and start session using one of these options:
