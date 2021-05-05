@@ -223,3 +223,7 @@ to configure and monitor the test session that runs on the DUT.
 4. Access configuration page to configure and start session using one of these options:
    * Open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the landing page
    * Scan the QR code displayed on the landing page
+
+### Detailed Guides
+
+- [Run tests on mobile](./MOBILE_USAGE.md)
