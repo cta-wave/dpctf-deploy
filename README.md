@@ -16,23 +16,20 @@ it in a container with proper configuration.
 To build the image, simply run
 
 ```shell
-./build.sh <commit-id/branch/tag> <image-version> [<tests-revision> [<runner-revision>]]
+./build.sh <commit-id/branch/tag> <image-version> [<options>]
 ```
 
 In this command **commit-id/branch/tag** specifies what code base to use 
 from the [DPCTF Test Runner repository](https://github.com/cta-wave/dpctf-test-runner) in the created 
-image. As indicated, this can be a commit id, a branch name or a tag. 
+image. As indicated, this can be a commit id, a branch name or a tag.
+
 **image-version** specifies the version string the created docker image is 
 tagged with. This allows to have multiple image with different versions.
-The build script will name the image `dpctf:<image-version>`.  
-**tests-revision** is an optional parameter used to circumvent caching of used 
-dpctf-tests when building the image. The provided value has no semantics, 
-therefore, when rebuilding the image for different dpctf-tests it is 
-sufficient to provide some value that differs from previous builds.  
-**runner-revision** is an optional parameter used similarly to the 
-tests-revision parameter, but in regards to the used dpctf runner version. 
-This is especially useful when using branch names, which keep their names 
-while the underlying code may change.
+The build script will name the image `dpctf:<image-version>`.
+
+**options** - A list of optional arguments:
+- **--reload-runner**: Reload the test runner, disabling cache
+- **--reload-tests**: Reload test files, disabling cache
 
 For example:
 
