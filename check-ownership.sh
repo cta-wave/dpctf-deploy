@@ -1,14 +1,16 @@
 #!/bin/bash
 
-ownership=$(stat -c%u:%g /home/ubuntu/DPCTF/results);
+ownership=$(stat -c%u:%g $1);
+permissions=$(stat -c%A $1);
 
-if [ "$ownership" != "1000:1000" ]; then
+if [ "$ownership" != "1000:1000" ] || [[ $permissions != *"w"* ]]; then
   echo;
   echo -e "\e[1;31m";
-  echo "=== WARNING ==============================================="
-  echo "= Ownership of results directory not properly configured. ="
-  echo "= Set ownership to 1000:1000 to avoid misbehavior!        ="
-  echo "===========================================================";
+  echo "=== ERROR ================================================================"
+  echo "= Ownership or permissions of results directory not properly configured. ="
+  echo "= Set ownership to 1000:1000 and make directory writable!                ="
+  echo "==========================================================================";
   echo -e "\e[0m";
   echo;
+  exit 1;
 fi

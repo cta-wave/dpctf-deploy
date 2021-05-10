@@ -38,4 +38,4 @@ RUN ./import-tests.sh
 
 EXPOSE 8000
 
-CMD ./check-ownership.sh && ./wpt serve-wave --report
+CMD ./check-ownership.sh /home/ubuntu/DPCTF/results && ./wpt serve-wave --report
