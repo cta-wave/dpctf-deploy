@@ -38,17 +38,17 @@ For example:
 ```
 
 To rebuild the image using the cache but retrigger the download of the tests, 
-use the tests revision parameter:
+use the reload-tests argument:
 
 ```shell
-./build.sh master latest 1
+./build.sh master latest --reload-tests
 ```
 
 To rebuild the image using the cache but retrigger the download of the test 
-runner, use the runner revision parameter:
+runner, use the reload-runner argument:
 
 ```shell
-./build.sh master latest 1 1
+./build.sh master latest --reload-runner
 ```
 
 This will create a docker image for the latest code base on the master branch 
