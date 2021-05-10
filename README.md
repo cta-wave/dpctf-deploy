@@ -90,7 +90,7 @@ docker-compose up
 This will use the configuration in the `docker-compose.yml` to create a new
 container and run it.
 
-While it is strongly discouraged to run the container as daemon while getting started with the deployment, it can be achieved by using the `-d` flag:
+Once the docker container is repeatedly running correctly, it may be run as a daemon using the `-d` flag:
 
 ```shell
 docker-compose up -d
