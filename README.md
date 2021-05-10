@@ -84,11 +84,19 @@ Every directory mapped into the container has to have its owner set to user id
 To then start the container run the following command:
 
 ```shell
-docker-compose up -d
+docker-compose up
 ```
 
 This will use the configuration in the `docker-compose.yml` to create a new
-container and run it in the background.
+container and run it.
+
+While it is strongly discouraged to run the container as daemon while getting started with the deployment, it can be achieved by using the `-d` flag:
+
+```shell
+docker-compose up -d
+```
+
+For more details on controlling the container when running it in the background, see the corresponding [section](#controlling-the-running-container).
 
 The test runner can be configured using the `config.json`. For more details 
 see the [docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md).
