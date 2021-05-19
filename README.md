@@ -75,6 +75,18 @@ container. In this example, we use the version string of the example from the
 section "Create Image". The file contains further configurations, but for now 
 this should suffice.
 
+Next, import the content:
+```
+./import.sh
+```
+
+This will download the content into the `content` directory, which is 
+accessible from the webserver by the same, relative path. For example, 
+`content/avc_sets/15_30_60/t1/stream.mpd` is accessible under 
+`http://<host>:<port>/content/avc_sets/15_30_60/t1/stream.mpd`.
+When rerunning the script, no existing files will be overwritten. To reload 
+content, delete the corresponding files before running the `import.sh` script.
+
 Every directory mapped into the container has to have its owner set to user id
 1000 in order for the test runner to perform read and write actions. (e.g. `results` directory)
 
