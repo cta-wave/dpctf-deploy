@@ -2,7 +2,8 @@ FROM ubuntu:18.04
 
 # install packages
 RUN apt update &&\
-    apt install git curl python python-pip virtualenv npm nodejs -y
+    apt install git curl python python-pip virtualenv npm nodejs iputils-ping -y &&\
+    apt clean
 
 
 ENV APP_DIR /home/ubuntu
@@ -33,6 +34,7 @@ RUN git reset --hard FETCH_HEAD
 
 COPY check-ownership.sh .
 COPY check-content.sh .
+COPY check-host.sh .
 
 ARG tests-rev
 
@@ -40,4 +42,4 @@ RUN ./import-tests.sh
 
 EXPOSE 8000
 
-CMD ln -s ../tests/* . || ./check-ownership.sh /home/ubuntu/DPCTF/results && ./wpt serve-wave --report
+CMD ln -s ../tests/* . || ./check-ownership.sh /home/ubuntu/DPCTF/results && ./check-host.sh /home/ubuntu/DPCTF/config.json && ./wpt serve-wave --report
