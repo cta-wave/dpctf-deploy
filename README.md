@@ -241,6 +241,20 @@ to configure and monitor the test session that runs on the DUT.
    * Open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the landing page
    * Scan the QR code displayed on the landing page
 
-### Detailed Guides
+## Debugging tests
+
+To debug failing test, there are multiple ways to get to the error messages:
+
+1. Browser console
+2. Test result beneath the video after test is finished (displayed around 5
+   seconds)
+3. After test is finished, on the results page, in the results table in the
+   export column click on "json". In the json file, look for the desired tests
+object containing the error.
+4. After test group is finished, on the results page, in the results table in
+   the export column click on "report". A test report opens in a new tab
+(may be blocked by browser). Click on show messages in the table header.
+
+## Detailed Guides
 
 - [Run tests on mobile](./MOBILE_USAGE.md)
