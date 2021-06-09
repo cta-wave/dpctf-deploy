@@ -243,17 +243,14 @@ to configure and monitor the test session that runs on the DUT.
 
 ## Debugging tests
 
-To debug failing test, there are multiple ways to get to the error messages:
+When debugging a failing test, there are multiple ways to get to the error messages:
 
-1. Browser console
-2. Test result beneath the video after test is finished (displayed around 5
-   seconds)
-3. After test is finished, on the results page, in the results table in the
-   export column click on "json". In the json file, look for the desired tests
+1. On the browser console
+2. The test result beneath the video after test is finished (displayed for around 5 seconds)
+3. After test is finished, on the results page, in the results table in the export column click on "json". In the json file, look for the desired test
 object containing the error.
-4. After test group is finished, on the results page, in the results table in
-   the export column click on "report". A test report opens in a new tab
-(may be blocked by browser). Click on show messages in the table header.
+4. After test group is finished, on the results page, in the results table in the export column click on "report". A test report opens in a new tab
+(although this may be blocked by the browser). Click on show messages in the table header.
 
 ## Detailed Guides
 
