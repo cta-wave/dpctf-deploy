@@ -4,7 +4,7 @@ import sys
 import os
 import shutil, errno
 from pathlib import Path
-import hashlib
+#import hashlib
 import json
 import urllib.request
 import re
@@ -23,48 +23,49 @@ DEST_DIR = sys.argv[2]
 
 def main():
     json_file = load_json(JSON_PATH)
-
-    for vector_name in json_file:
-        vector = json_file[vector_name]
-
-        relative_path = vector["mpdPath"]
-        relative_path = os.path.dirname(relative_path)
-        absolute_path = os.path.join(DEST_DIR, relative_path)
-        if os.path.exists(absolute_path):
-            print("Path '" + absolute_path  + "' exists. Skipping ...");
-            continue;
-
-        if "zipPath" not in vector:
-            print("Vector '" + vector_name + "' does not specify zip path, skipping ...")
-            continue
-
-        url = vector["zipPath"]
-
-        if url.startswith("/"):
-            parsed_uri = urlparse(JSON_PATH)
-            url = '{uri.scheme}://{uri.netloc}{path}'.format(uri=parsed_uri, path=url)
-        elif not url.startswith("http"):
-            parsed_uri = urlparse(JSON_PATH)
-            url = '{uri.scheme}://{uri.netloc}{path}'.format(uri=parsed_uri, path=os.path.join(os.path.dirname(parsed_uri.path), url))
-
-        blob = load_zip(url)
-        if blob is None:
-            continue
-
-        tmp_file_name = "{}.zip".format(str(time.time()))
-        with open(tmp_file_name, "wb") as file:
-            file.write(blob)
-
-        with zipfile.ZipFile(tmp_file_name, "r") as zip:
-            #path = os.path.join(DEST_DIR, vector_name)
-            zip.extractall(path=DEST_DIR)
-        
-
-        files = os.listdir(".")
-        for file in files:
-            if re.match(r"\d+\.\d+\.zip", file) is None:
+    for profile_name in json_file:
+        vectors = json_file[profile_name]
+        for vector_name in vectors:
+            vector = vectors[vector_name]
+            if "zipPath" not in vector or "mpdPath" not in vector:
+                print("Vector '" + vector_name + "' does not specify zip or mpd path, skipping ...")
                 continue
-            os.remove(file)
+            mpd_path = vector["mpdPath"]
+            mpd_path = mpd_path.split("/")[-4:]
+            mpd_path = "/".join(mpd_path)
+            mpd_path = os.path.dirname(mpd_path)
+            download_path = os.path.join(DEST_DIR, mpd_path)
+            if os.path.exists(download_path):
+                print("Path '" + download_path  + "' exists. Skipping ...")
+                continue
+
+            url = vector["zipPath"]
+
+            if url.startswith("/"):
+                parsed_uri = urlparse(JSON_PATH)
+                url = '{uri.scheme}://{uri.netloc}{path}'.format(uri=parsed_uri, path=url)
+            elif not url.startswith("http"):
+                parsed_uri = urlparse(JSON_PATH)
+                url = '{uri.scheme}://{uri.netloc}{path}'.format(uri=parsed_uri, path=os.path.join(os.path.dirname(parsed_uri.path), url))
+
+            blob = load_zip(url)
+            if blob is None:
+                continue
+
+            tmp_file_name = "{}.zip".format(str(time.time()))
+            with open(tmp_file_name, "wb") as file:
+                file.write(blob)
+
+            with zipfile.ZipFile(tmp_file_name, "r") as zip:
+                #path = os.path.join(DEST_DIR, vector_name)
+                zip.extractall(path=DEST_DIR)
+            
+
+            files = os.listdir(".")
+            for file in files:
+                if re.match(r"\d+\.\d+\.zip", file) is None:
+                    continue
+                os.remove(file)
 
 
 
