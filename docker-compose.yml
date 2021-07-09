@@ -7,6 +7,7 @@ services:
     restart: unless-stopped
     ports:
       - "8000:8000"
+      - "8443:8443"
     network_mode: "bridge"
     volumes:
       - ./results:/home/ubuntu/DPCTF/results
