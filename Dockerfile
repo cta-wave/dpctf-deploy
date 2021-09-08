@@ -23,7 +23,7 @@ RUN git init &&\
     git remote add origin https://github.com/cta-wave/dpctf-test-runner.git
 
 USER root
-RUN npm install --global https://github.com/cta-wave/wptreport.git#main
+RUN npm install --global https://github.com/cta-wave/wptreport.git#dpctf
 USER ubuntu
 
 ARG commit
