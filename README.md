@@ -5,18 +5,28 @@ it in a container with proper configuration.
 
 ## Requirements
 
+- ⚠️ **It is highly recommended to use Linux for production. Windows and MacOS should be used for experimental purposes only!**
 - Docker (tested with v20.10.6)
 - docker-compose (tested with v1.29.1)
+- Python 3 (for downloading the content)
 - **Windows** and **Linux** require root/admin permissions for the provided commands. Please follow these instructions to run docker without root/admin:
   - [Run docker without root on Linux](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
   - [Run docker without admin on Windows](https://docs.docker.com/docker-for-windows/install/#install-docker-desktop-on-windows)
 
 ## Create Image
 
-To build the image, simply run
+To build the image, run the build script:
+
+Linux/Mac:
 
 ```shell
 ./build.sh <commit-id/branch/tag> <image-version> [<options>]
+```
+
+Windows:
+
+```shell
+.\build.bat <commit-id/branch/tag> <image-version> [<options>]
 ```
 
 In this command **commit-id/branch/tag** specifies what code base to use 
@@ -31,7 +41,7 @@ The build script will name the image `dpctf:<image-version>`.
 - **--reload-runner**: Reload the test runner, disabling cache
 - **--reload-tests**: Reload test files, disabling cache
 
-For example:
+For example (on Windows use build.bat):
 
 ```shell
 ./build.sh master latest
@@ -75,9 +85,17 @@ container. In this example, we use the version string of the example from the
 section "Create Image". The file contains further configurations, but for now 
 this should suffice.
 
+### Import content
+
 Next, import the content:
 ```
 ./import.sh
+```
+
+Windows:
+
+```
+.\import.bat
 ```
 
 This will download the content into the `content` directory, which is 
@@ -89,6 +107,16 @@ content, delete the corresponding files before running the `import.sh` script.
 
 Every directory mapped into the container has to have its owner set to user id
 1000 in order for the test runner to perform read and write actions. (e.g. `results` directory)
+
+### Edit hosts file
+
+It is required to map a set of domains to local host using the hosts file.
+
+Linux and Mac (/etc/hosts): [hosts-linux](./hosts-linux.txt)
+
+Windows (C:\Windows\System32\drivers\etc\hosts): [hosts-windows](./hosts-windows.txt)
+
+### Start the container
 
 To then start the container run the following command:
 
