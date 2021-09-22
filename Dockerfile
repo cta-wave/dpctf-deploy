@@ -33,8 +33,11 @@ RUN git fetch origin $commit
 RUN git reset --hard FETCH_HEAD
 
 COPY check-ownership.sh .
+RUN sed -i -e 's/\r$//' check-ownership.sh
 COPY check-content.sh .
+RUN sed -i -e 's/\r$//' check-content.sh
 COPY check-host.sh .
+RUN sed -i -e 's/\r$//' check-host.sh
 
 ARG tests-rev
 
