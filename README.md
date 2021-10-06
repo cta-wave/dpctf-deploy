@@ -12,6 +12,7 @@ it in a container with proper configuration.
 - **Windows** and **Linux** require root/admin permissions for the provided commands. Please follow these instructions to run docker without root/admin:
   - [Run docker without root on Linux](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
   - [Run docker without admin on Windows](https://docs.docker.com/docker-for-windows/install/#install-docker-desktop-on-windows)
+- For deployment on Windows using WSL2 see [this](./WINDOWS_WSL.md)
 
 ## Create Image
 
@@ -23,7 +24,7 @@ Linux/Mac:
 ./build.sh <commit-id/branch/tag> <image-version> [<options>]
 ```
 
-Windows:
+Windows (no WSL):
 
 ```shell
 .\build.bat <commit-id/branch/tag> <image-version> [<options>]
@@ -41,7 +42,7 @@ The build script will name the image `dpctf:<image-version>`.
 - **--reload-runner**: Reload the test runner, disabling cache
 - **--reload-tests**: Reload test files, disabling cache
 
-For example (on Windows use build.bat):
+For example (on Windows (no WSL) use build.bat):
 
 ```shell
 ./build.sh master latest
@@ -92,7 +93,7 @@ Next, import the content:
 ./import.sh
 ```
 
-Windows:
+Windows (no WSL):
 
 ```
 .\import.bat
