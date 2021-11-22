@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Downloading content ..."
-./download-content.py https://raw.githubusercontent.com/cta-wave/Test-Content/1197c7d793fefeeb2d3ecff2815c36f7e9e97581/database.json content
+./download-content.py https://raw.githubusercontent.com/cta-wave/Test-Content/d04389e031d0179d1232babe97ef8d05fa98efc2/database.json content
 
 #echo ""
 #echo "Importing DPCTF tests ..."
