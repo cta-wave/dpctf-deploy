@@ -41,6 +41,7 @@ The build script will name the image `dpctf:<image-version>`.
 **options** - A list of optional arguments:
 - **--reload-runner**: Reload the test runner, disabling cache
 - **--reload-tests**: Reload test files, disabling cache
+- **--tests-branch**: Which branch from dpctf-tests to use
 
 For example (on Windows (no WSL) use build.bat):
 
@@ -60,6 +61,12 @@ runner, use the reload-runner argument:
 
 ```shell
 ./build.sh master latest --reload-runner
+```
+
+Use dpcat branch from dpctf-tests repository when building:
+
+```shell
+./build.sh master latest --tests-branch dpcat
 ```
 
 This will create a docker image for the latest code base on the master branch 
