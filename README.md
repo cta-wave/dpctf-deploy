@@ -230,10 +230,10 @@ http://<host-domain/ip>:<port>/_wave/index.html
 - **host-domain/ip**: The domain or IP of the machine that hosts the DPCTF 
 test runner. To access the host machine by its IP address, add the `host_override` 
 parameter to the config.json. For more details see 
-[the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override)
+[the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override)  
+Please note that for https tests a domain is required and IPs won't work. For this, you can use the built in DNS server, by using the commented port 53 mapping in the docker-compose.yml or you can configure your own. 
 - **port**: The port number the DPCTF test runner is runner on (default port is `8000`)
 
-Please also see the DPCTF section in the DPCTF Test Runner [Readme file](https://github.com/cta-wave/dpctf-test-runner#dpctf-info).
 For further information on how to configure sessions and general usage see [the documentation](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/usage/usage.md) (please make sure that dpctf is selected when configuring a new session).
 
 Additionally, it is possible to run tests using the [REST API](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/rest-api/README.md).

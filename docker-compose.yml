@@ -10,7 +10,7 @@ services:
       - "8443:8443"
       - "8444:8444"
       - "9000:9000"
-      - "53:53/udp"
+#      - "53:53/udp"
     network_mode: "bridge"
     volumes:
       - ./results:/home/ubuntu/DPCTF/results
