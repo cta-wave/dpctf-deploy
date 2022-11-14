@@ -1,6 +1,6 @@
 # DPCTF test runner docker image
 
-This repository contains configuration files to build a docker image and run 
+This repository contains configuration files to build a docker image and run
 it in a container with proper configuration.
 
 ## Requirements
@@ -30,15 +30,16 @@ Windows (no WSL):
 .\build.bat <commit-id/branch/tag> <image-version> [<options>]
 ```
 
-In this command **commit-id/branch/tag** specifies what code base to use 
-from the [DPCTF Test Runner repository](https://github.com/cta-wave/dpctf-test-runner) in the created 
+In this command **commit-id/branch/tag** specifies what code base to use
+from the [DPCTF Test Runner repository](https://github.com/cta-wave/dpctf-test-runner) in the created
 image. As indicated, this can be a commit id, a branch name or a tag.
 
-**image-version** specifies the version string the created docker image is 
+**image-version** specifies the version string the created docker image is
 tagged with. This allows to have multiple image with different versions.
 The build script will name the image `dpctf:<image-version>`.
 
 **options** - A list of optional arguments:
+
 - **--reload-runner**: Reload the test runner, disabling cache
 - **--reload-tests**: Reload test files, disabling cache
 - **--tests-branch**: Which branch from dpctf-tests to use
@@ -49,14 +50,14 @@ For example (on Windows (no WSL) use build.bat):
 ./build.sh master latest
 ```
 
-To rebuild the image using the cache but retrigger the download of the tests, 
+To rebuild the image using the cache but retrigger the download of the tests,
 use the reload-tests argument:
 
 ```shell
 ./build.sh master latest --reload-tests
 ```
 
-To rebuild the image using the cache but retrigger the download of the test 
+To rebuild the image using the cache but retrigger the download of the test
 runner, use the reload-runner argument:
 
 ```shell
@@ -69,16 +70,17 @@ Use dpcat branch from dpctf-tests repository when building:
 ./build.sh master latest --tests-branch dpcat
 ```
 
-This will create a docker image for the latest code base on the master branch 
+This will create a docker image for the latest code base on the master branch
 and sets the version tag to "latest". The resulting image will have the name
 `dpctf:latest`.  
-Please make sure to re-create the container (run `docker-compose up -d`) each time you create a new image. 
+Please make sure to re-create the container (run `docker-compose up -d`) each time you create a new image.
 
 ## Running the created image in a container
 
 To run the created image in a properly configured container, set the desired image version:
 
 `docker-compose.yml`
+
 ```yaml
 services:
   dpctf:
@@ -86,16 +88,17 @@ services:
     image: dpctf:latest
 ```
 
-**container_name** defines the name of the container, so we can later 
-reference it when using docker commands specific to containers like start, 
-stop, view logs and so on. **image** specifies what image to use to create the 
-container. In this example, we use the version string of the example from the 
-section "Create Image". The file contains further configurations, but for now 
+**container_name** defines the name of the container, so we can later
+reference it when using docker commands specific to containers like start,
+stop, view logs and so on. **image** specifies what image to use to create the
+container. In this example, we use the version string of the example from the
+section "Create Image". The file contains further configurations, but for now
 this should suffice.
 
 ### Import content
 
 Next, import the content:
+
 ```
 ./import.sh
 ```
@@ -106,11 +109,11 @@ Windows (no WSL):
 .\import.bat
 ```
 
-This will download the content into the `content` directory, which is 
-accessible from the webserver by the same, relative path. For example, 
-`content/avc_sets/15_30_60/t1/stream.mpd` is accessible under 
+This will download the content into the `content` directory, which is
+accessible from the webserver by the same, relative path. For example,
+`content/avc_sets/15_30_60/t1/stream.mpd` is accessible under
 `http://<host>:<port>/content/avc_sets/15_30_60/t1/stream.mpd`.
-When rerunning the script, no existing files will be overwritten. To reload 
+When rerunning the script, no existing files will be overwritten. To reload
 content, delete the corresponding files before running the `import.sh` script.
 
 Every directory mapped into the container has to have its owner set to user id
@@ -143,7 +146,7 @@ docker-compose up -d
 
 For more details on controlling the container when running it in the background, see the corresponding [section](#controlling-the-running-container).
 
-The test runner can be configured using the `config.json`. For more details 
+The test runner can be configured using the `config.json`. For more details
 see the [docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md).
 
 All test results will be stored in the `results` directory.
@@ -155,8 +158,8 @@ It may be useful to be able to use custom content with the test runner. This req
 Inside the `docker-compose.yml` under `volumes`, add a new line per file or directory to map:
 
 ```yaml
-    volumes:
-      - <src_host_path>:<dest_container_path>
+volumes:
+  - <src_host_path>:<dest_container_path>
 ```
 
 The `src_host_path` can be an absolute or relative path. The `dest_container_path` should be `/home/ubuntu/DPCTF/<dest_name>`, to make it available for serving from the test runners web server.
@@ -172,9 +175,9 @@ test-config.json
 ```
 
 ```yaml
-    volumes:
-      - ./test-group:/home/ubuntu/DPCTF/test-group
-      - ./test-config.json:/home/ubuntu/DPCTF/test-config.json
+volumes:
+  - ./test-group:/home/ubuntu/DPCTF/test-group
+  - ./test-config.json:/home/ubuntu/DPCTF/test-config.json
 ```
 
 Then restart the container using docker-compose command:
@@ -186,18 +189,20 @@ docker-compose up -d
 Files are now accessible under the relative path to the test runner directory:
 
 Test files inside 'test-group':
+
 ```
 http://web-platform.test:8000/test-group/
 ```
 
 `test-config.json`:
+
 ```
 http://web-platform.test:8000/test-config.json
 ```
 
 ## Controlling the running container
 
-You can control the running container using a set of commands, which receive 
+You can control the running container using a set of commands, which receive
 the name of the container you want to perform the action on.
 
 Start container
@@ -223,6 +228,7 @@ In our case, **container_name** is `dpctf`, unless it was changed in the `docker
 ## Running tests
 
 In general, to access the test runners landing page, it can be accessed under the following URL:
+
 ```
 http://<host-domain/ip>:<port>/_wave/index.html
 ```
@@ -242,8 +248,8 @@ Additionally, it is possible to run tests using the [REST API](https://github.co
 
 ![Single Machine Setup](./same-machine-setup.jpg)
 
-The most simple use case is to execute the test on the same machine as the 
-DPCTF test runner is running on. 
+The most simple use case is to execute the test on the same machine as the
+DPCTF test runner is running on.
 
 1. Run the docker container on the host machine
 2. Open the landing page `http://localhost:<port>/_wave/index.html` in Browser (As everything runs on the same machine, the host can be `localhost` used)
@@ -253,29 +259,29 @@ DPCTF test runner is running on.
 
 ![PC-DUT Setup](./pc-dut-setup.jpg)
 
-Another common use case is to have a separate device under test, like a TV or 
-mobile device, to run the tests on. 
+Another common use case is to have a separate device under test, like a TV or
+mobile device, to run the tests on.
 
-1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override) parameter to the IP of the host  machine. 
+1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override) parameter to the IP of the host machine.
 2. Run the docker container on the host machine
 3. Open the landing page `http://<host_ip>:<port>/_wave/index.html` on the DUT (TV, mobile, ...)
-4. On the host machine open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the 
-landing page (on TV or mobile) to configure and start the session.
+4. On the host machine open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the
+   landing page (on TV or mobile) to configure and start the session.
 
 ### Run on separate DUT using companion device
 
 ![PC-DUT-Companion Setup](./pc-dut-companion-setup.jpg)
 
-A companion device may be used to configure and manage a test session. In this 
-setup, the test runner is hosted on one device, whereas another device is used 
-to configure and monitor the test session that runs on the DUT. 
+A companion device may be used to configure and manage a test session. In this
+setup, the test runner is hosted on one device, whereas another device is used
+to configure and monitor the test session that runs on the DUT.
 
-1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override) parameter to the IP of the host  machine. 
+1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override) parameter to the IP of the host machine.
 2. Run the docker container on the host machine
 3. Open the landing page `http://<host_ip>:<port>/_wave/index.html` on the DUT (TV, mobile, ...)
 4. Access configuration page to configure and start session using one of these options:
-   * Open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the landing page
-   * Scan the QR code displayed on the landing page
+   - Open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the landing page
+   - Scan the QR code displayed on the landing page
 
 ## Debugging tests
 
@@ -284,10 +290,16 @@ When debugging a failing test, there are multiple ways to get to the error messa
 1. On the browser console
 2. The test result beneath the video after test is finished (displayed for around 5 seconds)
 3. After test is finished, on the results page, in the results table in the export column click on "json". In the json file, look for the desired test
-object containing the error.
+   object containing the error.
 4. After test group is finished, on the results page, in the results table in the export column click on "report". A test report opens in a new tab
-(although this may be blocked by the browser). Click on show messages in the table header.
+   (although this may be blocked by the browser). Click on show messages in the table header.
 
 ## Detailed Guides
 
 - [Run tests on mobile](./MOBILE_USAGE.md)
+
+## Known Bugs
+
+### SSL certificate invalid
+
+As the default SSL certificate is not descended from a normal root certificate supported by web browsers, it may be required to add an exception to the DUTs web browser in order for HTTPS tests to work.
