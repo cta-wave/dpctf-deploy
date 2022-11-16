@@ -233,16 +233,26 @@ In general, to access the test runners landing page, it can be accessed under th
 http://<host-domain/ip>:<port>/_wave/index.html
 ```
 
-- **host-domain/ip**: The domain or IP of the machine that hosts the DPCTF 
-test runner. To access the host machine by its IP address, add the `host_override` 
-parameter to the config.json. For more details see 
-[the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override). 
-Please note that for https tests (all encrypted tests requires https) a domain is required and IPs won't work. For this, you can use the built in DNS server, by using the commented port 53 mapping in the docker-compose.yml or you can configure your own for the domain `web-platform.test`. 
+- **host-domain/ip**: The domain or IP of the machine that hosts the DPCTF
+  test runner. To access the host machine by its IP address, add the `host_override`
+  parameter to the config.json. For more details see
+  [the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override).
+  Please note that for https tests (all encrypted tests requires https) a domain is required and IPs won't work. For this, you can use the built in DNS server, by using the commented port 53 mapping in the docker-compose.yml or you can configure your own for the domain `web-platform.test`.
 - **port**: The port number the DPCTF test runner is runner on (default port is `8000`)
 
 For further information on how to configure sessions and general usage see [the documentation](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/usage/usage.md) (please make sure that dpctf is selected when configuring a new session).
 
 Additionally, it is possible to run tests using the [REST API](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/rest-api/README.md).
+
+### DNS server
+
+To fully run the WAVE DPCTF test suite requires one of the following:
+
+- Editing the DNS server used by the device being tested to include web-platform.test
+- Setting up another DNS server which includes web-platform.test and pointing the device at this DNS server
+  - This could be the DNS server included in the docker image
+  - Enabling a DNS server that includes web-platform.test may be complex as OS like Ubuntu have a DNS proxy running on port 53 already.
+- Most devices have (buried) UI to over-ride the default DNS server. Alternatively it may be necessary to put the device being tested on a separate network, provide a dedicated DHCP server and include the address of a DNS server supporting web-platform.test in the response of that dedicated DHCP server.
 
 ### Run on host machine
 
