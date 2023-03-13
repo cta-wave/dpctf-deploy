@@ -18,6 +18,8 @@ services:
       - ./tests:/home/ubuntu/tests
       - ./content:/home/ubuntu/DPCTF/content
       #- ./test-config.json:/home/ubuntu/DPCTF/test-config.json
+    environment:
+      AGREE_EULA: false
     extra_hosts:
       - "www1.xn--n8j6ds53lwwkrqhv28a.web-platform.test:0.0.0.0"
       - "op88.web-platform.test:0.0.0.0"
