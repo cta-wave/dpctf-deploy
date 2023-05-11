@@ -151,6 +151,18 @@ see the [docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/w
 
 All test results will be stored in the `results` directory.
 
+## Adding custom tests
+
+To make custom tests avilable in the test runner put them into a subdirectory inside the tests directory. The subdirectory defines in what group the tests will be available in the test runner.
+
+For example, the test file `new-custom-test.html` will be grouped under `new-test-group` by placing it under the following path:
+
+```
+tests/new-test-group/new-custom-test.html
+```
+
+![New test group](./new-test-file.png)
+
 ## Mapping new content into the container
 
 It may be useful to be able to use custom content with the test runner. This requires modification of the `docker-compose.yml` for any directory or file that should be mapped into the container.
@@ -164,19 +176,19 @@ volumes:
 
 The `src_host_path` can be an absolute or relative path. The `dest_container_path` should be `/home/ubuntu/DPCTF/<dest_name>`, to make it available for serving from the test runners web server.
 
-For example, to map a new group of tests named 'test-group' and a custom `test-config.json`:
+For example, to map a directory with additional content and a custom `test-config.json`:
 
 ```
 ls
 
 docker-compose.yml
-test-group
+new-content
 test-config.json
 ```
 
 ```yaml
 volumes:
-  - ./test-group:/home/ubuntu/DPCTF/test-group
+  - ./new-content:/home/ubuntu/DPCTF/new-content
   - ./test-config.json:/home/ubuntu/DPCTF/test-config.json
 ```
 
@@ -188,10 +200,10 @@ docker-compose up -d
 
 Files are now accessible under the relative path to the test runner directory:
 
-Test files inside 'test-group':
+Content inside 'new-content':
 
 ```
-http://web-platform.test:8000/test-group/
+http://web-platform.test:8000/new-content/
 ```
 
 `test-config.json`:
