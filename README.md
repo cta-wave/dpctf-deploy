@@ -95,6 +95,19 @@ container. In this example, we use the version string of the example from the
 section "Create Image". The file contains further configurations, but for now
 this should suffice.
 
+### Agree to EULA
+
+In order to run the container you need to agree to the [EULA](https://github.com/cta-wave/dpctf-deploy/blob/master/End-User-License-Agreement.md). To do so, set the environment variable `AGREE_EULA` to `true`.
+
+`docker-compose.yml`
+
+```yaml
+services:
+  dpctf:
+    environment:
+      AGREE_EULA: true
+```
+
 ### Import content
 
 Next, import the content:

@@ -66,11 +66,14 @@ ARG testsbranch
 
 RUN ./import-tests.sh "$testsbranch"
 
+COPY check-eula.sh .
+
 EXPOSE 8000
 
 ENV TEST_RUNNER_IP 127.0.0.1
 
 CMD ln -s ../tests/* . ;\
+  ./check-eula.sh &&\
   ./check-permissions.sh /home/ubuntu/DPCTF/results &&\
   ./check-host.sh /home/ubuntu/DPCTF/config.json &&\
    dnsmasq \
