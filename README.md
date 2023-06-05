@@ -97,7 +97,7 @@ this should suffice.
 
 ### Agree to EULA
 
-In order to run the container you need to agree to the [EULA](https://github.com/cta-wave/dpctf-deploy/blob/master/End-User-License-Agreement.md). To do so, set the environment variable `AGREE_EULA` to `true`.
+In order to run the container you need to agree to the [EULA](https://github.com/cta-wave/dpctf-deploy/blob/master/End-User-License-Agreement.md). To do so, set the environment variable `AGREE_EULA` to `"yes"`.
 
 `docker-compose.yml`
 
@@ -105,7 +105,7 @@ In order to run the container you need to agree to the [EULA](https://github.com
 services:
   dpctf:
     environment:
-      AGREE_EULA: true
+      AGREE_EULA: "yes"
 ```
 
 ### Import content
