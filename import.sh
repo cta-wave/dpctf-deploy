@@ -8,6 +8,6 @@ python3 ./download-content.py https://raw.githubusercontent.com/cta-wave/Test-Co
 #git clone https://github.com/cta-wave/dpctf-tests dpctf
 #mv dpctf/generated/* tests
 #if [ ! -f tests/test-config.json ]; then
-  #mv dpctf/test-config.json tests
+#mv dpctf/test-config.json tests
 #fi
 #rm -rf dpctf

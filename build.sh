@@ -5,19 +5,18 @@ reload_tests=false
 tests_branch="master"
 has_tests_branch=false
 
-for var in "$@"
-do
+for var in "$@"; do
   if [ $has_tests_branch = true ]; then
-    tests_branch="$var";
-    has_tests_branch=false;
-  fi;
+    tests_branch="$var"
+    has_tests_branch=false
+  fi
 
   if [ "$var" == "--reload-runner" ]; then
-    reload_runner=true;
+    reload_runner=true
   elif [ "$var" == "--reload-tests" ]; then
-    reload_tests=true;
+    reload_tests=true
   elif [ "$var" == "--tests-branch" ]; then
-    has_tests_branch=true;
+    has_tests_branch=true
   fi
 done
 
