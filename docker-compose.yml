@@ -17,6 +17,7 @@ services:
       - ./config.json:/home/ubuntu/DPCTF/config.json
       - ./tests:/home/ubuntu/tests
       - ./content:/home/ubuntu/DPCTF/content
+      - ./certs:/home/ubuntu/DPCTF/tools/certs
       #- ./test-config.json:/home/ubuntu/DPCTF/test-config.json
     environment:
       AGREE_EULA: "no"
