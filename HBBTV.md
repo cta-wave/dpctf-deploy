@@ -38,7 +38,7 @@ To build the image, change into the repository's directory and run:
 $ ./build.sh master latest --tests-branch hbbtv-tests
 ```
 
-Download test content:
+Download test content to serve locally (note: this will take a while):
 
 ```sh
 $ ./import.sh
