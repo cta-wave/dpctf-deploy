@@ -55,8 +55,10 @@ From the deploy repository's cloned directory, open `config.json` and add config
     "alt": "not-web-platform.test"
   },
   "wave": {
-    "host_override": "web-platform.test",
     "aliases": [],
+    ....
+    "api_titles": [],
+    "host_override": "web-platform.test"
 ```
 
 to have your host configured, like
@@ -68,11 +70,14 @@ to have your host configured, like
     "alt": "not-web-platform.test"
   },
   "wave": {
-    "host_override": "yourhost.domain.tld",
     "aliases": [],
+    ....
+    "api_titles": [],
+    "host_override": "yourhost.domain.tld"
 ```
 
-Note: You can use the IP address of host running the test runner instead of "yourhost.domain.tld". 
+Note: You can use the IP address of host running the test runner instead of "yourhost.domain.tld".
+Important note: place "host_override" attribute at last position of the "wave" object, the trailing comma shall be removed.
 
 Some tests require a DNS entry and valid certificates to execute correctly. For this please copy the domain's certificate into the `certs` directory. Finally, the certificates must be configured by adding following at same level as "wave" field, note that the key and pem files must be named according to your needs:
 ```json
