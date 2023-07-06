@@ -1,6 +1,6 @@
 # Complete guide to getting started with DPCTF for HbbTV
 
-This guide has been tested successfully on Linux and MacOS.
+This guide has been tested successfully on Linux, MacOS and Windows host systems.
 
 Three Phases
 1. *Deployment* (one time action, to be performed by IT personel)
@@ -15,7 +15,7 @@ As result of test runner and observation framework the results of the executed t
 - software on host machine:
   - docker
   - docker-compose
-  - git
+  - git (Windows note: all commands executed via "Git Bash")
   - python 3
 - domain (we use `yourhost.domain.tld` in this document) with valid certificates are needed for some tests (EME, encrypted content)
 - camera that records at 120 fps or more (AVC/h.264)
@@ -104,7 +104,8 @@ $ docker volume create --driver local dpctf_external
 
 On change of config or test case content
 ```sh
-$ docker run -d --rm --name temporary_machine -v dpctf_external:/root alpine tail -f /dev/null
+$ docker run -it --rm --name temporary_machine -v dpctf_external:/root alpine sh
+# keep this shell open and execute following commands in second shell from ./dpctf-deploy location
 $ docker cp config.json temporary_machine:/root/config.json
 $ docker cp content temporary_machine:/root/content
 # or ib case of update: $ docker cp content/. temporary_machine:/root/content
