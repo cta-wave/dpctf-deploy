@@ -105,6 +105,8 @@ $ docker volume create --driver local dpctf_external
 On change of config or test case content
 ```sh
 $ docker run -it --rm --name temporary_machine -v dpctf_external:/root alpine sh
+# create empty folder in the volume for the results
+$ mkdir -p /root/results
 # keep this shell open and execute following commands in second shell from ./dpctf-deploy location
 $ docker cp config.json temporary_machine:/root/config.json
 $ docker cp content temporary_machine:/root/content
