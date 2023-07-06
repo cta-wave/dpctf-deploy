@@ -1,6 +1,6 @@
 # Complete guide to getting started with DPCTF for HbbTV
 
-This guide has been tested successfully on Linux, MacOS and Windows host systems.
+This guide has been tested successfully on Linux, MacOS X and Windows 11 host systems. Linux system is highly recommended, on other systems use at your own risk.
 
 Three Phases
 1. *Deployment* (one time action, to be performed by IT personel)
@@ -105,14 +105,12 @@ $ docker volume create --driver local dpctf_external
 On change of config or test case content
 ```sh
 $ docker run -it --rm --name temporary_machine -v dpctf_external:/root alpine sh
-# create empty folder in the volume for the results
-$ mkdir -p /root/results
+# note for windown: if you get an error here regarding tty then use cmd shell instead of git bash
 # keep this shell open and execute following commands in second shell from ./dpctf-deploy location
 $ docker cp config.json temporary_machine:/root/config.json
-$ docker cp content temporary_machine:/root/content
-# or ib case of update: $ docker cp content/. temporary_machine:/root/content
-$ docker cp certs temporary_machine:/root/certs
-# or in case of update: $ docker cp certs/. dummy:/root/certs
+$ docker cp results/. temporary_machine:/root/results
+$ docker cp content/. temporary_machine:/root/content
+$ docker cp certs/. temporary_machine:/root/certs
 $ docker rm -f temporary_machine
 ```
 
