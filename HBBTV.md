@@ -149,7 +149,7 @@ The tester must execute following steps
 4. start recording on recording device
 5. press "Start session" button -> the test(s) should start to execute on DUT
 6. once "Session completed" screen is visible on DUT then stop the recording
-7. send link to testing session including the session token for later reference and report
+7. save link to testing session including the session token for later reference and report
 
 ## Phase 3: Analyse use device observation framework
 
