@@ -1,11 +1,14 @@
 {
   "browser_host": "web-platform.test",
+  "alternate_hosts": {
+    "alt": "not-web-platform.test"
+  },
   "wave": {
     "aliases": [],
     "results": "./results",
     "timeouts": {
-        "automatic": 300000,
-        "manual": 300000
+        "automatic": 100000,
+        "manual": 100000
     },
     "enable_results_import": false,
     "web_root": "/_wave",
