@@ -1,13 +1,12 @@
-# Complete guide to getting started with DPCTF for HbbTV
+# Quick Start guide for getting started with Wave Streaming Media Test Suite - Devices
 
-This guide has been tested successfully on Linux, MacOS X and Windows 11 host systems. Linux system is highly recommended, on other systems use at your own risk.
+Linux system is highly recommended for this guide, use other systems at your own risk.
 
-Three Phases
+There are three phases:
 1. *Deployment* (one time action, to be performed by IT personel)
 2. *Test execution and recording* (to be performed by tester)
 3. *Observation* (analysis of recording to be performed by tester or other person)
 
-As result of test runner and observation framework the results of the executed tests can be exported (in JSON format) or . 
 ## Phase 1: Deployment of the test runner
 
 ### Host machine requirements
@@ -22,12 +21,11 @@ As result of test runner and observation framework the results of the executed t
 
 ### Clone deploy repository
 
-Clone the DPCTF deploy repository and change to hbbTV branch:
+Clone the DPCTF deploy repository:
 
 ```sh
 $ git clone https://github.com/cta-wave/dpctf-deploy
 $ cd dpctf-deploy
-$ git checkout hbbtv
 ```
 
 ### Build the image and download content
@@ -35,10 +33,10 @@ $ git checkout hbbtv
 To build the image, change into the repository's directory and run:
 
 ```sh
-$ ./build.sh master latest --tests-branch hbbtv-tests
+$ ./build.sh master latest
 ```
 
-Download test content to serve locally (note: this will take a while):
+Download test content to serve locally (note: this may take a while):
 
 ```sh
 $ ./import.sh
@@ -100,25 +98,6 @@ Some tests require a DNS entry and valid certificates to execute correctly. For 
   "wave": {
 ```
 
-Now, create volume once and copy data anytime it changes to volume to make it accessible by container.
-
-Consider this as a long term storage for test content, config and test results
-```sh
-$ docker volume create --driver local dpctf_external
-```
-
-On change of config or test case content
-```sh
-$ docker run -it --rm --name temporary_machine -v dpctf_external:/root alpine sh
-# note for windown: if you get an error here regarding tty then use cmd shell instead of git bash
-# keep this shell open and execute following commands in second shell from ./dpctf-deploy location
-$ docker cp config.json temporary_machine:/root/config.json
-$ docker cp results/. temporary_machine:/root/results
-$ docker cp content/. temporary_machine:/root/content
-$ docker cp certs/. temporary_machine:/root/certs
-$ docker rm -f temporary_machine
-```
-
 ### Start the test runner
 
 To start the test runner, change into the cloned `dpctf-deploy` directory, agree to EULA (https://github.com/cta-wave/dpctf-deploy/#agree-to-eula) by setting `AGREE_EULA: "yes"` in docker-compose.yml and run:
@@ -157,34 +136,24 @@ The tester must execute following steps
 6. once "Session completed" screen is visible on DUT then stop the recording
 7. save link to testing session including the session token for later reference and report
 
-## Phase 3: Analyse use device observation framework
+## Phase 3: Analyse recording using device observation framework
 
 Following steps should be sufficient to get started with dockerized version, more details at https://github.com/cta-wave/device-observation-framework
 
-### Initial setup
-
-* build image
-* create volume
-* run the image (preferably on higher performance hardware)
+Build the image:
 ```sh
-$ docker build --file Dockerfile.dof -t dpctf-dof:1.0 .
-$ docker volume create dof-vol
-$ docker run -d --rm --name device-observation-framework -v dof-vol:/usr/app/recordings dpctf-dof:1.0 tail -f /dev/null
+$ docker build --file Dockerfile.dof -t dpctf-dof:latest .
 ```
 
-### Evaluation of recordings
+Edit the `observation-config.ini` to point to the used test runner instance:
 
-* copy recorded files from recording device to local folder ./recordings
-* copy recording files to volume
-* login into container
-* config test runner endpoint, change `sed` command to match your host/domain, keep http:// and :8000
-* run analysis within the container for each recording file
+```ini
+test_runner_url = http://yourhost.domain.tld
+```
+
+Run the analysis:
 ```sh
-# assuming recordings have been pulled from phone/cam and copied to ./recordings
-$ docker cp ./recordings/* device-observation-framework:/usr/app/recordings
-$ docker exec -it device-observation-framework bash
-$ sed -i '/test_runner_url.*/c\test_runner_url = http://yourhost.domain.tld:8000' config.ini
-$ python observation_framework.py --input /usr/app/recordings/recording1.mp4
+./analyse-recording.sh <video-file>
 ```
 
 The observation framework will enrich the testing session with results automatically.
