@@ -1,14 +1,11 @@
 # Dockerfile for building the device-observation-framework for video analysis phase
 
-FROM python:3.9-bookworm
-LABEL maintainer="Martin Lasak <martin.lasak@fokus.fraunhofer.de>"
+FROM python:3.8-bookworm
 RUN apt-get update && apt-get install -y git libzbar0 netcat-openbsd libgl1
 WORKDIR /usr/app
 RUN git clone https://github.com/cta-wave/device-observation-framework.git
 WORKDIR /usr/app/device-observation-framework
 
-# patch script to be able to install dependency
-RUN sed -i '/opencv-python==4.5.2.52/c\install_package opencv-python==4.5.3.56' install.sh
 RUN ./install.sh
 
 RUN mkdir /usr/app/recordings
