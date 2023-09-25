@@ -36,17 +36,17 @@ RUN mkdir $APP_DIR &&\
 WORKDIR $APP_DIR
 RUN rm /bin/sh &&\
     ln -s /bin/bash /bin/sh
-#USER ubuntu
+USER ubuntu
 
 RUN mkdir tests
 RUN mkdir DPCTF && cd DPCTF
-WORKDIR /home/ubuntu/DPCTF
+WORKDIR DPCTF
 RUN git init &&\
     git remote add origin https://github.com/cta-wave/dpctf-test-runner.git
 
-#USER root
+USER root
 RUN npm install --global https://github.com/cta-wave/wptreport.git#dpctf
-#USER ubuntu
+USER ubuntu
 
 ARG commit
 ARG runner-rev
@@ -60,8 +60,6 @@ ARG testsbranch
 
 RUN ./import-tests.sh "$testsbranch"
 
-COPY setup-volume.sh .
-RUN sed -i -e 's/\r$//' setup-volume.sh
 COPY check-permissions.sh .
 RUN sed -i -e 's/\r$//' check-permissions.sh
 COPY check-content.sh .
@@ -77,7 +75,7 @@ EXPOSE 8000
 
 ENV TEST_RUNNER_IP 127.0.0.1
 
-CMD ./setup-volume.sh &&\
+CMD ln -s ../tests/* . ;\
     ./check-eula.sh &&\
     ./check-permissions.sh /home/ubuntu/DPCTF/results &&\
     ./check-host.sh /home/ubuntu/DPCTF/config.json &&\
