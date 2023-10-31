@@ -94,11 +94,33 @@ def load_json(json_path):
 def load_zip(path):
     content = None
     print("Fetching zip {}".format(path))
-    try:
-        content = urllib.request.urlopen(path).read()
-    except urllib.error.HTTPError:
-        print("Could not load http url:", path)
-    return content
+    retries = 3
+    current_try = 0
+    while current_try < retries:
+        try:
+            #content = urllib.request.urlopen(path).read()
+            response = urllib.request.urlopen(path)
+            total_length = response.length
+            content = bytearray(total_length)
+            view = memoryview(content)
+            pos = 0
+            CHUNK_SIZE = 16 * 1024 * 1024
+            while True:
+                chunk = response.read(CHUNK_SIZE)
+                if len(chunk) == 0:
+                    break
+                view[pos:pos+len(chunk)] = chunk
+                pos += len(chunk)
+                percent = round(pos/total_length*100, 2)
+                if percent < 100:
+                    print(str(percent) + "% complete")
+            return content
+        except urllib.error.HTTPError:
+            print("HTTPError. Retrying ...")
+            current_try += 1
+        except urllib.error.URLError:
+            print("URLError. Retrying ...")
+            current_try += 1
 
 
 def load_file(path):
