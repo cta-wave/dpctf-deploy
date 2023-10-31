@@ -2,6 +2,7 @@ import os
 import json
 import csv
 import sys
+import re
 
 def read_json_files(file_names):
     data = []
@@ -19,7 +20,7 @@ def collect_keys(data, keys):
         collected_data.append(collected_item)
     return collected_data
 
-def collect_data(data):
+def collect_data(data, regex_list):
     collected_data = {}
     for file_data in data:
         file_name = file_data["filename"]
@@ -49,14 +50,34 @@ def collect_data(data):
                     test_data["subtests"][name] = {}
                 subtest_data = test_data["subtests"][name]
                 
-                m_value = ""
-                t_value = ""
-                subtest_data[file_name] = status + ": " + message
+                value = status + ": " + message
+                
+                if regex_list is not None:
+                    value = parse_values(regex_list, message)
+                
+                subtest_data[file_name] = value
 
     return collected_data
-        
 
-def export_to_csv(data, file_names, output_file_name):
+def parse_values(regex_list, message):
+    for regex in regex_list:
+        match = re.search(regex, message)
+        if match is None:
+            continue
+        values = []
+        match_values = match.groupdict()
+        value = ""
+        if "min" in match_values and "sub" in match_values\
+            and match_values["min"] is not None and match_values["sub"] is not None:
+            minuend = float(match_values["min"])
+            subtrahend = float(match_values["sub"])
+            value = "" + str(round(minuend - subtrahend, 2))
+        if "v" in match_values:
+            value = match_values["v"]
+        return value
+    return ""
+
+def export_to_csv(data, file_names, output_file_name, leave_blank=False):
     file_names = list(map(lambda f: os.path.splitext(f)[0], file_names))
     
     csv_string = ""
@@ -72,7 +93,10 @@ def export_to_csv(data, file_names, output_file_name):
         csv_string += '"' + test_file + '",""'
         status = test_data["status"]
         for file_name in file_names:
-            csv_string += ',"' + status[file_name] + '"'
+            status_str = "NOT_RUN"
+            if file_name in status:
+                status_str = status[file_name]
+            csv_string += ',"' + status_str + '"'
         csv_string += '\n'
         subtests = test_data["subtests"]
         for subtest in subtests:
@@ -80,6 +104,8 @@ def export_to_csv(data, file_names, output_file_name):
             for file_name in file_names:
                 values = subtests[subtest]
                 value = "NOT_RUN"
+                if leave_blank:
+                    value = ""
                 if file_name in values:
                     value = values[file_name]
                 csv_string += ',"' + value + '"'
@@ -96,10 +122,21 @@ def export_to_csv(data, file_names, output_file_name):
 def main():
     json_files = sys.argv[1:-1]
     output_file_name = sys.argv[-1]
+
+    regex_list = [
+        r"start up delay is (?P<v>[\d\.]+)ms",
+        r"Playback duration( is)? (?P<min>\d+\.\d+).*expected( track)? duration( is)? (?P<sub>\d+\.\d+)",
+        r"Total of missing frames is (?P<v>\d*)",
+        r"Total failure count is (?P<v>\d*)"
+    ]
+    #regex = None
+    leave_blank = False
+    if regex_list is not None:
+        leave_blank = True
     
     data = read_json_files(json_files)
-    collected_data = collect_data(data)
-    export_to_csv(collected_data, json_files, output_file_name)
+    collected_data = collect_data(data, regex_list)
+    export_to_csv(collected_data, json_files, output_file_name, leave_blank)
 
 if __name__ == "__main__":
     main()
