@@ -25,6 +25,7 @@ observation_ini=$(realpath "./observation-config.ini");
 
 docker run -it --rm \
 -v "$dirname":/usr/app/recordings \
+-v "$(pwd)/logs":/usr/app/device-observation-framework/logs \
 -e RECORDING_FILENAME="$filename" \
 -v "$observation_ini":/usr/app/device-observation-framework/config.ini \
 dpctf-dof:latest
