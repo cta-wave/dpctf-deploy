@@ -27,5 +27,4 @@ docker run -it --rm \
 -v "$dirname":/usr/app/recordings \
 -e RECORDING_FILENAME="$filename" \
 -v "$observation_ini":/usr/app/device-observation-framework/config.ini \
--v "$(pwd)/logs":/usr/app/device-observation-framework/logs \
 dpctf-dof:latest
