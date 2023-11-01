@@ -32,4 +32,8 @@ docker run -it --rm \
 -v "$(pwd)/logs":/usr/app/device-observation-framework/logs \
 -e RECORDING_FILENAME="$filename" \
 $args \
+<<<<<<< HEAD
 dpctf-dof:latest
+=======
+dpctf-dof:latest --log debug
+>>>>>>> addc29c (passing arguments to OF container; update dependencies for new OF)

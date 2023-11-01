@@ -1,13 +1,18 @@
 # Dockerfile for building the device-observation-framework for video analysis phase
 
 FROM python:3.8-bookworm
-RUN apt-get update && apt-get install -y git libzbar0 netcat-openbsd libgl1
+RUN apt-get update && apt-get install -y git libzbar0 netcat-openbsd libgl1 ffmpeg python3-pyaudio portaudio19-dev
 WORKDIR /usr/app
 RUN git clone https://github.com/cta-wave/device-observation-framework.git
 WORKDIR /usr/app/device-observation-framework
 
 RUN ./install.sh
+RUN pip install PyAudio
+RUN pip install matplotlib
 
 RUN mkdir /usr/app/recordings
 
-CMD python observation_framework.py --input "/usr/app/recordings/$RECORDING_FILENAME"
+RUN echo "echo \"python observation_framework.py --input \\\"/usr/app/recordings/\$RECORDING_FILENAME\\\" \"\$@\"\"" > run.sh
+RUN echo "python observation_framework.py --input \"/usr/app/recordings/$RECORDING_FILENAME\" \"\$@\"" >> run.sh
+
+ENTRYPOINT [ "/bin/bash", "./run.sh" ]
