@@ -27,9 +27,11 @@ if test -f "$observation_ini"; then
     args="$args -v "$observation_ini":/usr/app/device-observation-framework/config.ini"
 fi
 
+shift
+
 docker run -it --rm \
 -v "$dirname":/usr/app/recordings \
 -v "$(pwd)/logs":/usr/app/device-observation-framework/logs \
 -e RECORDING_FILENAME="$filename" \
 $args \
-dpctf-dof:latest
+dpctf-dof:latest $@
