@@ -338,3 +338,39 @@ When debugging a failing test, there are multiple ways to get to the error messa
 ### SSL certificate invalid
 
 As the default SSL certificate is not descended from a normal root certificate supported by web browsers, it may be required to add an exception to the DUTs web browser in order for HTTPS tests to work.
+
+# Device Observation Framework Container
+
+The [Device Observation Framework](https://github.com/cta-wave/device-observation-framework) may be run in a docker container for easy setup and use. There are a few steps to build the image and run the container:
+
+## Build the image
+
+To build the image run
+
+```console
+$ ./build-dof.sh
+```
+
+To rebuild with latest version of OF run
+
+```console
+$ ./build-dof.sh --reload-dof
+```
+
+## Running observations
+
+To run observations, use the `analyse-recording.sh` script:
+
+```console
+$ ./analyse-recording.sh <mp4-filepath> <OF-arguments>
+```
+
+For example:
+
+```console
+$ ./analyse-recording.sh ./recording.mp4 --log debug --scan general
+```
+
+For all available OF options, please refer to the [documentation](https://github.com/cta-wave/device-observation-framework#using-the-device-observation-framework)
+
+Any log files created are stored in the `logs` directory

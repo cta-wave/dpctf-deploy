@@ -142,10 +142,10 @@ Following steps should be sufficient to get started with dockerized version, mor
 
 Build the image:
 ```sh
-$ docker build --file Dockerfile.dof -t dpctf-dof:latest .
+$ ./build-dof.sh
 ```
 
-Edit the `observation-config.ini` to point to the used test runner instance:
+Create or edit the `observation-config.ini` to point to the used test runner instance:
 
 ```ini
 test_runner_url = http://yourhost.domain.tld
@@ -153,7 +153,7 @@ test_runner_url = http://yourhost.domain.tld
 
 Run the analysis:
 ```sh
-./analyse-recording.sh <video-file>
+./analyse-recording.sh <mp4-filepath>
 ```
 
 The observation framework will enrich the testing session with results automatically.

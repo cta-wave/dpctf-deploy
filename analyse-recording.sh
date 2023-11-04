@@ -7,7 +7,7 @@ fi
 
 if [ "$(docker images -q dpctf-dof:latest 2> /dev/null)" == "" ]; then
     echo "DOF image not found! Please build it using:";
-    echo "docker build --file Dockerfile.dof -t dpctf-dof:latest .";
+    echo "./build-dof.sh";
     exit 1;
 fi
 

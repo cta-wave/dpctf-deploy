@@ -3,6 +3,7 @@
 FROM python:3.8-bookworm
 RUN apt-get update && apt-get install -y git libzbar0 netcat-openbsd libgl1 ffmpeg python3-pyaudio portaudio19-dev
 WORKDIR /usr/app
+ARG dof-rev
 RUN git clone https://github.com/cta-wave/device-observation-framework.git
 WORKDIR /usr/app/device-observation-framework
 
