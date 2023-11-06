@@ -1,7 +1,7 @@
 # Deployment of "WAVE Streaming Media Test Suite - Devices"
 This repository contains configuration files for building Docker images of the "WAVE Streaming Media Test Suite - Devices" (hereinafter referred to as the "Test Suite") components and running them in Docker containers with the appropriate configurations. The Test Suite comprises the two main components described in this document:  
 * [DPCTF Test Runner](#dpctf-test-runner-docker-container)
-* [DPCTF Device Observation Framework](#device-observation-framework)
+* [DPCTF Device Observation Framework](#device-observation-framework-container)
 
 # DPCTF Test Runner Docker Container
 
