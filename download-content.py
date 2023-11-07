@@ -10,6 +10,7 @@ import urllib.request
 import re
 import zipfile
 import time
+from datetime import datetime
 from urllib.parse import urlparse
 
 
@@ -96,6 +97,7 @@ def load_zip(path):
     print("Fetching zip {}".format(path))
     retries = 3
     current_try = 0
+    last_time = datetime.now()
     while current_try < retries:
         try:
             #content = urllib.request.urlopen(path).read()
@@ -104,15 +106,18 @@ def load_zip(path):
             content = bytearray(total_length)
             view = memoryview(content)
             pos = 0
-            CHUNK_SIZE = 16 * 1024 * 1024
+            CHUNK_SIZE = 1024 * 1024
+            INTERVAL_SECONDS = 5
             while True:
                 chunk = response.read(CHUNK_SIZE)
                 if len(chunk) == 0:
                     break
                 view[pos:pos+len(chunk)] = chunk
                 pos += len(chunk)
-                percent = round(pos/total_length*100, 2)
-                if percent < 100:
+                time_diff = datetime.now() - last_time
+                if time_diff.total_seconds() >= INTERVAL_SECONDS:
+                    last_time = datetime.now()
+                    percent = round(pos/total_length*100, 2)
                     print(str(percent) + "% complete")
             return content
         except urllib.error.HTTPError:
