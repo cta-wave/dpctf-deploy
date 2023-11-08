@@ -10,6 +10,7 @@ import urllib.request
 import re
 import zipfile
 import time
+import threading
 from datetime import datetime
 from urllib.parse import urlparse
 
@@ -59,7 +60,17 @@ def main():
 
             with zipfile.ZipFile(tmp_file_name, "r") as zip:
                 #path = os.path.join(DEST_DIR, vector_name)
+                print("Extracting ..", end="")
+                stop_event = threading.Event()
+                def print_dot():
+                    while not stop_event.is_set():
+                        print(".", end="")
+                        time.sleep(5)
+                worker = threading.Thread(target=print_dot)
+                worker.start()
                 zip.extractall(path=DEST_DIR)
+                print()
+                stop_event.set()
             
 
             files = os.listdir(".")
