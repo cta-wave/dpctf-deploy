@@ -378,4 +378,10 @@ $ ./analyse-recording.sh ./recording.mp4 --log debug --scan general
 
 For all available OF options, please refer to the [documentation](https://github.com/cta-wave/device-observation-framework#using-the-device-observation-framework)
 
-Any log files created are stored in the `logs` directory
+Any log files created are stored in the `observation_logs` directory
+
+### Configuring the Observation Framework
+
+Create the `observation-config.ini` in the project root to configure the Observation Framework. The default file can be found [here](https://github.com/cta-wave/device-observation-framework/blob/main/config.ini)
+
+Use the `configuration` directory in the project root to use a [shared configuration](https://github.com/cta-wave/device-observation-framework/wiki/Debug-Observation-Framework#preparing-the-shared-configuration).

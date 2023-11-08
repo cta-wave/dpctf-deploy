@@ -22,16 +22,21 @@ dirname=$(dirname "$absolute_path");
 filename=$(basename "$absolute_path");
 
 observation_ini=$(realpath "./observation-config.ini");
+config_dir=$(realpath "./configuration");
 args=""
 if test -f "$observation_ini"; then
     args="$args -v "$observation_ini":/usr/app/device-observation-framework/config.ini"
+fi
+if test -d "$config_dir"; then
+    args="$args -v "$config_dir":/usr/app/device-observation-framework/configuration"
 fi
 
 shift
 
 docker run -it --rm \
 -v "$dirname":/usr/app/recordings \
--v "$(pwd)/logs":/usr/app/device-observation-framework/logs \
+-v "$(pwd)/observation_logs":/usr/app/device-observation-framework/logs \
+-v "$(pwd)/observation_results":/usr/app/device-observation-framework/results \
 -e RECORDING_FILENAME="$filename" \
 $args \
 dpctf-dof:latest $@
