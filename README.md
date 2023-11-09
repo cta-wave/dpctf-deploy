@@ -3,6 +3,33 @@ This repository contains configuration files for building Docker images of the "
 * [DPCTF Test Runner](#dpctf-test-runner-docker-container)
 * [DPCTF Device Observation Framework](#device-observation-framework-container)
 
+# Content
+
+* [DPCTF Test Runner Docker Container](#dpctf-test-runner-docker-container)
+  * [Requirements](#requirements)
+  * [Create Image](#create-image)
+  * [Running the created image in a container](#running-the-created-image-in-a-container)
+    * [Agree to EULA](#agree-to-eula)
+    * [Import content](#import-content)
+    * [Edit hosts file](#edit-hosts-file)
+    * [Start the container](#start-the-container)
+  * [Adding custom tests](#adding-custom-tests)
+  * [Mapping new content into the container](#mapping-new-content-into-the-container)
+  * [Controlling the running container](#controlling-the-running-container)
+  * [Running tests](#running-tests)
+    * [DNS server](#dns-server)
+    * [Run on host machine](#run-on-host-machine)
+    * [Run on separate DUT (TV, Mobile, etc.)](#run-on-separate-dut-tv-mobile-etc)
+    * [Run on separate DUT using companion device](#run-on-separate-dut-using-companion-device)
+  * [Debugging tests](#debugging-tests)
+  * [Detailed Guides](#detailed-guides)
+  * [Known Bugs](#known-bugs)
+    * [SSL certificate invalid](#ssl-certificate-invalid)
+* [Device Observation Framework Container](#device-observation-framework-container)
+  * [Build the image](#build-the-image)
+  * [Running observations](#running-observations)
+    * [Configuring the Observation Framework](#configuring-the-observation-framework)
+
 # DPCTF Test Runner Docker Container
 
 This section contains configuration files to build a docker image of the DPCTF Test Runner and run
