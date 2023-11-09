@@ -3,6 +3,7 @@ import json
 import csv
 import sys
 import re
+import argparse
 
 def read_json_files(file_names):
     data = []
@@ -117,18 +118,47 @@ def export_to_csv(data, file_names, output_file_name, leave_blank=False):
 
     with open('output.json', 'w') as f:
         json.dump(data, f)
+        
+def parse_regex_file(filename):
+    if filename is None:
+        return None
+    regex_list = []
+    with open(filename, 'r') as file:
+        for line in file:
+            line = line.strip()  # remove leading/trailing white spaces
+            if not line.startswith('#'):  # ignore lines starting with #
+                try:
+                    regex = re.compile(line)
+                    regex_list.append(regex)
+                    print(f"Compiled regex: {regex}")
+                except re.error:
+                    print(f"Invalid regex: {line}")
+    return regex_list
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Create csv file from json results file')
+    parser.add_argument('-f', '--filter', type=str, help='List of regular expressions to be used to parse values.')
+    parser.add_argument('inputs', type=str, nargs="+", help="List of json result files")
+    parser.add_argument('output', type=str, help="Output CSV file")
+
+    args = parser.parse_args()
+    return args
 
 
 def main():
-    json_files = sys.argv[1:-1]
-    output_file_name = sys.argv[-1]
+    args = parse_arguments()
+    #json_files = sys.argv[1:-1]
+    #output_file_name = sys.argv[-1]
+    json_files = args.inputs
+    output_file_name = args.output
+    regex_list = parse_regex_file(args.filter)
 
-    regex_list = [
-        r"start up delay is (?P<v>[\d\.]+)ms",
-        r"Playback duration( is)? (?P<min>\d+\.\d+).*expected( track)? duration( is)? (?P<sub>\d+\.\d+)",
-        r"Total of missing frames is (?P<v>\d*)",
-        r"Total failure count is (?P<v>\d*)"
-    ]
+    #regex_list = [
+    #    r"start up delay is (?P<v>[\d\.]+)ms",
+    #    r"Playback duration( is)? (?P<min>\d+\.\d+).*expected( track)? duration( is)? (?P<sub>\d+\.\d+)",
+    #    r"Total of missing frames is (?P<v>\d*)",
+    #    r"Total failure count is (?P<v>\d*)"
+    #]
     #regex = None
     leave_blank = False
     if regex_list is not None:

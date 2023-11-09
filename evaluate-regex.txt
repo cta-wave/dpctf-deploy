@@ -1,0 +1,4 @@
+start up delay is (?P<v>[\d\.]+)ms
+Playback duration( is)? (?P<min>\d+\.\d+).*expected( track)? duration( is)? (?P<sub>\d+\.\d+)
+Total of missing frames is (?P<v>\d*)
+Total failure count is (?P<v>\d*)
