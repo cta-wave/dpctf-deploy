@@ -3,6 +3,34 @@ This repository contains configuration files for building Docker images of the "
 * [DPCTF Test Runner](#dpctf-test-runner-docker-container)
 * [DPCTF Device Observation Framework](#device-observation-framework-container)
 
+# Content
+
+* [DPCTF Test Runner Docker Container](#dpctf-test-runner-docker-container)
+  * [Requirements](#requirements)
+  * [Create Image](#create-image)
+  * [Running the created image in a container](#running-the-created-image-in-a-container)
+    * [Agree to EULA](#agree-to-eula)
+    * [Import content](#import-content)
+    * [Edit hosts file](#edit-hosts-file)
+    * [Start the container](#start-the-container)
+  * [Adding custom tests](#adding-custom-tests)
+  * [Mapping new content into the container](#mapping-new-content-into-the-container)
+  * [Controlling the running container](#controlling-the-running-container)
+  * [Running tests](#running-tests)
+    * [DNS server](#dns-server)
+    * [Run on host machine](#run-on-host-machine)
+    * [Run on separate DUT (TV, Mobile, etc.)](#run-on-separate-dut-tv-mobile-etc)
+    * [Run on separate DUT using companion device](#run-on-separate-dut-using-companion-device)
+  * [Debugging tests](#debugging-tests)
+  * [Detailed Guides](#detailed-guides)
+  * [Known Bugs](#known-bugs)
+    * [SSL certificate invalid](#ssl-certificate-invalid)
+* [Device Observation Framework Container](#device-observation-framework-container)
+  * [Build the image](#build-the-image)
+  * [Running observations](#running-observations)
+    * [Configuring the Observation Framework](#configuring-the-observation-framework)
+* [Test Result Evaluation](#test-result-evaluation)
+
 # DPCTF Test Runner Docker Container
 
 This section contains configuration files to build a docker image of the DPCTF Test Runner and run
@@ -385,3 +413,40 @@ Any log files created are stored in the `observation_logs` directory
 Create the `observation-config.ini` in the project root to configure the Observation Framework. The default file can be found [here](https://github.com/cta-wave/device-observation-framework/blob/main/config.ini)
 
 Use the `configuration` directory in the project root to use a [shared configuration](https://github.com/cta-wave/device-observation-framework/wiki/Debug-Observation-Framework#preparing-the-shared-configuration).
+
+# Test Result Evaluation
+
+The `evaluate-results.py` script may be used to generate CSV files from multiple JSON results of different test session to allow for better evaluation and comparison. The JSON files may be downloaded from the test sessions results page per test group:
+
+![image](https://github.com/cta-wave/dpctf-deploy/assets/9076000/929d3acf-1de4-431a-b292-494546d9ee99)
+
+Generate a CSV using multiple result JSON files:
+
+```console
+$ python3 ./evaluate-results.py <JSON-files> <output-CSV>
+```
+
+e.g.
+```console
+$ python3 ./evaluate-resutls.py session-01-test-group-01.json session-02-test-group-01.json output.csv
+```
+
+This will generate a matrix of tests and sessions, which includes the individual raw result messages. To instead use data extracted from these messages, a file containing regular expressions can be passed to the script. The file may contain one regular expression per line, the first one that matches a given message will be used to extract the data. The exact data that should be extracted is defined using named groups.
+
+**Available named groups:**
+
+
+| groupname  | description |
+| ------------- | ------------- |
+| `v`  | Use the value captured by this group as is  |
+| `min`, `sub`  | Subtract the value capture by `sub` from the value captured by `min` (`min` - `sub`)  |
+
+```console
+$ python3 ./evaluate-results.py -f <regex-file> <JSON-files> <output-CSV>
+```
+
+The provided `evaluate-regex.txt` already contains some expression that can be used with DPCTF Observation Framework results:
+
+```console
+$ python3 ./evaluate-resutls.py -f evaluate-regex.txt session-01-test-group-01.json session-02-test-group-01.json output.csv
+```
