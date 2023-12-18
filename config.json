@@ -13,6 +13,7 @@
     "enable_results_import": false,
     "web_root": "/_wave",
     "persisting_interval": 20,
-    "api_titles": []
+    "api_titles": [],
+    "host_override": "127.0.0.1"
   }
 }
