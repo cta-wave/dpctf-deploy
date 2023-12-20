@@ -30,7 +30,7 @@ $ cd dpctf-deploy
 
 ### Build the image and download content
 
-To build the image, change into the repository's directory and run:
+To build the image, change into the repository's directory and run (Please use under Windows `*.bat` instead of `*.sh` scripts e.g. `build.bat` instead of `build.sh`):
 
 ```sh
 $ ./build.sh master latest
