@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM python:3.8
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -7,26 +7,6 @@ RUN apt update &&\
     apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget ca-certificates llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev mecab-ipadic-utf8 &&\
     apt install -y git curl virtualenv npm nodejs iputils-ping dnsmasq &&\
     apt clean
-
-# Set-up necessary Env vars for PyEnv
-ENV PYENV_ROOT /root/.pyenv
-ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
-ENV PYTHON_VERSION "3.7.12"
-
-# Install pyenv
-RUN set -ex \
-    && curl https://pyenv.run | bash \
-    && pyenv update \
-    && pyenv install $PYTHON_VERSION \
-    && pyenv global $PYTHON_VERSION \
-    && pyenv local $PYTHON_VERSION \
-    && pyenv rehash
-
-RUN pyenv version
-RUN python --version
-RUN pip --version
-RUN /usr/bin/env python --version
-RUN /usr/bin/env pip --version
 
 ENV APP_DIR /home/ubuntu
 
