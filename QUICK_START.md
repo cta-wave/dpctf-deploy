@@ -3,9 +3,15 @@
 Linux system is highly recommended for this guide, use other systems at your own risk.
 
 There are three phases:
-1. *Deployment* (one time action, to be performed by IT personel)
-2. *Test execution and recording* (to be performed by tester)
-3. *Observation* (analysis of recording to be performed by tester or other person)
+1. [Deployment](#phase-1-deployment-of-the-test-runner) (one time action, to be performed by IT personnel)
+   * [Host machine requirements](#host-machine-requirements)
+   * [Clone repository](#clone-repository)
+   * [Build the image and download content](#build-the-image-and-download-content)
+   * [Configure test runner with domain](#configure-test-runner-with-domain)
+   * [Agree to the EULA](#agree-to-the-eula)
+   * [Start the test runner](#start-the-test-runner)
+2. [Test execution and recording](#phase-2-test-execution-and-recording) (to be performed by tester)
+4. [Observation](#phase-3-analyse-recording-using-device-observation-framework) (analysis of recording to be performed by tester or other person)
 
 ## Phase 1: Deployment of the test runner
 
@@ -18,7 +24,7 @@ There are three phases:
 - domain (we use `yourhost.domain.tld` in this document) with valid certificates are needed for some tests (EME, encrypted content)
 - camera that records at 120 fps or more (AVC/h.264)
 
-### Clone deploy repository
+### Clone repository
 
 Clone the DPCTF deploy repository:
 
@@ -57,6 +63,7 @@ Windows:
 
 In the `dpctf-deploy` directory open `config.json` and enter your host domain or IP address in the `host_override` field
 
+`dpctf-deploy/config.json`
 ```json
 {
   "browser_host": "web-platform.test",
@@ -70,13 +77,13 @@ In the `dpctf-deploy` directory open `config.json` and enter your host domain or
     "host_override": "yourhost.domain.tld"
 ```
 
-Note: When using an IP address https test won't work.
+Note: When using an IP address https tests won't work.
 
 Some tests require a DNS entry and valid certificates to execute correctly. For this please copy the domain's certificate into the `certs` directory. Finally, the certificates must be configured by adding following at same level as "wave" field, note that the key and pem files must be named according to your needs:
 
 Running https tests requires a valid certificate for your domain. Copy your certificates files into the `certs` directory inside the `dpctf-deploy` directory:
 
-`dpctf-deploy/certs`:
+`dpctf-deploy/certs`
 ```
 cacert.pem
 private.key
@@ -106,11 +113,12 @@ Where `ca_cert_path`, `host_key_path` and `host_cert_path` have the correct file
 
 Your `config.json` should look something like this:
 
+`dpctf-deploy/config.json`
 ```json
 {
-  "browser_host": "yourhost.domain.tld",
+  "browser_host": "web-platform.test",
   "alternate_hosts": {
-    "alt": "not.yourhost.domain.tld"
+    "alt": "not.web-platform.test"
   },
   "ssl": {
     "type": "pregenerated",
@@ -144,25 +152,58 @@ Your `config.json` should look something like this:
 }
 ```
 
+### Agree to the EULA
+
+For the test runner to start you are required to agree to the [EULA](https://github.com/cta-wave/dpctf-deploy/#agree-to-eula).
+
+Set `AGREE_EULA` to `yes`:
+
+`dpctf-deploy/docker-compose.yml`
+```yml
+    environment:
+      AGREE_EULA: "yes"
+```
+
 ### Start the test runner
 
-To start the test runner, change into the cloned `dpctf-deploy` directory, agree to EULA (https://github.com/cta-wave/dpctf-deploy/#agree-to-eula) by setting `AGREE_EULA: "yes"` in docker-compose.yml and run:
+To start the test runner, change into the `dpctf-deploy` directory and run:
 
+Linux:
 ```sh
 $ docker-compose up
 ```
 
-The output should show no errors like 
+Windows:
+```console
+docker-compose up
+```
+
+Wait until all http and https are started. The output should like something like this:
+
+```sh
+dpctf  | INFO:web-platform-tests:Starting https server on web-platform.test:8443
+dpctf  | INFO:web-platform-tests:Starting http server on web-platform.test:36161
+```
+
+You are now able to open up the landing page of the test runner in your web browser:
+
+```
+http://yourhost.domain.tld:8000/_wave/index.html
+```
+
+or
+
+```
+http://<ip>:8000/_wave/index.html
+```
+
+If the command terminates or you see an error like the following, something went wrong with the startup:
+
 ```sh
 dpctf exited with code 1
 ```
 
-And the endpoint `http://yourhost.domain.tld:8000/_wave/index.html` should be accessible by DUT, check e.g. in Web browser.
-
-
 ## Phase 2: Test execution and recording
-
-### Executing tests on the TV
 
 To execute tests, open the landing page on the TV using the following URL (e.g. by putting into your launcher): 
 
