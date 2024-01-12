@@ -15,7 +15,6 @@ There are three phases:
   - docker
   - docker-compose
   - git (Windows note: all commands executed via "Git Bash")
-  - python 3
 - domain (we use `yourhost.domain.tld` in this document) with valid certificates are needed for some tests (EME, encrypted content)
 - camera that records at 120 fps or more (AVC/h.264)
 
@@ -30,42 +29,39 @@ $ cd dpctf-deploy
 
 ### Build the image and download content
 
-To build the image, change into the repository's directory and run (Please use under Windows `*.bat` instead of `*.sh` scripts e.g. `build.bat` instead of `build.sh`):
+To build the image, change into the repository's directory and run
 
+Linux:
 ```sh
 $ ./build.sh master latest
 ```
 
+Windows:
+```console
+.\build.bat master latest
+```
+
 Download test content to serve locally (note: this may take a while):
 
+Linux:
 ```sh
 $ ./import.sh
 ```
 
-### Configure test runner with domain
-
-From the deploy repository's cloned directory, open `config.json` and add config for the `host_override` field as follows while changing the "yourhost.domain.tld" according to your network setup
-
-```json
-{
-  "browser_host": "web-platform.test",
-  "alternate_hosts": {
-    "alt": "not-web-platform.test"
-  },
-  "wave": {
-    "aliases": [],
-    ....
-    "api_titles": [],
-    "host_override": "web-platform.test"
+Windows:
+```sh
+.\import.bat
 ```
 
-to have your host configured, like
+### Configure test runner with domain
+
+In the `dpctf-deploy` directory open `config.json` and enter your host domain or IP address in the `host_override` field
 
 ```json
 {
   "browser_host": "web-platform.test",
   "alternate_hosts": {
-    "alt": "not-web-platform.test"
+    "alt": "not.web-platform.test"
   },
   "wave": {
     "aliases": [],
@@ -74,10 +70,20 @@ to have your host configured, like
     "host_override": "yourhost.domain.tld"
 ```
 
-Note: You can use the IP address of host running the test runner instead of "yourhost.domain.tld".
-Important note: place "host_override" attribute at last position of the "wave" object, the trailing comma shall be removed.
+Note: When using an IP address https test won't work.
 
 Some tests require a DNS entry and valid certificates to execute correctly. For this please copy the domain's certificate into the `certs` directory. Finally, the certificates must be configured by adding following at same level as "wave" field, note that the key and pem files must be named according to your needs:
+
+Running https tests requires a valid certificate for your domain. Copy your certificates files into the `certs` directory inside the `dpctf-deploy` directory:
+
+`dpctf-deploy/certs`:
+```
+cacert.pem
+private.key
+certificate.pem
+```
+
+Then copy the following configuration to the root of `config.json`
 ```json
   "ssl": {
     "type": "pregenerated",
@@ -95,7 +101,47 @@ Some tests require a DNS entry and valid certificates to execute correctly. For 
     },
     "none": {}
   },
+```
+Where `ca_cert_path`, `host_key_path` and `host_cert_path` have the correct file names of your certificate.
+
+Your `config.json` should look something like this:
+
+```json
+{
+  "browser_host": "yourhost.domain.tld",
+  "alternate_hosts": {
+    "alt": "not.yourhost.domain.tld"
+  },
+  "ssl": {
+    "type": "pregenerated",
+    "encrypt_after_connect": false,
+    "openssl": {
+      "openssl_binary": "openssl",
+      "base_path": "_certs",
+      "force_regenerate": false,
+      "base_conf_path": null
+    },
+    "pregenerated": {
+      "ca_cert_path": "./certs/cacert.pem",
+      "host_key_path": "./certs/private.key",
+      "host_cert_path": "./certs/certificate.pem"
+    },
+    "none": {}
+  },
   "wave": {
+    "aliases": [],
+    "results": "./results",
+    "timeouts": {
+        "automatic": 100000,
+        "manual": 100000
+    },
+    "enable_results_import": false,
+    "web_root": "/_wave",
+    "persisting_interval": 20,
+    "api_titles": [],
+    "host_override": "yourhost.domain.tld"
+  }
+}
 ```
 
 ### Start the test runner
