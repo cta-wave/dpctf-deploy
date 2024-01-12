@@ -15,6 +15,7 @@ services:
     volumes:
       - ./results:/home/ubuntu/DPCTF/results
       - ./config.json:/home/ubuntu/DPCTF/config.json
+      - ./certs:/home/ubuntu/DPCTF/certs
       - ./tests:/home/ubuntu/tests
       - ./content:/home/ubuntu/DPCTF/content
       #- ./test-config.json:/home/ubuntu/DPCTF/test-config.json
