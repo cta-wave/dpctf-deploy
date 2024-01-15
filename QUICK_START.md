@@ -26,16 +26,24 @@ There are three phases:
 
 ### Clone repository
 
-Clone the DPCTF deploy repository:
+Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
+Linux:
 ```sh
 $ git clone https://github.com/cta-wave/dpctf-deploy
-$ cd dpctf-deploy
 ```
+
+Windows:  
+Run git-bash either directly or by right-clicking inside desired target directory and choosing "open git-bash here" from the context menu. Then run:
+```sh
+$ git clone https://github.com/cta-wave/dpctf-deploy
+```
+
+Now all files necessary to setup the test runner are located in the `dpctf-deploy` directory. All following actions will be performed in here.
 
 ### Build the image and download content
 
-To build the image, change into the repository's directory and run
+To build the image run the build script in the `dpctf-deploy` directoy:
 
 Linux:
 ```sh
