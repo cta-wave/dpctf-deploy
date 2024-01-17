@@ -10,10 +10,7 @@ import urllib.request
 import re
 import zipfile
 import time
-<<<<<<< HEAD
 import threading
-=======
->>>>>>> tmp
 from datetime import datetime
 from urllib.parse import urlparse
 
