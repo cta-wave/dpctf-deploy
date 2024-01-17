@@ -17,10 +17,14 @@ There are three phases:
 
 ### Host machine requirements
 
-- software on host machine:
+- on Linux:
   - docker
   - docker-compose
-  - git (Windows note: all commands executed via "Git Bash")
+  - git
+- on Windows 11:
+  - Docker-Desktop
+  - git
+  - Windows Terminal
 - domain (we use `yourhost.domain.tld` in this document) with valid certificates are needed for some tests (EME, encrypted content)
 - camera that records at 120 fps or more (AVC/h.264)
 
@@ -30,13 +34,13 @@ Using the git command line tool, you can download the current version of the dpc
 
 Linux:
 ```sh
-$ git clone https://github.com/cta-wave/dpctf-deploy
+git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
 Windows:  
 Run git-bash either directly or by right-clicking inside desired target directory and choosing "open git-bash here" from the context menu. Then run:
 ```sh
-$ git clone https://github.com/cta-wave/dpctf-deploy
+git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
 Now all files necessary to setup the test runner are located in the `dpctf-deploy` directory. All following actions will be performed in here.
@@ -47,7 +51,7 @@ To build the image run the build script in the `dpctf-deploy` directoy:
 
 Linux:
 ```sh
-$ ./build.sh master latest
+./build.sh master latest
 ```
 
 Windows:
@@ -59,7 +63,7 @@ Download test content to serve locally (note: this may take a while):
 
 Linux:
 ```sh
-$ ./import.sh
+./import.sh
 ```
 
 Windows:
@@ -178,7 +182,7 @@ To start the test runner, change into the `dpctf-deploy` directory and run:
 
 Linux:
 ```sh
-$ docker-compose up
+docker-compose up
 ```
 
 Windows:
