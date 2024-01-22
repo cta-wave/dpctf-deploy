@@ -3,69 +3,110 @@
 Linux system is highly recommended for this guide, use other systems at your own risk.
 
 There are three phases:
-1. *Deployment* (one time action, to be performed by IT personel)
-2. *Test execution and recording* (to be performed by tester)
-3. *Observation* (analysis of recording to be performed by tester or other person)
+1. [Deployment](#phase-1-deployment-of-the-test-runner) (one time action, to be performed by IT personnel)
+   * [Host machine requirements](#host-machine-requirements)
+   * [Clone repository](#clone-repository)
+   * [Build the image and download content](#build-the-image-and-download-content)
+   * [Configure access to the test runner](#configure-access-to-the-test-runner)
+      * [With IP address](#with-ip-address)
+      * [With domain](#with-domain)
+   * [Agree to the EULA](#agree-to-the-eula)
+   * [Start the test runner](#start-the-test-runner)
+2. [Test execution and recording](#phase-2-test-execution-and-recording) (to be performed by tester)
+4. [Observation](#phase-3-analyse-recording-using-device-observation-framework) (analysis of recording to be performed by tester or other person)
 
 ## Phase 1: Deployment of the test runner
 
 ### Host machine requirements
 
-- software on host machine:
+- on Linux:
   - docker
   - docker-compose
-  - git (Windows note: all commands executed via "Git Bash")
-  - python 3
+  - git
+- on Windows 11:
+  - Docker-Desktop
+    - To access docker the user requires admin permissions (or a special configuration which is out of scope for this guide)
+  - git
+  - Windows Terminal (For running commands)
 - domain (we use `yourhost.domain.tld` in this document) with valid certificates are needed for some tests (EME, encrypted content)
 - camera that records at 120 fps or more (AVC/h.264)
 
-### Clone deploy repository
+### Clone repository
 
-Clone the DPCTF deploy repository:
+Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
+Linux:
 ```sh
-$ git clone https://github.com/cta-wave/dpctf-deploy
-$ cd dpctf-deploy
+git clone https://github.com/cta-wave/dpctf-deploy
 ```
+
+Windows:  
+```sh
+git clone https://github.com/cta-wave/dpctf-deploy
+```
+
+Now all files necessary to setup the test runner are located in the `dpctf-deploy` directory. All following actions will be performed in here.
 
 ### Build the image and download content
 
-To build the image, change into the repository's directory and run (Please use under Windows `*.bat` instead of `*.sh` scripts e.g. `build.bat` instead of `build.sh`):
+To build the image run the build script in the `dpctf-deploy` directoy:
 
+Linux:
 ```sh
-$ ./build.sh master latest
+./build.sh master latest
+```
+
+Windows:
+```console
+.\build.bat master latest
 ```
 
 Download test content to serve locally (note: this may take a while):
 
+Linux:
 ```sh
-$ ./import.sh
+./import.sh
 ```
 
-### Configure test runner with domain
+Windows:
+```sh
+.\import.bat
+```
 
-From the deploy repository's cloned directory, open `config.json` and add config for the `host_override` field as follows while changing the "yourhost.domain.tld" according to your network setup
+### Configure access to the test runner
 
+The test runner can be configured to be accessed by either an IP or a domain. Setting up the access with an IP address is a lot easier than with domain, however, https tests only work with a valid certificate on TVs. It is recommended to only use IP address access for debugging the setup.
+
+#### With IP address
+
+Note: When using an IP address https tests won't work.
+
+In the `dpctf-deploy` directory open `config.json` and enter your host IP address in the `host_override` field:
+
+`dpctf-deploy/config.json`
 ```json
 {
   "browser_host": "web-platform.test",
   "alternate_hosts": {
-    "alt": "not-web-platform.test"
+    "alt": "not.web-platform.test"
   },
   "wave": {
     "aliases": [],
     ....
     "api_titles": [],
-    "host_override": "web-platform.test"
+    "host_override": "172.152.15.3"
 ```
 
-to have your host configured, like
+#### With domain
 
+In the `dpctf-deploy` directory open `config.json` and enter your host domain or IP address in the `host_override` field
+
+`dpctf-deploy/config.json`
 ```json
 {
   "browser_host": "web-platform.test",
   "alternate_hosts": {
-    "alt": "not-web-platform.test"
+    "alt": "not.web-platform.test"
   },
   "wave": {
     "aliases": [],
@@ -74,10 +115,18 @@ to have your host configured, like
     "host_override": "yourhost.domain.tld"
 ```
 
-Note: You can use the IP address of host running the test runner instead of "yourhost.domain.tld".
-Important note: place "host_override" attribute at last position of the "wave" object, the trailing comma shall be removed.
-
 Some tests require a DNS entry and valid certificates to execute correctly. For this please copy the domain's certificate into the `certs` directory. Finally, the certificates must be configured by adding following at same level as "wave" field, note that the key and pem files must be named according to your needs:
+
+Running https tests requires a valid certificate for your domain. Copy your certificates files into the `certs` directory inside the `dpctf-deploy` directory:
+
+`dpctf-deploy/certs`
+```
+cacert.pem
+private.key
+certificate.pem
+```
+
+Then copy the following configuration to the root of `config.json`
 ```json
   "ssl": {
     "type": "pregenerated",
@@ -95,28 +144,102 @@ Some tests require a DNS entry and valid certificates to execute correctly. For 
     },
     "none": {}
   },
+```
+Where `ca_cert_path`, `host_key_path` and `host_cert_path` have the correct file names of your certificate.
+
+Your `config.json` should look something like this:
+
+`dpctf-deploy/config.json`
+```json
+{
+  "browser_host": "web-platform.test",
+  "alternate_hosts": {
+    "alt": "not.web-platform.test"
+  },
+  "ssl": {
+    "type": "pregenerated",
+    "encrypt_after_connect": false,
+    "openssl": {
+      "openssl_binary": "openssl",
+      "base_path": "_certs",
+      "force_regenerate": false,
+      "base_conf_path": null
+    },
+    "pregenerated": {
+      "ca_cert_path": "./certs/cacert.pem",
+      "host_key_path": "./certs/private.key",
+      "host_cert_path": "./certs/certificate.pem"
+    },
+    "none": {}
+  },
   "wave": {
+    "aliases": [],
+    "results": "./results",
+    "timeouts": {
+        "automatic": 100000,
+        "manual": 100000
+    },
+    "enable_results_import": false,
+    "web_root": "/_wave",
+    "persisting_interval": 20,
+    "api_titles": [],
+    "host_override": "yourhost.domain.tld"
+  }
+}
+```
+
+### Agree to the EULA
+
+For the test runner to start you are required to agree to the [EULA](https://github.com/cta-wave/dpctf-deploy/#agree-to-eula).
+
+Set `AGREE_EULA` to `yes`:
+
+`dpctf-deploy/docker-compose.yml`
+```yml
+    environment:
+      AGREE_EULA: "yes"
 ```
 
 ### Start the test runner
 
-To start the test runner, change into the cloned `dpctf-deploy` directory, agree to EULA (https://github.com/cta-wave/dpctf-deploy/#agree-to-eula) by setting `AGREE_EULA: "yes"` in docker-compose.yml and run:
+To start the test runner, change into the `dpctf-deploy` directory and run:
 
+Linux:
 ```sh
-$ docker-compose up
+docker-compose up
 ```
 
-The output should show no errors like 
+Windows:
+```console
+docker-compose up
+```
+
+Wait until all http and https are started. The output should like something like this:
+
+```sh
+dpctf  | INFO:web-platform-tests:Starting https server on web-platform.test:8443
+dpctf  | INFO:web-platform-tests:Starting http server on web-platform.test:36161
+```
+
+You are now able to open up the landing page of the test runner in your web browser:
+
+```
+http://yourhost.domain.tld:8000/_wave/index.html
+```
+
+or
+
+```
+http://<ip>:8000/_wave/index.html
+```
+
+If the command terminates or you see an error like the following, something went wrong with the startup:
+
 ```sh
 dpctf exited with code 1
 ```
 
-And the endpoint `http://yourhost.domain.tld:8000/_wave/index.html` should be accessible by DUT, check e.g. in Web browser.
-
-
 ## Phase 2: Test execution and recording
-
-### Executing tests on the TV
 
 To execute tests, open the landing page on the TV using the following URL (e.g. by putting into your launcher): 
 
