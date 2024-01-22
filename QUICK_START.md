@@ -7,7 +7,9 @@ There are three phases:
    * [Host machine requirements](#host-machine-requirements)
    * [Clone repository](#clone-repository)
    * [Build the image and download content](#build-the-image-and-download-content)
-   * [Configure test runner with domain](#configure-test-runner-with-domain)
+   * [Configure access to the test runner](#configure-access-to-the-test-runner)
+      * [With IP address](#with-ip-address)
+      * [With domain](#with-domain)
    * [Agree to the EULA](#agree-to-the-eula)
    * [Start the test runner](#start-the-test-runner)
 2. [Test execution and recording](#phase-2-test-execution-and-recording) (to be performed by tester)
@@ -23,8 +25,9 @@ There are three phases:
   - git
 - on Windows 11:
   - Docker-Desktop
+    - To access docker the user requires admin permissions (or a special configuration which is out of scope for this guide)
   - git
-  - Windows Terminal
+  - Windows Terminal (For running commands)
 - domain (we use `yourhost.domain.tld` in this document) with valid certificates are needed for some tests (EME, encrypted content)
 - camera that records at 120 fps or more (AVC/h.264)
 
@@ -38,7 +41,6 @@ git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
 Windows:  
-Run git-bash either directly or by right-clicking inside desired target directory and choosing "open git-bash here" from the context menu. Then run:
 ```sh
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
@@ -71,7 +73,31 @@ Windows:
 .\import.bat
 ```
 
-### Configure test runner with domain
+### Configure access to the test runner
+
+The test runner can be configured to be accessed by either an IP or a domain. Setting up the access with an IP address is a lot easier than with domain, however, https tests only work with a valid certificate on TVs. It is recommended to only use IP address access for debugging the setup.
+
+#### With IP address
+
+Note: When using an IP address https tests won't work.
+
+In the `dpctf-deploy` directory open `config.json` and enter your host IP address in the `host_override` field:
+
+`dpctf-deploy/config.json`
+```json
+{
+  "browser_host": "web-platform.test",
+  "alternate_hosts": {
+    "alt": "not.web-platform.test"
+  },
+  "wave": {
+    "aliases": [],
+    ....
+    "api_titles": [],
+    "host_override": "172.152.15.3"
+```
+
+#### With domain
 
 In the `dpctf-deploy` directory open `config.json` and enter your host domain or IP address in the `host_override` field
 
@@ -88,8 +114,6 @@ In the `dpctf-deploy` directory open `config.json` and enter your host domain or
     "api_titles": [],
     "host_override": "yourhost.domain.tld"
 ```
-
-Note: When using an IP address https tests won't work.
 
 Some tests require a DNS entry and valid certificates to execute correctly. For this please copy the domain's certificate into the `certs` directory. Finally, the certificates must be configured by adding following at same level as "wave" field, note that the key and pem files must be named according to your needs:
 
