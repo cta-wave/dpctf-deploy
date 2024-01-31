@@ -261,29 +261,68 @@ The tester must execute following steps
 
 ## Phase 3: Analyse recording using device observation framework
 
-Following steps should be sufficient to get started with dockerized version, more details at https://github.com/cta-wave/device-observation-framework
+The Observation Framework analyzes the video file recorded in phase 2 and automatically adds the results to the existing results of the corresponding session. Just like the Test Runner, the Observation Framework is setup in a docker container. For more details see [the Device Observation Framework docs](https://github.com/cta-wave/device-observation-framework)
 
-Build the image:
+### Clone repository
+
+Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
+
+Linux:
 ```sh
-$ ./build-dof.sh
+git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
-Create or edit the `observation-config.ini` to point to the used test runner instance:
+Windows:  
+```sh
+git clone https://github.com/cta-wave/dpctf-deploy
+```
 
+Now all files necessary to setup the test runner are located in the `dpctf-deploy` directory. All following actions will be performed in here.
+
+### Build the image
+
+To build the image run the build script in the `dpctf-deploy` directoy:
+
+Linux:
+```sh
+./build-dof.sh
+```
+
+Windows:
+```console
+.\build-dof.bat
+```
+
+### Configure the Observation Framework
+
+To configure the Observation Framework create the `observation-config.ini` in the cloned repositories directory. The current default config file is located in the [Observation Framework's repository](https://github.com/cta-wave/device-observation-framework/blob/main/config.ini)
+
+To allow the Observation Framework to add the results to the Test Runner's session set the correct domain name of the Test Runner in the config file:
+
+`dpctf-deploy/observation-config.ini`
 ```ini
 test_runner_url = http://yourhost.domain.tld
 ```
 
-Run the analysis:
+### Running the analysis
+
+Run the analysis by executing the `analyse-recording` script:
+
+Linux:
 ```sh
 ./analyse-recording.sh <mp4-filepath>
 ```
 
-The observation framework will enrich the testing session with results automatically.
+Windows:
+```console
+.\analyse-recording.bat <mp4-filepath>
+```
 
-The final test results including video analysis results are available at 
+### Getting the analysis results
+
+If configured correctly in the step [Configure the Observation Framework](#configure-the-observation-framework), the results of the analysis are now available in the Test Runner's session:
 ```
 http://yourhost.domain.tld:8000/_wave/results.html?token=SESSIONTOKEN
 ```
 
-Export your test results into your archive.
+The results are also located in the `dpctf-deploy/observation-results` directory.
