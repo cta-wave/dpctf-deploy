@@ -14,6 +14,11 @@ There are three phases:
    * [Start the test runner](#start-the-test-runner)
 2. [Test execution and recording](#phase-2-test-execution-and-recording) (to be performed by tester)
 4. [Observation](#phase-3-analyse-recording-using-device-observation-framework) (analysis of recording to be performed by tester or other person)
+   * [Clone repository](#clone-repository-1)
+   * [Build the image](#build-the-image)
+   * [Configure the Observation Framework](#configure-the-observation-framework)
+   * [Running the analysis](#running-the-analysis)
+   * [Getting the analysis results](#getting-the-analysis-results)
 
 ## Phase 1: Deployment of the test runner
 
@@ -41,7 +46,7 @@ git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
 Windows:  
-```sh
+```console
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
@@ -273,7 +278,7 @@ git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
 Windows:  
-```sh
+```console
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
