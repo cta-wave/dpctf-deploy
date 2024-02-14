@@ -266,7 +266,7 @@ The tester must execute following steps
 
 ## Phase 3: Analyse recording using device observation framework
 
-The Observation Framework analyzes the video file recorded in phase 2 and automatically adds the results to the existing results of the corresponding session. Just like the Test Runner, the Observation Framework is setup in a docker container. For more details see [the Device Observation Framework docs](https://github.com/cta-wave/device-observation-framework)
+The Observation Framework analyzes the video file recorded in phase 2 and automatically adds the results to the existing results of the corresponding session. Just like the Test Runner, the Observation Framework is setup in a docker container.
 
 ### Clone repository
 
@@ -315,13 +315,15 @@ Run the analysis by executing the `analyse-recording` script:
 
 Linux:
 ```sh
-./analyse-recording.sh <mp4-filepath>
+./analyse-recording.sh <mp4-filepath> <options>
 ```
 
 Windows:
 ```console
-.\analyse-recording.bat <mp4-filepath>
+.\analyse-recording.bat <mp4-filepath> <options>
 ```
+
+For additional options please refer the [the documentation](https://github.com/cta-wave/device-observation-framework)
 
 ### Getting the analysis results
 
