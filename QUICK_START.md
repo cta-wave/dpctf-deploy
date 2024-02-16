@@ -33,8 +33,16 @@ There are three phases:
     - To access docker the user requires admin permissions (or a special configuration which is out of scope for this guide)
   - git
   - Windows Terminal (For running commands)
-- domain (we use `yourhost.domain.tld` in this document) with valid certificates are needed for some tests (EME, encrypted content)
+- TLS server certificate for a domain that can be resolved by the device under test (we use `yourhost.domain.tld` for the domain)
+Note: While some tests can be run without this, valid certificates are needed for tests of EME and encrypted content.
 - camera that records at 120 fps or more (AVC/h.264)
+
+Note: The test suite has been installed and run on other host machines with varying degrees of success. On Windows, it has been used with the free version of docker running in WSL2. It has been used on a Mac. No support or assistance is available for either of these or anything else similar. Neither of these should be attempted unless you know what you are doing or have access to someone who does. It is critical to ensure that the test runner can be contacted from the device under test and from the observation framework. This may be problematic with some combinations of virtualization technologies and network configurations.
+
+### Device under test requirements
+
+The device under test ("DUT") needs at least one mechanism for showing an arbitrary URL in the browser to be tested. These mechanisms may be standard (e.g. including the URL in a broadcast signal) or private / proprietary.
+Note: If the DUT supports HbbTV then one possibility is to build an MPEG-2 transport stream containing the URL. One resource that may help with this specific case is https://github.com/ebu/hbbtv-dvbstream .
 
 ### Clone repository
 
@@ -246,19 +254,27 @@ dpctf exited with code 1
 
 ## Phase 2: Test execution and recording
 
-To execute tests, open the landing page on the TV using the following URL (e.g. by putting into your launcher): 
+To execute tests, open the landing page on the DUT using the following URL:
 
 ```
 http://yourhost.domain.tld:8000/_wave/index.html
+```
+or if you have provided valid certificates
 
-or https://yourhost.domain.tld:8443/_wave/index.html if you have provided valid certificates
+```
+https://yourhost.domain.tld:8443/_wave/index.html
 ```
 
 The tester must execute following steps
 
 1. position video recording device (e.g. smartphone with 120fps using AVC codec) in front of the display of DUT
-2. use a phone to scan the QR-Code -> test runner companion screen will open in phones's Web browser
+Note: Significant care is needed. Please see https://dash-large-files.akamaized.net/WAVE/assets/How-to-take-clear-recordings-v3.pptx .\
+
+2. Either use a phone to scan the QR-Code -> test runner companion screen will open in phones's Web browser or
+Note the first 8 characters of the token from the landing page. Using a web browser (e.g. on the test runner PC), go to http://yourhost.domain.tld:8000/_wave/configuration.html and enter those 8 characters in the "Session token" box.
+
 3. select the tests to be executed on DUT from provided lists
+Note: A good place to start for first time users would be to deselect all test groups by using the "None" button and then select one simple test, e.g. by expanding either cfhd_12.5_25_50-local or cfhd_15_30_60-local and then selecting just the sequential track playback test with stream t1 as shown.
 4. start recording on recording device
 5. press "Start session" button -> the test(s) should start to execute on DUT
 6. once "Session completed" screen is visible on DUT then stop the recording
