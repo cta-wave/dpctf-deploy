@@ -1,4 +1,4 @@
-# Quick Start guide for getting started with Wave Streaming Media Test Suite - Devices
+# Getting started with "WAVE Streaming Media Test Suite - Devices"
 
 Linux system is highly recommended for this guide, use other systems at your own risk.
 
@@ -24,11 +24,11 @@ There are three phases:
 
 ### Host machine requirements
 
-- on Linux:
+- on Linux (applies also for macOS and Windows with WSL2):
   - docker
   - docker-compose
   - git
-- on Windows 11:
+- on Windows (without WSL2):
   - Docker-Desktop
     - To access docker the user requires admin permissions (or a special configuration which is out of scope for this guide)
   - git
@@ -48,7 +48,7 @@ Note: If the DUT supports HbbTV then one possibility is to build an MPEG-2 trans
 
 Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
-Linux:
+Linux / MacOS / WSL2:
 ```sh
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
@@ -64,7 +64,7 @@ Now all files necessary to setup the test runner are located in the `dpctf-deplo
 
 To build the image run the build script in the `dpctf-deploy` directoy:
 
-Linux:
+Linux / MacOS / WSL2:
 ```sh
 ./build.sh master latest
 ```
@@ -76,7 +76,7 @@ Windows:
 
 Download test content to serve locally (note: this may take a while):
 
-Linux:
+Linux / MacOS / WSL2:
 ```sh
 ./import.sh
 ```
@@ -217,7 +217,7 @@ Set `AGREE_EULA` to `yes`:
 
 To start the test runner, change into the `dpctf-deploy` directory and run:
 
-Linux:
+Linux / MacOS / WSL2:
 ```sh
 docker-compose up
 ```
@@ -288,7 +288,7 @@ The Observation Framework analyzes the video file recorded in phase 2 and automa
 
 Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
-Linux:
+Linux / MacOS / WSL2:
 ```sh
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
@@ -329,7 +329,7 @@ test_runner_url = http://yourhost.domain.tld
 
 Run the analysis by executing the `analyse-recording` script:
 
-Linux:
+Linux / MacOS / WSL2:
 ```sh
 ./analyse-recording.sh <mp4-filepath> <options>
 ```
