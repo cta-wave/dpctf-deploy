@@ -48,7 +48,7 @@ Note: If the DUT supports HbbTV then one possibility is to build an MPEG-2 trans
 
 Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
-Linux / MacOS / WSL2:
+Linux / macOS / WSL2:
 ```sh
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
@@ -76,13 +76,13 @@ Windows:
 
 Download test content to serve locally (note: this may take a while):
 
-Linux / MacOS / WSL2:
+Linux / macOS / WSL2:
 ```sh
 ./import.sh
 ```
 
 Windows:
-```sh
+```console
 .\import.bat
 ```
 
@@ -217,7 +217,7 @@ Set `AGREE_EULA` to `yes`:
 
 To start the test runner, change into the `dpctf-deploy` directory and run:
 
-Linux / MacOS / WSL2:
+Linux / macOS / WSL2:
 ```sh
 docker-compose up
 ```
@@ -288,7 +288,7 @@ The Observation Framework analyzes the video file recorded in phase 2 and automa
 
 Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
-Linux / MacOS / WSL2:
+Linux / macOS / WSL2:
 ```sh
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
@@ -304,7 +304,7 @@ Now all files necessary to setup the test runner are located in the `dpctf-deplo
 
 To build the image run the build script in the `dpctf-deploy` directoy:
 
-Linux:
+Linux / macOS / WSL2:
 ```sh
 ./build-dof.sh
 ```
@@ -329,7 +329,7 @@ test_runner_url = http://yourhost.domain.tld
 
 Run the analysis by executing the `analyse-recording` script:
 
-Linux / MacOS / WSL2:
+Linux / macOS / WSL2:
 ```sh
 ./analyse-recording.sh <mp4-filepath> <options>
 ```
