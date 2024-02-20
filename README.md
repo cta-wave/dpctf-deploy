@@ -75,7 +75,7 @@ Windows:
 .\build.bat master latest
 ```
 
-Download test content to serve locally (note: this may take a while):
+Download test content to serve locally (note: this pulls a lot of data and may take a while):
 
 Linux / macOS / WSL2:
 ```sh
