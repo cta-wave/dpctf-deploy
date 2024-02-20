@@ -1,452 +1,351 @@
-# Deployment of "WAVE Streaming Media Test Suite - Devices"
-This repository contains configuration files for building Docker images of the "WAVE Streaming Media Test Suite - Devices" (hereinafter referred to as the "Test Suite") components and running them in Docker containers with the appropriate configurations. The Test Suite comprises the two main components described in this document:  
-* [DPCTF Test Runner](#dpctf-test-runner-docker-container)
-* [DPCTF Device Observation Framework](#device-observation-framework-container)
+# Quick Start guide for getting started with Wave Streaming Media Test Suite - Devices
 
-# Content
+Linux system is highly recommended for this guide, use other systems at your own risk.
 
-* [DPCTF Test Runner Docker Container](#dpctf-test-runner-docker-container)
-  * [Requirements](#requirements)
-  * [Create Image](#create-image)
-  * [Running the created image in a container](#running-the-created-image-in-a-container)
-    * [Agree to EULA](#agree-to-eula)
-    * [Import content](#import-content)
-    * [Edit hosts file](#edit-hosts-file)
-    * [Start the container](#start-the-container)
-  * [Adding custom tests](#adding-custom-tests)
-  * [Mapping new content into the container](#mapping-new-content-into-the-container)
-  * [Controlling the running container](#controlling-the-running-container)
-  * [Running tests](#running-tests)
-    * [DNS server](#dns-server)
-    * [Run on host machine](#run-on-host-machine)
-    * [Run on separate DUT (TV, Mobile, etc.)](#run-on-separate-dut-tv-mobile-etc)
-    * [Run on separate DUT using companion device](#run-on-separate-dut-using-companion-device)
-  * [Debugging tests](#debugging-tests)
-  * [Detailed Guides](#detailed-guides)
-  * [Known Bugs](#known-bugs)
-    * [SSL certificate invalid](#ssl-certificate-invalid)
-* [Device Observation Framework Container](#device-observation-framework-container)
-  * [Build the image](#build-the-image)
-  * [Running observations](#running-observations)
-    * [Configuring the Observation Framework](#configuring-the-observation-framework)
-* [Test Result Evaluation](#test-result-evaluation)
+There are three phases:
+1. [Deployment](#phase-1-deployment-of-the-test-runner) (one time action, to be performed by IT personnel)
+   * [Host machine requirements](#host-machine-requirements)
+   * [Clone repository](#clone-repository)
+   * [Build the image and download content](#build-the-image-and-download-content)
+   * [Configure access to the test runner](#configure-access-to-the-test-runner)
+      * [With IP address](#with-ip-address)
+      * [With domain](#with-domain)
+   * [Agree to the EULA](#agree-to-the-eula)
+   * [Start the test runner](#start-the-test-runner)
+2. [Test execution and recording](#phase-2-test-execution-and-recording) (to be performed by tester)
+4. [Observation](#phase-3-analyse-recording-using-device-observation-framework) (analysis of recording to be performed by tester or other person)
+   * [Clone repository](#clone-repository-1)
+   * [Build the image](#build-the-image)
+   * [Configure the Observation Framework](#configure-the-observation-framework)
+   * [Running the analysis](#running-the-analysis)
+   * [Getting the analysis results](#getting-the-analysis-results)
 
-# DPCTF Test Runner Docker Container
+## Phase 1: Deployment of the test runner
 
-This section contains configuration files to build a docker image of the DPCTF Test Runner and run
-it in a container with proper configuration.
+### Host machine requirements
 
-## Requirements
+- on Linux:
+  - docker
+  - docker-compose
+  - git
+- on Windows 11:
+  - Docker-Desktop
+    - To access docker the user requires admin permissions (or a special configuration which is out of scope for this guide)
+  - git
+  - Windows Terminal (For running commands)
+- TLS server certificate for a domain that can be resolved by the device under test (we use `yourhost.domain.tld` for the domain)
+Note: While some tests can be run without this, valid certificates are needed for tests of EME and encrypted content.
+- camera that records at 120 fps or more (AVC/h.264)
 
-- ⚠️ **It is highly recommended to use Linux for production. Windows and MacOS should be used for experimental purposes only!**
-- Docker (tested with v20.10.6)
-- docker-compose (tested with v1.29.1)
-- Python 3 (for downloading the content)
-- **Windows** and **Linux** require root/admin permissions for the provided commands. Please follow these instructions to run docker without root/admin:
-  - [Run docker without root on Linux](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
-  - [Run docker without admin on Windows](https://docs.docker.com/docker-for-windows/install/#install-docker-desktop-on-windows)
-- For deployment on Windows using WSL2 see [this](./WINDOWS_WSL.md)
+Note: The test suite has been installed and run on other host machines with varying degrees of success. On Windows, it has been used with the free version of docker running in WSL2. It has been used on a Mac. No support or assistance is available for either of these or anything else similar. Neither of these should be attempted unless you know what you are doing or have access to someone who does. It is critical to ensure that the test runner can be contacted from the device under test and from the observation framework. This may be problematic with some combinations of virtualization technologies and network configurations.
 
-## Create Image
+### Device under test requirements
 
-To build the image, run the build script:
+The device under test ("DUT") needs at least one mechanism for showing an arbitrary URL in the browser to be tested. These mechanisms may be standard (e.g. including the URL in a broadcast signal) or private / proprietary.
+Note: If the DUT supports HbbTV then one possibility is to build an MPEG-2 transport stream containing the URL. One resource that may help with this specific case is https://github.com/ebu/hbbtv-dvbstream .
 
-Linux/Mac:
+### Clone repository
 
-```shell
-./build.sh <commit-id/branch/tag> <image-version> [<options>]
+Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
+
+Linux:
+```sh
+git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
-Windows (no WSL):
-
-```shell
-.\build.bat <commit-id/branch/tag> <image-version> [<options>]
+Windows:  
+```console
+git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
-In this command **commit-id/branch/tag** specifies what code base to use
-from the [DPCTF Test Runner repository](https://github.com/cta-wave/dpctf-test-runner) in the created
-image. As indicated, this can be a commit id, a branch name or a tag.
+Now all files necessary to setup the test runner are located in the `dpctf-deploy` directory. All following actions will be performed in here.
 
-**image-version** specifies the version string the created docker image is
-tagged with. This allows to have multiple image with different versions.
-The build script will name the image `dpctf:<image-version>`.
+### Build the image and download content
 
-**options** - A list of optional arguments:
+To build the image run the build script in the `dpctf-deploy` directoy:
 
-- **--reload-runner**: Reload the test runner, disabling cache
-- **--reload-tests**: Reload test files, disabling cache
-- **--tests-branch**: Which branch from dpctf-tests to use
-
-For example (on Windows (no WSL) use build.bat):
-
-```shell
+Linux:
+```sh
 ./build.sh master latest
 ```
 
-To rebuild the image using the cache but retrigger the download of the tests,
-use the reload-tests argument:
-
-```shell
-./build.sh master latest --reload-tests
+Windows:
+```console
+.\build.bat master latest
 ```
 
-To rebuild the image using the cache but retrigger the download of the test
-runner, use the reload-runner argument:
+Download test content to serve locally (note: this may take a while):
 
-```shell
-./build.sh master latest --reload-runner
+Linux:
+```sh
+./import.sh
 ```
 
-Use dpcat branch from dpctf-tests repository when building:
-
-```shell
-./build.sh master latest --tests-branch dpcat
+Windows:
+```sh
+.\import.bat
 ```
 
-This will create a docker image for the latest code base on the master branch
-and sets the version tag to "latest". The resulting image will have the name
-`dpctf:latest`.  
-Please make sure to re-create the container (run `docker-compose up -d`) each time you create a new image.
+### Configure access to the test runner
 
-## Running the created image in a container
+The test runner can be configured to be accessed by either an IP or a domain. Setting up the access with an IP address is a lot easier than with domain, however, https tests only work with a valid certificate on TVs. It is recommended to only use IP address access for debugging the setup.
 
-To run the created image in a properly configured container, set the desired image version:
+#### With IP address
 
-`docker-compose.yml`
+Note: When using an IP address https tests won't work.
 
-```yaml
-services:
-  dpctf:
-    container_name: dpctf
-    image: dpctf:latest
+In the `dpctf-deploy` directory open `config.json` and enter your host IP address in the `host_override` field:
+
+`dpctf-deploy/config.json`
+```json
+{
+  "browser_host": "web-platform.test",
+  "alternate_hosts": {
+    "alt": "not.web-platform.test"
+  },
+  "wave": {
+    "aliases": [],
+    ....
+    "api_titles": [],
+    "host_override": "172.152.15.3"
 ```
 
-**container_name** defines the name of the container, so we can later
-reference it when using docker commands specific to containers like start,
-stop, view logs and so on. **image** specifies what image to use to create the
-container. In this example, we use the version string of the example from the
-section "Create Image". The file contains further configurations, but for now
-this should suffice.
+#### With domain
 
-### Agree to EULA
+In the `dpctf-deploy` directory open `config.json` and enter your host domain or IP address in the `host_override` field
 
-In order to run the container you need to agree to the [EULA](https://github.com/cta-wave/dpctf-deploy/blob/master/End-User-License-Agreement.md). To do so, set the environment variable `AGREE_EULA` to `"yes"`.
+`dpctf-deploy/config.json`
+```json
+{
+  "browser_host": "web-platform.test",
+  "alternate_hosts": {
+    "alt": "not.web-platform.test"
+  },
+  "wave": {
+    "aliases": [],
+    ....
+    "api_titles": [],
+    "host_override": "yourhost.domain.tld"
+```
 
-`docker-compose.yml`
+Some tests require a DNS entry and valid certificates to execute correctly. For this please copy the domain's certificate into the `certs` directory. Finally, the certificates must be configured by adding following at same level as "wave" field, note that the key and pem files must be named according to your needs:
 
-```yaml
-services:
-  dpctf:
+Running https tests requires a valid certificate for your domain. Copy your certificates files into the `certs` directory inside the `dpctf-deploy` directory:
+
+`dpctf-deploy/certs`
+```
+cacert.pem
+private.key
+certificate.pem
+```
+
+Then copy the following configuration to the root of `config.json`
+```json
+  "ssl": {
+    "type": "pregenerated",
+    "encrypt_after_connect": false,
+    "openssl": {
+      "openssl_binary": "openssl",
+      "base_path": "_certs",
+      "force_regenerate": false,
+      "base_conf_path": null
+    },
+    "pregenerated": {
+      "ca_cert_path": "./certs/cacert.pem",
+      "host_key_path": "./certs/private.key",
+      "host_cert_path": "./certs/certificate.pem"
+    },
+    "none": {}
+  },
+```
+Where `ca_cert_path`, `host_key_path` and `host_cert_path` have the correct file names of your certificate.
+
+Your `config.json` should look something like this:
+
+`dpctf-deploy/config.json`
+```json
+{
+  "browser_host": "web-platform.test",
+  "alternate_hosts": {
+    "alt": "not.web-platform.test"
+  },
+  "ssl": {
+    "type": "pregenerated",
+    "encrypt_after_connect": false,
+    "openssl": {
+      "openssl_binary": "openssl",
+      "base_path": "_certs",
+      "force_regenerate": false,
+      "base_conf_path": null
+    },
+    "pregenerated": {
+      "ca_cert_path": "./certs/cacert.pem",
+      "host_key_path": "./certs/private.key",
+      "host_cert_path": "./certs/certificate.pem"
+    },
+    "none": {}
+  },
+  "wave": {
+    "aliases": [],
+    "results": "./results",
+    "timeouts": {
+        "automatic": 100000,
+        "manual": 100000
+    },
+    "enable_results_import": false,
+    "web_root": "/_wave",
+    "persisting_interval": 20,
+    "api_titles": [],
+    "host_override": "yourhost.domain.tld"
+  }
+}
+```
+
+### Agree to the EULA
+
+For the test runner to start you are required to agree to the [EULA](https://github.com/cta-wave/dpctf-deploy/#agree-to-eula).
+
+Set `AGREE_EULA` to `yes`:
+
+`dpctf-deploy/docker-compose.yml`
+```yml
     environment:
       AGREE_EULA: "yes"
 ```
 
-### Import content
+### Start the test runner
 
-Next, import the content:
+To start the test runner, change into the `dpctf-deploy` directory and run:
 
-```
-./import.sh
-```
-
-Windows (no WSL):
-
-```
-.\import.bat
-```
-
-This will download the content into the `content` directory, which is
-accessible from the webserver by the same, relative path. For example,
-`content/avc_sets/15_30_60/t1/stream.mpd` is accessible under
-`http://<host>:<port>/content/avc_sets/15_30_60/t1/stream.mpd`.
-When rerunning the script, no existing files will be overwritten. To reload
-content, delete the corresponding files before running the `import.sh` script.
-
-Every directory mapped into the container has to have its owner set to user id
-1000 in order for the test runner to perform read and write actions. (e.g. `results` directory)
-
-### Edit hosts file
-
-It is required to map a set of domains to local host using the hosts file.
-
-Linux and Mac (/etc/hosts): [hosts-linux](./hosts-linux.txt)
-
-Windows (C:\Windows\System32\drivers\etc\hosts): [hosts-windows](./hosts-windows.txt)
-
-### Start the container
-
-To then start the container run the following command:
-
-```shell
+Linux:
+```sh
 docker-compose up
 ```
 
-This will use the configuration in the `docker-compose.yml` to create a new
-container and run it.
-
-Once the docker container is repeatedly running correctly, it may be run as a daemon using the `-d` flag:
-
-```shell
-docker-compose up -d
-```
-
-For more details on controlling the container when running it in the background, see the corresponding [section](#controlling-the-running-container).
-
-The test runner can be configured using the `config.json`. For more details
-see the [docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md).
-
-All test results will be stored in the `results` directory.
-
-## Adding custom tests
-
-To make custom tests avilable in the test runner put them into a subdirectory inside the tests directory. The subdirectory defines in what group the tests will be available in the test runner.
-
-For example, the test file `new-custom-test.html` will be grouped under `new-test-group` by placing it under the following path:
-
-```
-tests/new-test-group/new-custom-test.html
-```
-
-![New test group](./new-test-file.png)
-
-## Mapping new content into the container
-
-It may be useful to be able to use custom content with the test runner. This requires modification of the `docker-compose.yml` for any directory or file that should be mapped into the container.
-
-Inside the `docker-compose.yml` under `volumes`, add a new line per file or directory to map:
-
-```yaml
-volumes:
-  - <src_host_path>:<dest_container_path>
-```
-
-The `src_host_path` can be an absolute or relative path. The `dest_container_path` should be `/home/ubuntu/DPCTF/<dest_name>`, to make it available for serving from the test runners web server.
-
-For example, to map a directory with additional content and a custom `test-config.json`:
-
-```
-ls
-
-docker-compose.yml
-new-content
-test-config.json
-```
-
-```yaml
-volumes:
-  - ./new-content:/home/ubuntu/DPCTF/new-content
-  - ./test-config.json:/home/ubuntu/DPCTF/test-config.json
-```
-
-Then restart the container using docker-compose command:
-
-```
-docker-compose up -d
-```
-
-Files are now accessible under the relative path to the test runner directory:
-
-Content inside 'new-content':
-
-```
-http://web-platform.test:8000/new-content/
-```
-
-`test-config.json`:
-
-```
-http://web-platform.test:8000/test-config.json
-```
-
-## Controlling the running container
-
-You can control the running container using a set of commands, which receive
-the name of the container you want to perform the action on.
-
-Start container
-
-```shell
-docker start <container_name>
-```
-
-Stop container
-
-```shell
-docker stop <container_name>
-```
-
-View logs
-
-```shell
-docker logs <container_name>
-```
-
-In our case, **container_name** is `dpctf`, unless it was changed in the `docker-compose.yml`.
-
-## Running tests
-
-In general, to access the test runners landing page, it can be accessed under the following URL:
-
-```
-http://<host-domain/ip>:<port>/_wave/index.html
-```
-
-- **host-domain/ip**: The domain or IP of the machine that hosts the DPCTF
-  test runner. To access the host machine by its IP address, add the `host_override`
-  parameter to the config.json. For more details see
-  [the docs](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override).
-  Please note that for https tests (all encrypted tests requires https) a domain is required and IPs won't work. For this, you can use the built in DNS server, by using the commented port 53 mapping in the docker-compose.yml or you can configure your own for the domain `web-platform.test`.
-- **port**: The port number the DPCTF test runner is runner on (default port is `8000`)
-
-For further information on how to configure sessions and general usage see [the documentation](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/usage/usage.md) (please make sure that dpctf is selected when configuring a new session).
-
-Additionally, it is possible to run tests using the [REST API](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/rest-api/README.md).
-
-### DNS server
-
-To fully run the WAVE DPCTF test suite requires one of the following:
-
-- Editing the DNS server used by the device being tested to include web-platform.test
-- Setting up another DNS server which includes web-platform.test and pointing the device at this DNS server
-  - This could be the DNS server included in the docker image
-  - Enabling a DNS server that includes web-platform.test may be complex as OS like Ubuntu have a DNS proxy running on port 53 already.
-- Most devices have (buried) UI to over-ride the default DNS server. Alternatively it may be necessary to put the device being tested on a separate network, provide a dedicated DHCP server and include the address of a DNS server supporting web-platform.test in the response of that dedicated DHCP server.
-
-### Run on host machine
-
-![Single Machine Setup](./same-machine-setup.jpg)
-
-The most simple use case is to execute the test on the same machine as the
-DPCTF test runner is running on.
-
-1. Run the docker container on the host machine
-2. Open the landing page `http://localhost:<port>/_wave/index.html` in Browser (As everything runs on the same machine, the host can be `localhost` used)
-3. Use the "Configure Session" button on the landing page to configure and start the session
-
-### Run on separate DUT (TV, Mobile, etc.)
-
-![PC-DUT Setup](./pc-dut-setup.jpg)
-
-Another common use case is to have a separate device under test, like a TV or
-mobile device, to run the tests on.
-
-1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override) parameter to the IP of the host machine.
-2. Run the docker container on the host machine
-3. Open the landing page `http://<host_ip>:<port>/_wave/index.html` on the DUT (TV, mobile, ...)
-4. On the host machine open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the
-   landing page (on TV or mobile) to configure and start the session.
-
-### Run on separate DUT using companion device
-
-![PC-DUT-Companion Setup](./pc-dut-companion-setup.jpg)
-
-A companion device may be used to configure and manage a test session. In this
-setup, the test runner is hosted on one device, whereas another device is used
-to configure and monitor the test session that runs on the DUT.
-
-1. Set the [`host_override`](https://github.com/cta-wave/dpctf-test-runner/blob/master/tools/wave/docs/config.md#210-host-override) parameter to the IP of the host machine.
-2. Run the docker container on the host machine
-3. Open the landing page `http://<host_ip>:<port>/_wave/index.html` on the DUT (TV, mobile, ...)
-4. Access configuration page to configure and start session using one of these options:
-   - Open the URL `http://<host_ip>:<port>/_wave/configuration.html` and enter the session token displayed on the landing page
-   - Scan the QR code displayed on the landing page
-
-## Debugging tests
-
-When debugging a failing test, there are multiple ways to get to the error messages:
-
-1. On the browser console
-2. The test result beneath the video after test is finished (displayed for around 5 seconds)
-3. After test is finished, on the results page, in the results table in the export column click on "json". In the json file, look for the desired test
-   object containing the error.
-4. After test group is finished, on the results page, in the results table in the export column click on "report". A test report opens in a new tab
-   (although this may be blocked by the browser). Click on show messages in the table header.
-
-## Detailed Guides
-
-- [Run tests on mobile](./MOBILE_USAGE.md)
-
-## Known Bugs
-
-### SSL certificate invalid
-
-As the default SSL certificate is not descended from a normal root certificate supported by web browsers, it may be required to add an exception to the DUTs web browser in order for HTTPS tests to work.
-
-# Device Observation Framework Container
-
-The [Device Observation Framework](https://github.com/cta-wave/device-observation-framework) may be run in a docker container for easy setup and use. There are a few steps to build the image and run the container:
-
-## Build the image
-
-To build the image run
-
+Windows:
 ```console
-$ ./build-dof.sh
+docker-compose up
 ```
 
-To rebuild with latest version of OF run
+Wait until all http and https are started. The output should like something like this:
 
+```sh
+dpctf  | INFO:web-platform-tests:Starting https server on web-platform.test:8443
+dpctf  | INFO:web-platform-tests:Starting http server on web-platform.test:36161
+```
+
+You are now able to open up the landing page of the test runner in your web browser:
+
+```
+http://yourhost.domain.tld:8000/_wave/index.html
+```
+
+or
+
+```
+http://<ip>:8000/_wave/index.html
+```
+
+If the command terminates or you see an error like the following, something went wrong with the startup:
+
+```sh
+dpctf exited with code 1
+```
+
+## Phase 2: Test execution and recording
+
+To execute tests, open the landing page on the DUT using the following URL:
+
+```
+http://yourhost.domain.tld:8000/_wave/index.html
+```
+or if you have provided valid certificates
+
+```
+https://yourhost.domain.tld:8443/_wave/index.html
+```
+
+The tester must execute following steps
+
+1. position video recording device (e.g. smartphone with 120fps using AVC codec) in front of the display of DUT
+Note: Significant care is needed. Please see https://dash-large-files.akamaized.net/WAVE/assets/How-to-take-clear-recordings-v3.pptx .\
+
+2. Either use a phone to scan the QR-Code -> test runner companion screen will open in phones's Web browser or
+Note the first 8 characters of the token from the landing page. Using a web browser (e.g. on the test runner PC), go to http://yourhost.domain.tld:8000/_wave/configuration.html and enter those 8 characters in the "Session token" box.
+
+3. select the tests to be executed on DUT from provided lists
+Note: A good place to start for first time users would be to deselect all test groups by using the "None" button and then select one simple test, e.g. by expanding either cfhd_12.5_25_50-local or cfhd_15_30_60-local and then selecting just the sequential track playback test with stream t1 as shown.
+4. start recording on recording device
+5. press "Start session" button -> the test(s) should start to execute on DUT
+6. once "Session completed" screen is visible on DUT then stop the recording
+7. save link to testing session including the session token for later reference and report
+
+## Phase 3: Analyse recording using device observation framework
+
+The Observation Framework analyzes the video file recorded in phase 2 and automatically adds the results to the existing results of the corresponding session. Just like the Test Runner, the Observation Framework is setup in a docker container.
+
+### Clone repository
+
+Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
+
+Linux:
+```sh
+git clone https://github.com/cta-wave/dpctf-deploy
+```
+
+Windows:  
 ```console
-$ ./build-dof.sh --reload-dof
+git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
-## Running observations
+Now all files necessary to setup the test runner are located in the `dpctf-deploy` directory. All following actions will be performed in here.
 
-To run observations, use the `analyse-recording.sh` script:
+### Build the image
 
+To build the image run the build script in the `dpctf-deploy` directoy:
+
+Linux:
+```sh
+./build-dof.sh
+```
+
+Windows:
 ```console
-$ ./analyse-recording.sh <mp4-filepath> <OF-arguments>
+.\build-dof.bat
 ```
 
-For example:
+### Configure the Observation Framework
 
+To configure the Observation Framework create the `observation-config.ini` in the cloned repositories directory. The current default config file is located in the [Observation Framework's repository](https://github.com/cta-wave/device-observation-framework/blob/main/config.ini)
+
+To allow the Observation Framework to add the results to the Test Runner's session set the correct domain name of the Test Runner in the config file:
+
+`dpctf-deploy/observation-config.ini`
+```ini
+test_runner_url = http://yourhost.domain.tld
+```
+
+### Running the analysis
+
+Run the analysis by executing the `analyse-recording` script:
+
+Linux:
+```sh
+./analyse-recording.sh <mp4-filepath> <options>
+```
+
+Windows:
 ```console
-$ ./analyse-recording.sh ./recording.mp4 --log debug --scan general
+.\analyse-recording.bat <mp4-filepath> <options>
 ```
 
-For all available OF options, please refer to the [documentation](https://github.com/cta-wave/device-observation-framework#using-the-device-observation-framework)
+For additional options please refer the [the documentation](https://github.com/cta-wave/device-observation-framework)
 
-Any log files created are stored in the `observation_logs` directory
+### Getting the analysis results
 
-### Configuring the Observation Framework
-
-Create the `observation-config.ini` in the project root to configure the Observation Framework. The default file can be found [here](https://github.com/cta-wave/device-observation-framework/blob/main/config.ini)
-
-Use the `configuration` directory in the project root to use a [shared configuration](https://github.com/cta-wave/device-observation-framework/wiki/Debug-Observation-Framework#preparing-the-shared-configuration).
-
-# Test Result Evaluation
-
-The `evaluate-results.py` script may be used to generate CSV files from multiple JSON results of different test session to allow for better evaluation and comparison. The JSON files may be downloaded from the test sessions results page per test group:
-
-![image](https://github.com/cta-wave/dpctf-deploy/assets/9076000/929d3acf-1de4-431a-b292-494546d9ee99)
-
-Generate a CSV using multiple result JSON files:
-
-```console
-$ python3 ./evaluate-results.py <JSON-files> <output-CSV>
+If configured correctly in the step [Configure the Observation Framework](#configure-the-observation-framework), the results of the analysis are now available in the Test Runner's session:
+```
+http://yourhost.domain.tld:8000/_wave/results.html?token=SESSIONTOKEN
 ```
 
-e.g.
-```console
-$ python3 ./evaluate-resutls.py session-01-test-group-01.json session-02-test-group-01.json output.csv
-```
-
-This will generate a matrix of tests and sessions, which includes the individual raw result messages. To instead use data extracted from these messages, a file containing regular expressions can be passed to the script. The file may contain one regular expression per line, the first one that matches a given message will be used to extract the data. The exact data that should be extracted is defined using named groups.
-
-**Available named groups:**
-
-
-| groupname  | description |
-| ------------- | ------------- |
-| `v`  | Use the value captured by this group as is  |
-| `min`, `sub`  | Subtract the value capture by `sub` from the value captured by `min` (`min` - `sub`)  |
-
-```console
-$ python3 ./evaluate-results.py -f <regex-file> <JSON-files> <output-CSV>
-```
-
-The provided `evaluate-regex.txt` already contains some expression that can be used with DPCTF Observation Framework results:
-
-```console
-$ python3 ./evaluate-resutls.py -f evaluate-regex.txt session-01-test-group-01.json session-02-test-group-01.json output.csv
-```
+The results are also located in the `dpctf-deploy/observation-results` directory.
