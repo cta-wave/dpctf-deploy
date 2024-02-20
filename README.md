@@ -340,7 +340,7 @@ Windows:
 .\analyse-recording.bat <mp4-filepath> <options>
 ```
 
-For additional options please refer the [the documentation](https://github.com/cta-wave/device-observation-framework)
+For additional options please refer the [the documentation](https://github.com/cta-wave/device-observation-framework/blob/main/README.md#additional-options)
 
 ### Getting the analysis results
 
