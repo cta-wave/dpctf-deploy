@@ -269,7 +269,7 @@ https://yourhost.domain.tld:8443/_wave/index.html
 The tester must execute following steps
 
 1. position video recording device (e.g. smartphone with 120fps using AVC codec) in front of the display of DUT
-Note: Significant care is needed. Please see https://dash-large-files.akamaized.net/WAVE/assets/How-to-take-clear-recordings-v3.pptx .\
+Note: Significant care is needed. Please see [this documentation](https://github.com/cta-wave/device-observation-framework/blob/main/README.md#obtain-recording-files).
 
 2. Either use a phone to scan the QR-Code -> test runner companion screen will open in phones's Web browser or
 Note the first 8 characters of the token from the landing page. Using a web browser (e.g. on the test runner PC), go to http://yourhost.domain.tld:8000/_wave/configuration.html and enter those 8 characters in the "Session token" box.
