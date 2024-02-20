@@ -50,13 +50,16 @@ def main():
                 parsed_uri = urlparse(JSON_PATH)
                 url = '{uri.scheme}://{uri.netloc}{path}'.format(uri=parsed_uri, path=os.path.join(os.path.dirname(parsed_uri.path), url))
 
-            blob = load_zip(url)
-            if blob is None:
-                continue
+            #blob = load_zip(url)
+            #if blob is None:
+            #    continue
 
+            #tmp_file_name = "{}.zip".format(str(time.time()))
+            #with open(tmp_file_name, "wb") as file:
+            #    file.write(blob)
+            
             tmp_file_name = "{}.zip".format(str(time.time()))
-            with open(tmp_file_name, "wb") as file:
-                file.write(blob)
+            load_zip(url, tmp_file_name)
 
             with zipfile.ZipFile(tmp_file_name, "r") as zip:
                 #path = os.path.join(DEST_DIR, vector_name)
@@ -103,7 +106,7 @@ def load_json(json_path):
         content = content.decode("utf-8")
     return json.loads(content)
 
-def load_zip(path):
+def load_zip(path, output_file):
     content = None
     print("Fetching zip {}".format(path))
     retries = 3
@@ -111,26 +114,24 @@ def load_zip(path):
     last_time = datetime.now()
     while current_try < retries:
         try:
-            #content = urllib.request.urlopen(path).read()
-            response = urllib.request.urlopen(path)
-            total_length = response.length
-            content = bytearray(total_length)
-            view = memoryview(content)
-            pos = 0
-            CHUNK_SIZE = 1024 * 1024
-            INTERVAL_SECONDS = 5
-            while True:
-                chunk = response.read(CHUNK_SIZE)
-                if len(chunk) == 0:
-                    break
-                view[pos:pos+len(chunk)] = chunk
-                pos += len(chunk)
-                time_diff = datetime.now() - last_time
-                if time_diff.total_seconds() >= INTERVAL_SECONDS:
-                    last_time = datetime.now()
-                    percent = round(pos/total_length*100, 2)
-                    print(str(percent) + "% complete")
-            return content
+            with open(output_file, 'wb') as file:
+                response = urllib.request.urlopen(path)
+                total_length = response.length
+                pos = 0
+                CHUNK_SIZE = 1024 * 1024
+                INTERVAL_SECONDS = 5
+                while True:
+                    chunk = response.read(CHUNK_SIZE)
+                    if not chunk or len(chunk) == 0:
+                        break
+                    file.write(chunk)
+                    pos += len(chunk)
+                    time_diff = datetime.now() - last_time
+                    if time_diff.total_seconds() >= INTERVAL_SECONDS:
+                        last_time = datetime.now()
+                        percent = round(pos/total_length*100, 2)
+                        print(str(percent) + "% complete")
+            return
         except urllib.error.HTTPError:
             print("HTTPError. Retrying ...")
             current_try += 1
