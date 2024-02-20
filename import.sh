@@ -6,4 +6,8 @@ if ! $(docker info > /dev/null 2>&1); then
     exit 1;
 fi
 
+echo ""
+echo "DATA SIZE WARNING: This script will download a lot of data!"
+echo ""
+
 docker run -it --rm --name import-content -v $(pwd):/usr/src/import-content -w /usr/src/import-content python:3.8 sh ./download-content.sh
