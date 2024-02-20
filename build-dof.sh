@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if ! $(docker info > /dev/null 2>&1); then
+    echo "Unable to access docker. (Not running or no permissions?)";
+    echo "For more help see: https://docs.docker.com/engine/install/linux-postinstall/";
+    exit 1;
+fi
+
 reload_dof=false
 
 for var in "$@"; do
