@@ -19,6 +19,7 @@ There are three phases:
    * [Configure the Observation Framework](#configure-the-observation-framework)
    * [Running the analysis](#running-the-analysis)
    * [Getting the analysis results](#getting-the-analysis-results)
+   * [Debugging](#debugging)
 
 ## Phase 1: Deployment of the test runner
 
@@ -349,3 +350,7 @@ http://yourhost.domain.tld:8000/_wave/results.html?token=SESSIONTOKEN
 ```
 
 The results are also located in the `dpctf-deploy/observation-results` directory.
+
+### Debugging
+
+If the observation framework reports errors and/or that the device has failed, some information on analysis and debugging can be found at https://github.com/cta-wave/device-observation-framework/wiki/Debugging-Observation-Failures
