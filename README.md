@@ -65,7 +65,7 @@ Now all files necessary to setup the test runner are located in the `dpctf-deplo
 
 To build the image run the build script in the `dpctf-deploy` directoy:
 
-Linux / MacOS / WSL2:
+Linux / macOS / WSL2:
 ```sh
 ./build.sh master latest
 ```
@@ -231,8 +231,8 @@ docker-compose up
 Wait until all http and https are started. The output should like something like this:
 
 ```sh
-dpctf  | INFO:web-platform-tests:Starting https server on web-platform.test:8443
-dpctf  | INFO:web-platform-tests:Starting http server on web-platform.test:36161
+dpctf  | INFO:web-platform-tests:Starting https server on web-platform.test:*
+dpctf  | INFO:web-platform-tests:Starting http server on web-platform.test:*
 ```
 
 You are now able to open up the landing page of the test runner in your web browser:
