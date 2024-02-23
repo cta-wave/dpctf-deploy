@@ -21,7 +21,7 @@ There are three phases:
    * [Getting the analysis results](#getting-the-analysis-results)
    * [Debugging](#debugging)
 
-## Phase 1: Deployment of the test runner
+## Phase 1: Deployment of the test runner (one time action, to be performed by IT personnel)
 
 ### Host machine requirements
 
@@ -253,7 +253,7 @@ If the command terminates or you see an error like the following, something went
 dpctf exited with code 1
 ```
 
-## Phase 2: Test execution and recording
+## Phase 2: Test execution and recording (to be performed by tester)
 
 To execute tests, open the landing page on the DUT using the following URL:
 
