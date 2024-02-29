@@ -51,6 +51,8 @@ RUN sed -i -e 's/\r$//' check-eula.sh
 COPY start-dns-server.sh .
 RUN sed -i -e 's/\r$//' start-dns-server.sh
 
+RUN ./wpt manifest --rebuild --no-download
+
 EXPOSE 8000
 
 ENV TEST_RUNNER_IP 127.0.0.1
