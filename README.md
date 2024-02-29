@@ -202,6 +202,29 @@ Your `config.json` should look something like this:
 }
 ```
 
+#### How to get SSL certificates using certbot in docker
+
+Only three steps are required to get 3 month valid certificates for your domain and have a DNS setup appropriate for local testing. The third step is to be replicated anytime your ip changes.
+
+1. Get a (sub)domain from a DNS provider. For example, duckdns.org offers a free service among others.
+2. Issue certificates for that domain. There are multiple methods to proove that domain belongs to you. Without external IP address we recommend the TXT record based (DNS-01 challenge validation) approach.
+3. Update DNS A-record to point to IP address of your host executing the test runner
+
+Detailed instructions for step 2:
+```shell
+# with installed docker, run in your terminal
+mkdir some_local_cert_dir
+cd some_local_cert_dir
+docker run -it --rm --name certbot -v ".:/etc/letsencrypt" -v ".:/var/lib/letsencrypt" certbot/certbot -d {YOUR_DOMAIN_HERE} --manual --preferred-challenges dns certonly
+# you will be requested to update the TXT DNS record
+# if you use duckdns.org this can be simply done by bowsing (to cURL) to following URL after replacing the placeholders
+curl https://www.duckdns.org/update?domains={YOUR_DOMAIN_HERE}&token={YOUR_TOKEN_FROM_DUCKDNS_HERE}&txt={YOUR_VALUE_FROM_CERTBOT_HERE}
+# respose is "OK" in case of success
+# verify if the TXt-record is set, e.g. using dns.google.com paste in your domain, select TXT from dropdown and check if your TXT record is set, if not then please wait some time e.g. 1minute are repeat check
+# the certificates are available at ./archive/{YOUR_DOMAIN_HERE}/*.pem
+# copy the *.pem files to your dpctf_deploy/certs folder and adapt the dpctf_deploy/config.json
+```
+
 ### Agree to the EULA
 
 For the test runner to start you are required to agree to the [EULA](https://github.com/cta-wave/dpctf-deploy/#agree-to-eula).

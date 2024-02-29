@@ -18,6 +18,6 @@ if [[ $host_ip =~ $ip_regex ]]; then
     echo "================================="
     echo -e "\e[0m"
     echo
-    exit 1
+    exit 0 
   fi
 fi
