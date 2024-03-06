@@ -35,6 +35,7 @@ fi
 shift
 
 docker run -it --rm \
+--network "host" \
 -v "$dirname":/usr/app/recordings \
 -v "$(pwd)/observation_logs":/usr/app/device-observation-framework/logs \
 -v "$(pwd)/observation_results":/usr/app/device-observation-framework/results \
