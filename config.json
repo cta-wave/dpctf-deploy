@@ -1,7 +1,23 @@
 {
-  "browser_host": "web-platform.test",
+  "browser_host": "hbbtv.duckdns.org",
   "alternate_hosts": {
-    "alt": "not-web-platform.test"
+    "alt": "not.hbbtv.duckdns.org"
+  },
+  "ssl": {
+    "type": "pregenerated",
+    "encrypt_after_connect": false,
+    "openssl": {
+      "openssl_binary": "openssl",
+      "base_path": "_certs",
+      "force_regenerate": false,
+      "base_conf_path": null
+    },
+    "pregenerated": {
+      "ca_cert_path": "./certs/chain1.pem",
+      "host_key_path": "./certs/privkey1.pem",
+      "host_cert_path": "./certs/cert1.pem"
+    },
+    "none": {}
   },
   "wave": {
     "aliases": [],
@@ -14,6 +30,6 @@
     "web_root": "/_wave",
     "persisting_interval": 20,
     "api_titles": [],
-    "host_override": ""
+    "host_override": "hbbtv.duckdns.org"
   }
 }
