@@ -28,12 +28,21 @@ done
 
 args=""
 
+if [ ! -d "cache" ]; then
+  mkdir cache
+fi
+
+touch cache/runner-rev.txt
+touch cache/tests-rev.txt
+
 if [ $reload_runner = true ]; then
-  args="$args --build-arg runner-rev=\"$(date | sed "s/ //g")\""
+  #args="$args --build-arg runner-rev=\"$(date | sed "s/ //g")\""
+  date >> cache/runner-rev.txt
 fi
 
 if [ $reload_tests = true ]; then
-  args="$args --build-arg tests-rev=\"$(date | sed "s/ //g")\""
+  #args="$args --build-arg tests-rev=\"$(date | sed "s/ //g")\""
+  date >> cache/tests-rev.txt
 fi
 
 docker build --network="host" --build-arg commit=$1 --build-arg testsbranch="$tests_branch" $args -t dpctf:$2 .
