@@ -8,7 +8,7 @@
     "results": "./results",
     "timeouts": {
         "automatic": 100000,
-        "manual": 100000
+        "manual": 20000000
     },
     "enable_results_import": false,
     "web_root": "/_wave",
