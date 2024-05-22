@@ -1,3 +1,6 @@
 data/*
 certs/*
 *.tar
+cache
+content*
+observation*

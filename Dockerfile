@@ -1,10 +1,9 @@
-FROM python:3.8
+FROM python:3.8 AS base
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 # install packages
 RUN apt update &&\
-    apt install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget ca-certificates llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev mecab-ipadic-utf8 &&\
     apt install -y git curl virtualenv npm nodejs iputils-ping dnsmasq &&\
     apt clean
 
@@ -18,38 +17,43 @@ RUN rm /bin/sh &&\
     ln -s /bin/bash /bin/sh
 USER ubuntu
 
-RUN mkdir tests
-RUN mkdir DPCTF && cd DPCTF
-WORKDIR DPCTF
+RUN mkdir tests DPCTF && cd DPCTF
+WORKDIR /home/ubuntu/DPCTF
+
+COPY check-permissions.sh \
+ check-content.sh \
+ check-host.sh \
+ check-eula.sh \
+ start-dns-server.sh /home/ubuntu/DPCTF/
+
+RUN sed -i -e 's/\r$//' check-permissions.sh \
+ check-content.sh \
+ check-host.sh \
+ check-eula.sh \
+ start-dns-server.sh
+
 RUN git init &&\
     git remote add origin https://github.com/cta-wave/dpctf-test-runner.git
+
+FROM base AS test-runner
+COPY cache/runner-rev.txt /dev/null
 
 USER root
 RUN npm install --global https://github.com/cta-wave/wptreport.git#dpctf
 USER ubuntu
 
 ARG commit
-ARG runner-rev
 
-RUN git fetch origin $commit
-RUN git reset --hard FETCH_HEAD
+RUN git fetch origin $commit && \
+ git reset --hard FETCH_HEAD && \
+ rm -rf .git
 
 
-ARG tests-rev
+FROM test-runner AS tests
+COPY cache/tests-rev.txt /dev/null
+
 ARG testsbranch
-
 RUN ./import-tests.sh "$testsbranch"
-
-COPY check-permissions.sh .
-RUN sed -i -e 's/\r$//' check-permissions.sh
-COPY check-content.sh .
-RUN sed -i -e 's/\r$//' check-content.sh
-COPY check-host.sh .
-RUN sed -i -e 's/\r$//' check-host.sh
-COPY check-eula.sh .
-RUN sed -i -e 's/\r$//' check-eula.sh
-COPY start-dns-server.sh .
-RUN sed -i -e 's/\r$//' start-dns-server.sh
 
 RUN ./wpt manifest --rebuild --no-download
 
