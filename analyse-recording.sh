@@ -41,4 +41,4 @@ docker run -it --rm \
 -v "$(pwd)/observation_results":/usr/app/device-observation-framework/results \
 -e RECORDING_FILENAME="$filename" \
 $args \
-dpctf-dof:latest $@
+dpctf-dof:v2.0.0 $@
