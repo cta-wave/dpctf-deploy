@@ -8,8 +8,11 @@ fi
 
 reload_runner=false
 reload_tests=false
-tests_branch="master"
+tests_branch="v2.0.0"
 has_tests_branch=false
+test_runner_commit="v2.1.0"
+image_tag="v2.0.0"
+argument_count=0
 
 for var in "$@"; do
   if [ $has_tests_branch = true ]; then
@@ -17,6 +20,15 @@ for var in "$@"; do
     has_tests_branch=false
   fi
 
+  if [[ "$var" != --* ]]; then
+    if [[ "$argument_count" -eq 0 ]]; then
+      test_runner_commit="$var"
+      argument_count=1
+    elif [[ "$argument_count" -eq 1 ]]; then
+      image_tag="$var"
+      argument_count=2
+    fi
+  fi
   if [ "$var" == "--reload-runner" ]; then
     reload_runner=true
   elif [ "$var" == "--reload-tests" ]; then
@@ -45,4 +57,4 @@ if [ $reload_tests = true ]; then
   date >> cache/tests-rev.txt
 fi
 
-docker build --network="host" --build-arg commit=$1 --build-arg testsbranch="$tests_branch" $args -t dpctf:$2 .
+docker build --network="host" --build-arg commit=$test_runner_commit --build-arg testsbranch="$tests_branch" $args -t dpctf:$image_tag .

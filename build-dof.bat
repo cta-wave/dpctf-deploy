@@ -14,4 +14,4 @@ if %reload_dof% == true (
   set args=%args% --build-arg dof-rev="%date: =%" 
 )
 
-docker build %args% --file Dockerfile.dof -t dpctf-dof:latest .
+docker build %args% --file Dockerfile.dof -t dpctf-dof:v2.0.0 .
