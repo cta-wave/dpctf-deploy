@@ -67,12 +67,12 @@ To build the image run the build script in the `dpctf-deploy` directoy:
 
 Linux / macOS / WSL2:
 ```sh
-./build.sh master latest
+./build.sh
 ```
 
 Windows:
 ```console
-.\build.bat master latest
+.\build.bat
 ```
 
 Download test content to serve locally (note: this pulls a lot of data and may take a while):
