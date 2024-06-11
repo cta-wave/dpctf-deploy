@@ -5,6 +5,7 @@ Linux system is highly recommended for this guide, use other systems at your own
 There are three phases:
 1. [Deployment](#phase-1-deployment-of-the-test-runner) (one time action, to be performed by IT personnel)
    * [Host machine requirements](#host-machine-requirements)
+     * [Windows Setup](#windows-setup)
    * [Clone repository](#clone-repository)
    * [Build the image and download content](#build-the-image-and-download-content)
    * [Configure access to the test runner](#configure-access-to-the-test-runner)
@@ -21,7 +22,7 @@ There are three phases:
    * [Getting the analysis results](#getting-the-analysis-results)
    * [Debugging](#debugging)
 
-## Phase 1: Deployment of the test runner (one time action, to be performed by IT personnel)
+## Phase 1: Deployment of the test runner
 
 ### Host machine requirements
 
@@ -29,16 +30,36 @@ There are three phases:
   - docker
   - docker-compose
   - git
-- on Windows (without WSL2):
-  - Docker-Desktop
+- on Windows:
+  - Docker-Desktop or Docker-Engine
     - To access docker the user requires admin permissions (or a special configuration which is out of scope for this guide)
-  - git
-  - Windows Terminal (For running commands)
+  - git (e.g. git bash)
 - TLS server certificate for a domain that can be resolved by the device under test (we use `yourhost.domain.tld` for the domain)
 Note: While some tests can be run without this, valid certificates are needed for tests of EME and encrypted content.
 - camera that records at 120 fps or more (AVC/h.264)
 
-Note: The test suite has been installed and run on other host machines with varying degrees of success. On Windows, it has been used with the free version of docker running in WSL2. It has been used on a Mac. No support or assistance is available for either of these or anything else similar. Neither of these should be attempted unless you know what you are doing or have access to someone who does. It is critical to ensure that the test runner can be contacted from the device under test and from the observation framework. This may be problematic with some combinations of virtualization technologies and network configurations.
+> [!Note]
+> The test suite has been installed and run on other host machines with varying degrees of success. On Windows, it has been used with the free version of docker running in WSL2. It has been used on a Mac. No support or assistance is available for either of these or anything else similar. Neither of these should be attempted unless you know what you are doing or have access to someone who does. It is critical to ensure that the test runner can be contacted from the device under test and from the observation framework. This may be problematic with some combinations of virtualization technologies and network configurations.
+
+#### Windows Setup
+There are two possible setups under Windows: 
+1. Using Docker-Desktop, which is a commercial product and may require a license
+2. Using Docker-Engine, which is free to use but is harder to install
+
+##### Windows with Docker-Desktop
+> [!Warning]
+> Docker-Desktop is a commercial product that may require a license to run. Please refer to ToS of Docker-Desktop for more information.
+> 
+Download and install Docker-Desktop from the official Docker website. This uses WSL2 under the hood, however, Docker can be accessed directly via the GUI or commands in the powershell.
+
+> [!Note]
+> If you use this setup, please use commands labeled with "Windows with Docker-Desktop" in the PowerShell when continuing this guide.
+
+##### Windows with Docker-Engine
+The Docker-Engine itself is free to use. To use it under Windows it is required to directly use the WSL2 environment, which can be entered by running the `wsl` command in the PowerShell. This brings you into a virtual Linux environment, where you have to setup Docker and Docker-Compose according to Docker's documentation for installation under Linux. After a successful installation, Docker is now available in the WSL2 environment. The  was successfully tested in the Ubuntu distribution for WSL2. 
+
+> [!Note]
+> If you use this setup, please use commands labeled with "WSL2" in the WSL2 environment when continuing this guide.
 
 ### Device under test requirements
 
@@ -54,7 +75,7 @@ Linux / macOS / WSL2:
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
-Windows:  
+Windows with Docker-Desktop:  
 ```console
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
@@ -70,7 +91,7 @@ Linux / macOS / WSL2:
 ./build.sh
 ```
 
-Windows:
+Windows with Docker-Desktop:  
 ```console
 .\build.bat
 ```
@@ -82,7 +103,7 @@ Linux / macOS / WSL2:
 ./import.sh
 ```
 
-Windows:
+Windows with Docker-Desktop:  
 ```console
 .\import.bat
 ```
@@ -223,7 +244,7 @@ Linux / macOS / WSL2:
 docker-compose up
 ```
 
-Windows:
+Windows with Docker-Desktop:  
 ```console
 docker-compose up
 ```
@@ -253,7 +274,7 @@ If the command terminates or you see an error like the following, something went
 dpctf exited with code 1
 ```
 
-## Phase 2: Test execution and recording (to be performed by tester)
+## Phase 2: Test execution and recording
 
 To execute tests, open the landing page on the DUT using the following URL:
 
@@ -294,7 +315,7 @@ Linux / macOS / WSL2:
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
-Windows:  
+Windows with Docker-Desktop:  
 ```console
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
@@ -310,7 +331,7 @@ Linux / macOS / WSL2:
 ./build-dof.sh
 ```
 
-Windows:
+Windows with Docker-Desktop:  
 ```console
 .\build-dof.bat
 ```
@@ -335,7 +356,7 @@ Linux / macOS / WSL2:
 ./analyse-recording.sh <mp4-filepath> <options>
 ```
 
-Windows:
+Windows with Docker-Desktop:  
 ```console
 .\analyse-recording.bat <mp4-filepath> <options>
 ```
