@@ -104,7 +104,7 @@ The test runner can be configured to be accessed by either an IP or a domain. Se
 #### Windows WSL Proxy
 
 > [!NOTE]
-> You can skip this step if you are using Docker-Desktop
+> You can skip this step if you are using Docker-Desktop or don't use Windows at all
 
 In order to make the test runner accessible for other devices in the network some extra steps are required. All commands have to be run in the Windows Powershell.
 
