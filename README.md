@@ -3,23 +3,24 @@
 Linux system is highly recommended for this guide, use other systems at your own risk.
 
 There are three phases:
+
 1. [Deployment](#phase-1-deployment-of-the-test-runner) (one time action, to be performed by IT personnel)
-   * [Host machine requirements](#host-machine-requirements)
-   * [Clone repository](#clone-repository)
-   * [Build the image and download content](#build-the-image-and-download-content)
-   * [Configure access to the test runner](#configure-access-to-the-test-runner)
-      * [With IP address](#with-ip-address)
-      * [With domain](#with-domain)
-   * [Agree to the EULA](#agree-to-the-eula)
-   * [Start the test runner](#start-the-test-runner)
+   - [Host machine requirements](#host-machine-requirements)
+   - [Clone repository](#clone-repository)
+   - [Build the image and download content](#build-the-image-and-download-content)
+   - [Configure access to the test runner](#configure-access-to-the-test-runner)
+     - [With IP address](#with-ip-address)
+     - [With domain](#with-domain)
+   - [Agree to the EULA](#agree-to-the-eula)
+   - [Start the test runner](#start-the-test-runner)
 2. [Test execution and recording](#phase-2-test-execution-and-recording) (to be performed by tester)
-4. [Observation](#phase-3-analyse-recording-using-device-observation-framework) (analysis of recording to be performed by tester or other person)
-   * [Clone repository](#clone-repository-1)
-   * [Build the image](#build-the-image)
-   * [Configure the Observation Framework](#configure-the-observation-framework)
-   * [Running the analysis](#running-the-analysis)
-   * [Getting the analysis results](#getting-the-analysis-results)
-   * [Debugging](#debugging)
+3. [Observation](#phase-3-analyse-recording-using-device-observation-framework) (analysis of recording to be performed by tester or other person)
+   - [Clone repository](#clone-repository-1)
+   - [Build the image](#build-the-image)
+   - [Configure the Observation Framework](#configure-the-observation-framework)
+   - [Running the analysis](#running-the-analysis)
+   - [Getting the analysis results](#getting-the-analysis-results)
+   - [Debugging](#debugging)
 
 ## Phase 1: Deployment of the test runner (one time action, to be performed by IT personnel)
 
@@ -35,7 +36,7 @@ There are three phases:
   - git
   - Windows Terminal (For running commands)
 - TLS server certificate for a domain that can be resolved by the device under test (we use `yourhost.domain.tld` for the domain)
-Note: While some tests can be run without this, valid certificates are needed for tests of EME and encrypted content.
+  Note: While some tests can be run without this, valid certificates are needed for tests of EME and encrypted content.
 - camera that records at 120 fps or more (AVC/h.264)
 
 Note: The test suite has been installed and run on other host machines with varying degrees of success. On Windows, it has been used with the free version of docker running in WSL2. It has been used on a Mac. No support or assistance is available for either of these or anything else similar. Neither of these should be attempted unless you know what you are doing or have access to someone who does. It is critical to ensure that the test runner can be contacted from the device under test and from the observation framework. This may be problematic with some combinations of virtualization technologies and network configurations.
@@ -53,11 +54,13 @@ Note: If the DUT supports HbbTV then one possibility is to build an MPEG-2 trans
 Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
 Linux / macOS / WSL2:
+
 ```sh
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
-Windows:  
+Windows:
+
 ```console
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
@@ -69,11 +72,13 @@ Now all files necessary to setup the test runner are located in the `dpctf-deplo
 To build the image run the build script in the `dpctf-deploy` directoy:
 
 Linux / macOS / WSL2:
+
 ```sh
 ./build.sh
 ```
 
 Windows:
+
 ```console
 .\build.bat
 ```
@@ -81,11 +86,13 @@ Windows:
 Download test content to serve locally (note: this pulls a lot of data and may take a while):
 
 Linux / macOS / WSL2:
+
 ```sh
 ./import.sh
 ```
 
 Windows:
+
 ```console
 .\import.bat
 ```
@@ -94,6 +101,21 @@ Windows:
 
 The test runner can be configured to be accessed by either an IP or a domain. Setting up the access with an IP address is a lot easier than with domain, however, https tests only work with a valid certificate on TVs. It is recommended to only use IP address access for debugging the setup.
 
+#### Windows WSL Proxy
+
+> [!NOTE]
+> You can skip this step if you are using Docker-Desktop or don't use Windows at all
+
+In order to make the test runner accessible for other devices in the network some extra steps are required. All commands have to be run in the Windows Powershell.
+
+> [!CAUTION]
+> The Windows Powershell has to be run with Admin Priviliges **as Admin User**!
+
+1. Run `wsl hostname -I` and copy the (first) IP address e.g. 172.24.202.133 (lets call this <wsl_ip>)
+2. Run
+   - `netsh.exe interface portproxy add v4tov4 connectport=8000 connectaddress=0.0.0.0 listenport=8000 listenaddress=<wsl_ip>`
+   - `netsh.exe interface portproxy add v4tov4 connectport=8443 connectaddress=0.0.0.0 listenport=8443 listenaddress=<wsl_ip>`
+
 #### With IP address
 
 Note: When using an IP address https tests won't work.
@@ -101,6 +123,7 @@ Note: When using an IP address https tests won't work.
 In the `dpctf-deploy` directory open `config.json` and enter your host IP address in the `host_override` field:
 
 `dpctf-deploy/config.json`
+
 ```json
 {
   "browser_host": "web-platform.test",
@@ -111,7 +134,7 @@ In the `dpctf-deploy` directory open `config.json` and enter your host IP addres
     "aliases": [],
     ....
     "api_titles": [],
-    "host_override": "172.152.15.3"
+    "host_override": "192.168.1.23"
 ```
 
 #### With domain
@@ -119,6 +142,7 @@ In the `dpctf-deploy` directory open `config.json` and enter your host IP addres
 In the `dpctf-deploy` directory open `config.json` and enter your host domain or IP address in the `host_override` field
 
 `dpctf-deploy/config.json`
+
 ```json
 {
   "browser_host": "web-platform.test",
@@ -137,6 +161,7 @@ Some tests require a DNS entry and valid certificates to execute correctly. For 
 Running https tests requires a valid certificate for your domain. Copy your certificates files into the `certs` directory inside the `dpctf-deploy` directory:
 
 `dpctf-deploy/certs`
+
 ```
 cacert.pem
 private.key
@@ -144,6 +169,7 @@ certificate.pem
 ```
 
 Then copy the following configuration to the root of `config.json`
+
 ```json
   "ssl": {
     "type": "pregenerated",
@@ -162,11 +188,13 @@ Then copy the following configuration to the root of `config.json`
     "none": {}
   },
 ```
+
 Where `ca_cert_path`, `host_key_path` and `host_cert_path` have the correct file names of your certificate.
 
 Your `config.json` should look something like this:
 
 `dpctf-deploy/config.json`
+
 ```json
 {
   "browser_host": "web-platform.test",
@@ -193,8 +221,8 @@ Your `config.json` should look something like this:
     "aliases": [],
     "results": "./results",
     "timeouts": {
-        "automatic": 100000,
-        "manual": 100000
+      "automatic": 100000,
+      "manual": 100000
     },
     "enable_results_import": false,
     "web_root": "/_wave",
@@ -212,9 +240,10 @@ For the test runner to start you are required to agree to the [EULA](https://git
 Set `AGREE_EULA` to `yes`:
 
 `dpctf-deploy/docker-compose.yml`
+
 ```yml
-    environment:
-      AGREE_EULA: "yes"
+environment:
+  AGREE_EULA: "yes"
 ```
 
 ### Start the test runner
@@ -222,11 +251,13 @@ Set `AGREE_EULA` to `yes`:
 To start the test runner, change into the `dpctf-deploy` directory and run:
 
 Linux / macOS / WSL2:
+
 ```sh
 docker-compose up
 ```
 
 Windows:
+
 ```console
 docker-compose up
 ```
@@ -263,6 +294,7 @@ To execute tests, open the landing page on the DUT using the following URL:
 ```
 http://yourhost.domain.tld:8000/_wave/index.html
 ```
+
 or if you have provided valid certificates
 
 ```
@@ -272,13 +304,13 @@ https://yourhost.domain.tld:8443/_wave/index.html
 The tester must execute following steps
 
 1. position video recording device (e.g. smartphone with 120fps using AVC codec) in front of the display of DUT
-Note: Significant care is needed. Please see [documentation for obtaining recordings](https://github.com/cta-wave/device-observation-framework/blob/main/README.md#obtain-recording-files).
+   Note: Significant care is needed. Please see [documentation for obtaining recordings](https://github.com/cta-wave/device-observation-framework/blob/main/README.md#obtain-recording-files).
 
 2. Either use a phone to scan the QR-Code -> test runner companion screen will open in phones's Web browser or
-Note the first 8 characters of the token from the landing page. Using a web browser (e.g. on the test runner PC), go to http://yourhost.domain.tld:8000/_wave/configuration.html and enter those 8 characters in the "Session token" box.
+   Note the first 8 characters of the token from the landing page. Using a web browser (e.g. on the test runner PC), go to http://yourhost.domain.tld:8000/_wave/configuration.html and enter those 8 characters in the "Session token" box.
 
 3. select the tests to be executed on DUT from provided lists
-Note: A good place to start for first time users would be to deselect all test groups by using the "None" button and then select one simple test, e.g. by expanding either cfhd_12.5_25_50-local or cfhd_15_30_60-local and then selecting just the sequential track playback test with stream t1 as shown.
+   Note: A good place to start for first time users would be to deselect all test groups by using the "None" button and then select one simple test, e.g. by expanding either cfhd_12.5_25_50-local or cfhd_15_30_60-local and then selecting just the sequential track playback test with stream t1 as shown.
 4. start recording on recording device
 5. press "Start session" button -> the test(s) should start to execute on DUT
 6. once "Session completed" screen is visible on DUT then stop the recording
@@ -296,11 +328,13 @@ The Observation Framework analyzes the video file recorded in phase 2 and automa
 Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
 Linux / macOS / WSL2:
+
 ```sh
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
-Windows:  
+Windows:
+
 ```console
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
@@ -312,11 +346,13 @@ Now all files necessary to setup the test runner are located in the `dpctf-deplo
 To build the image run the build script in the `dpctf-deploy` directoy:
 
 Linux / macOS / WSL2:
+
 ```sh
 ./build-dof.sh
 ```
 
 Windows:
+
 ```console
 .\build-dof.bat
 ```
@@ -328,6 +364,7 @@ To configure the Observation Framework create the `observation-config.ini` in th
 To allow the Observation Framework to add the results to the Test Runner's session set the correct domain name of the Test Runner in the config file:
 
 `dpctf-deploy/observation-config.ini`
+
 ```ini
 test_runner_url = http://yourhost.domain.tld
 ```
@@ -337,11 +374,13 @@ test_runner_url = http://yourhost.domain.tld
 Run the analysis by executing the `analyse-recording` script:
 
 Linux / macOS / WSL2:
+
 ```sh
 ./analyse-recording.sh <mp4-filepath> <options>
 ```
 
 Windows:
+
 ```console
 .\analyse-recording.bat <mp4-filepath> <options>
 ```
@@ -351,6 +390,7 @@ For additional options please refer the [the documentation](https://github.com/c
 ### Getting the analysis results
 
 If configured correctly in the step [Configure the Observation Framework](#configure-the-observation-framework), the results of the analysis are now available in the Test Runner's session:
+
 ```
 http://yourhost.domain.tld:8000/_wave/results.html?token=SESSIONTOKEN
 ```
