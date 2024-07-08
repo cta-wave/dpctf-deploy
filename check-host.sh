@@ -13,11 +13,11 @@ if [[ $host_ip =~ $ip_regex ]]; then
   if ! ping -c 1 "$host_ip" >/dev/null; then
     echo
     echo -e "\e[1;31m"
-    echo "=== ERROR ======================="
+    echo "=== WARNING ====================="
     echo "= Provided host is unreachable. ="
     echo "================================="
     echo -e "\e[0m"
     echo
-    exit 1
+    exit 0
   fi
 fi
