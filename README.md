@@ -94,6 +94,25 @@ Windows:
 
 The test runner can be configured to be accessed by either an IP or a domain. Setting up the access with an IP address is a lot easier than with domain, however, https tests only work with a valid certificate on TVs. It is recommended to only use IP address access for debugging the setup.
 
+#### Windows WSL Proxy
+
+> [!NOTE]
+> You can skip this step if you are using Docker-Desktop
+
+In order to make the test runner accessible for other devices in the network some extra steps are required. All commands have to be run in the Windows Powershell.
+
+> [!CAUTION]
+> The Windows Powershell has to be run with Admin Priviliges **as Admin User**!
+
+1. Run `ipconfig` and copy the local IP address of your windows host e.g. 192.168.1.23 (lets call this <host_ip>)
+2. Run `wsl hostname -I` and copy the (first) IP address e.g. 172.24.202.133 (lets call this <wsl_ip>)
+3. Run
+  * `netsh.exe interface portproxy add v4tov4 connectport=8000 connectaddress=0.0.0.0 listenport=8000 listenaddress=<wsl_ip>`
+  * `netsh.exe interface portproxy add v4tov4 connectport=8443 connectaddress=0.0.0.0 listenport=8443 listenaddress=<wsl_ip>`
+
+Please make sure you use the right IP address (<host_ip> & <wsl_ip>) in the right command/config.
+
+
 #### With IP address
 
 Note: When using an IP address https tests won't work.
@@ -111,7 +130,7 @@ In the `dpctf-deploy` directory open `config.json` and enter your host IP addres
     "aliases": [],
     ....
     "api_titles": [],
-    "host_override": "172.152.15.3"
+    "host_override": "192.168.1.23"
 ```
 
 #### With domain
