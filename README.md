@@ -47,6 +47,9 @@ Note: If the DUT supports HbbTV then one possibility is to build an MPEG-2 trans
 
 ### Clone repository
 
+> [!NOTE]
+> If you already cloned the repository you can skip this step
+
 Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
 Linux / macOS / WSL2:
@@ -286,6 +289,9 @@ Note: A good place to start for first time users would be to deselect all test g
 The Observation Framework analyzes the video file recorded in phase 2 and automatically adds the results to the existing results of the corresponding session. Just like the Test Runner, the Observation Framework is setup in a docker container.
 
 ### Clone repository
+
+> [!NOTE]
+> If you already cloned the repository you can skip this step
 
 Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
