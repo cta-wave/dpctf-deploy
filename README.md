@@ -113,8 +113,8 @@ In order to make the test runner accessible for other devices in the network som
 
 1. Run `wsl hostname -I` and copy the (first) IP address e.g. 172.24.202.133 (lets call this <wsl_ip>)
 2. Run
-   - `netsh.exe interface portproxy add v4tov4 connectport=8000 connectaddress=0.0.0.0 listenport=8000 listenaddress=<wsl_ip>`
-   - `netsh.exe interface portproxy add v4tov4 connectport=8443 connectaddress=0.0.0.0 listenport=8443 listenaddress=<wsl_ip>`
+   - `netsh.exe interface portproxy add v4tov4 listenport=8000 listenaddress=0.0.0.0 connectport=8000 connectaddress=<wsl_ip>`
+   - `netsh.exe interface portproxy add v4tov4 listenport=8443 listenaddress=0.0.0.0 connectport=8443 connectaddress=<wsl_ip>`
 
 #### With IP address
 
