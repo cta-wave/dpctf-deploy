@@ -287,6 +287,67 @@ If the command terminates or you see an error like the following, something went
 dpctf exited with code 1
 ```
 
+### Update test runner
+
+To update the test runner to the latest version enter the deploy repository and pull the latest changes:
+
+Linux / macOS / WSL2:
+
+```sh
+git pull origin master
+```
+
+Windows:
+
+```console
+git pull origin master
+```
+
+Then rebuild the image:
+
+Linux / macOS / WSL2:
+
+```sh
+./build.sh --reload-runner --reload-tests
+```
+
+Windows:
+
+```console
+.\build.bat --reload-runner --reload-tests
+```
+
+### Use specific version
+
+To use a specific version enter the deploy repository and checkout the version:
+
+Linux / macOS / WSL2:
+
+```sh
+git checkout v2.0.0
+```
+
+Windows:
+
+```console
+git checkout v2.0.0
+```
+
+Then rebuild the image:
+
+Linux / macOS / WSL2:
+
+```sh
+./build.sh --reload-runner --reload-tests
+```
+
+Windows:
+
+```console
+.\build.bat --reload-runner --reload-tests
+```
+
+
 ## Phase 2: Test execution and recording (to be performed by tester)
 
 To execute tests, open the landing page on the DUT using the following URL:
@@ -396,6 +457,66 @@ http://yourhost.domain.tld:8000/_wave/results.html?token=SESSIONTOKEN
 ```
 
 The results are also located in the `dpctf-deploy/observation-results` directory.
+
+### Update observation framework
+
+To update the test runner to the latest version enter the deploy repository and pull the latest changes:
+
+Linux / macOS / WSL2:
+
+```sh
+git pull origin master
+```
+
+Windows:
+
+```console
+git pull origin master
+```
+
+Then rebuild the image:
+
+Linux / macOS / WSL2:
+
+```sh
+./build-dof.sh --reload-dof
+```
+
+Windows:
+
+```console
+.\build-dof.bat --reload-dof
+```
+
+### Use specific version
+
+To use a specific version enter the deploy repository and checkout the version:
+
+Linux / macOS / WSL2:
+
+```sh
+git checkout v2.0.0
+```
+
+Windows:
+
+```console
+git checkout v2.0.0
+```
+
+Then rebuild the image:
+
+Linux / macOS / WSL2:
+
+```sh
+./build-dof.sh --reload-dof
+```
+
+Windows:
+
+```console
+.\build-dof.bat --reload-dof
+```
 
 ### Debugging
 
