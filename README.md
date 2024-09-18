@@ -13,6 +13,8 @@ There are three phases:
      - [With domain](#with-domain)
    - [Agree to the EULA](#agree-to-the-eula)
    - [Start the test runner](#start-the-test-runner)
+   - [Update test runner](#update-test-runner)
+   - [Use specific version](#use-specific-version)
 2. [Test execution and recording](#phase-2-test-execution-and-recording) (to be performed by tester)
 3. [Observation](#phase-3-analyse-recording-using-device-observation-framework) (analysis of recording to be performed by tester or other person)
    - [Clone repository](#clone-repository-1)
@@ -20,6 +22,8 @@ There are three phases:
    - [Configure the Observation Framework](#configure-the-observation-framework)
    - [Running the analysis](#running-the-analysis)
    - [Getting the analysis results](#getting-the-analysis-results)
+   - [Update observation framework](#update-observation-framework)
+   - [Use specific version](#use-specific-version-1)
    - [Debugging](#debugging)
 
 ## Phase 1: Deployment of the test runner (one time action, to be performed by IT personnel)
@@ -287,6 +291,67 @@ If the command terminates or you see an error like the following, something went
 dpctf exited with code 1
 ```
 
+### Update test runner
+
+To update the test runner to the latest version enter the deploy repository and pull the latest changes:
+
+Linux / macOS / WSL2:
+
+```sh
+git pull origin master
+```
+
+Windows:
+
+```console
+git pull origin master
+```
+
+Then rebuild the image:
+
+Linux / macOS / WSL2:
+
+```sh
+./build.sh --reload-runner --reload-tests
+```
+
+Windows:
+
+```console
+.\build.bat --reload-runner --reload-tests
+```
+
+### Use specific version
+
+To use a specific version enter the deploy repository and checkout the version (e.g. v2.0.0):
+
+Linux / macOS / WSL2:
+
+```sh
+git checkout v2.0.0
+```
+
+Windows:
+
+```console
+git checkout v2.0.0
+```
+
+Then rebuild the image:
+
+Linux / macOS / WSL2:
+
+```sh
+./build.sh --reload-runner --reload-tests
+```
+
+Windows:
+
+```console
+.\build.bat --reload-runner --reload-tests
+```
+
+
 ## Phase 2: Test execution and recording (to be performed by tester)
 
 To execute tests, open the landing page on the DUT using the following URL:
@@ -396,6 +461,66 @@ http://yourhost.domain.tld:8000/_wave/results.html?token=SESSIONTOKEN
 ```
 
 The results are also located in the `dpctf-deploy/observation-results` directory.
+
+### Update observation framework
+
+To update the observation framework to the latest version enter the deploy repository and pull the latest changes:
+
+Linux / macOS / WSL2:
+
+```sh
+git pull origin master
+```
+
+Windows:
+
+```console
+git pull origin master
+```
+
+Then rebuild the image:
+
+Linux / macOS / WSL2:
+
+```sh
+./build-dof.sh --reload-dof
+```
+
+Windows:
+
+```console
+.\build-dof.bat --reload-dof
+```
+
+### Use specific version
+
+To use a specific version enter the deploy repository and checkout the version (e.g. v2.0.0):
+
+Linux / macOS / WSL2:
+
+```sh
+git checkout v2.0.0
+```
+
+Windows:
+
+```console
+git checkout v2.0.0
+```
+
+Then rebuild the image:
+
+Linux / macOS / WSL2:
+
+```sh
+./build-dof.sh --reload-dof
+```
+
+Windows:
+
+```console
+.\build-dof.bat --reload-dof
+```
 
 ### Debugging
 
