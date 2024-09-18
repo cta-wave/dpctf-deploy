@@ -464,7 +464,7 @@ The results are also located in the `dpctf-deploy/observation-results` directory
 
 ### Update observation framework
 
-To update the test runner to the latest version enter the deploy repository and pull the latest changes:
+To update the observation framework to the latest version enter the deploy repository and pull the latest changes:
 
 Linux / macOS / WSL2:
 
