@@ -20,4 +20,4 @@ if [ $reload_dof = true ]; then
   args="$args --build-arg dof-rev=\"$(date | sed "s/ //g")\""
 fi
 
-docker build $args --file Dockerfile.dof -t dpctf-dof:v2.0.0 .
+docker build $args --file Dockerfile.dof -t dpctf-dof:v2.0.1 .
