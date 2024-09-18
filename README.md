@@ -323,7 +323,7 @@ Windows:
 
 ### Use specific version
 
-To use a specific version enter the deploy repository and checkout the version:
+To use a specific version enter the deploy repository and checkout the version (e.g. v2.0.0):
 
 Linux / macOS / WSL2:
 
@@ -494,7 +494,7 @@ Windows:
 
 ### Use specific version
 
-To use a specific version enter the deploy repository and checkout the version:
+To use a specific version enter the deploy repository and checkout the version (e.g. v2.0.0):
 
 Linux / macOS / WSL2:
 
