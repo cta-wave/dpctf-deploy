@@ -13,6 +13,8 @@ There are three phases:
      - [With domain](#with-domain)
    - [Agree to the EULA](#agree-to-the-eula)
    - [Start the test runner](#start-the-test-runner)
+   - [Update test runner](#update-test-runner)
+   - [Use specific version](#use-specific-version)
 2. [Test execution and recording](#phase-2-test-execution-and-recording) (to be performed by tester)
 3. [Observation](#phase-3-analyse-recording-using-device-observation-framework) (analysis of recording to be performed by tester or other person)
    - [Clone repository](#clone-repository-1)
@@ -20,6 +22,8 @@ There are three phases:
    - [Configure the Observation Framework](#configure-the-observation-framework)
    - [Running the analysis](#running-the-analysis)
    - [Getting the analysis results](#getting-the-analysis-results)
+   - [Update observation framework](#update-observation-framework)
+   - [Use specific version](#use-specific-version-1)
    - [Debugging](#debugging)
 
 ## Phase 1: Deployment of the test runner (one time action, to be performed by IT personnel)
