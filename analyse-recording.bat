@@ -35,4 +35,4 @@ for %%a in (%*) do (
     )
 )
 
-docker run -it --rm --network "host" -v %dirname%:/usr/app/recordings -v %~dp0observation_logs:/usr/app/device-observation-framework/logs -v %~dp0observation_results:/usr/app/device-observation-framework/results -e RECORDING_FILENAME=%filename% %args% dpctf-dof:v2.0.0 %start_args%
+docker run -it --rm --network "host" -v %dirname%:/usr/app/recordings -v %~dp0observation_logs:/usr/app/device-observation-framework/logs -v %~dp0observation_results:/usr/app/device-observation-framework/results -e RECORDING_FILENAME=%filename% %args% dpctf-dof:v2.0.1 %start_args%
