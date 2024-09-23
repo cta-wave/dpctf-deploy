@@ -1,6 +1,6 @@
 # Dockerfile for building the device-observation-framework for video analysis phase
 
-FROM python:3.8-bookworm
+FROM python:3.10-bookworm
 RUN apt-get update && apt-get install -y git libzbar0 netcat-openbsd libgl1 ffmpeg python3-pyaudio portaudio19-dev
 WORKDIR /usr/app
 ARG dof-rev
