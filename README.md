@@ -1,6 +1,6 @@
 # Getting started with "WAVE Streaming Media Test Suite - Devices"
 
-Linux system is highly recommended for this guide, use other systems at your own risk.
+Linux system is highly recommended for this guide, use other systems at your own risk. 
 
 There are three phases:
 
@@ -25,6 +25,9 @@ There are three phases:
    - [Update observation framework](#update-observation-framework)
    - [Use specific version](#use-specific-version-1)
    - [Debugging](#debugging)
+
+> [!TIP]
+> **For Windows with WSL2 only**: Detailed installation instructions for the "WAVE Streaming Media Test Suite – Devices" on Windows with WSL2 (including the installation of Ubuntu and Docker for Linux) are available under [doc/Install-Instructions-Windows-with-WSL2.pdf](doc/Install-Instructions-Windows-with-WSL2.pdf). 
 
 ## Phase 1: Deployment of the test runner (one time action, to be performed by IT personnel)
 
