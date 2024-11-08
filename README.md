@@ -27,7 +27,7 @@ There are three phases:
    - [Debugging](#debugging)
 
 > [!TIP]
-> **For Windows with WSL2 only**: Detailed installation instructions for the "WAVE Streaming Media Test Suite – Devices" on Windows with WSL2 (including the installation of Ubuntu and Docker for Linux) are available under [doc/Install-Instructions-Windows-with-WSL2.pdf](doc/Install-Instructions-Windows-with-WSL2.pdf). 
+> **For Windows with WSL2 only**: Detailed additional installation instructions for the "WAVE Streaming Media Test Suite – Devices" on Windows with WSL2 (including the installation of Ubuntu and Docker for Linux) are available under [doc/Install-Instructions-Windows-with-WSL2.pdf](doc/Install-Instructions-Windows-with-WSL2.pdf?raw=true) (the PDF includes links to instruction videos hosted on YouTube).
 
 ## Phase 1: Deployment of the test runner (one time action, to be performed by IT personnel)
 
