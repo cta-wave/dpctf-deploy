@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 
-for /f "tokens=*" %%i in ('docker images -q dpctf-dof:latest 2^>nul') do set image=%%i
+for /f "tokens=*" %%i in ('docker images -q dpctf-dof:v2.1.0 2^>nul') do set image=%%i
 if not defined image (
     echo DOF image not found! Please build it using:
     echo .\build-dof.bat
@@ -35,4 +35,4 @@ for %%a in (%*) do (
     )
 )
 
-docker run -it --rm --network "host" -v %dirname%:/usr/app/recordings -v %~dp0observation_logs:/usr/app/device-observation-framework/logs -v %~dp0observation_results:/usr/app/device-observation-framework/results -e RECORDING_FILENAME=%filename% %args% dpctf-dof:v2.0.1 %start_args%
+docker run -it --rm --network "host" -v %dirname%:/usr/app/recordings -v %~dp0observation_logs:/usr/app/device-observation-framework/logs -v %~dp0observation_results:/usr/app/device-observation-framework/results -e RECORDING_FILENAME=%filename% %args% dpctf-dof:v2.1.0 %start_args%
