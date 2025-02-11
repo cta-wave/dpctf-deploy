@@ -427,14 +427,15 @@ Windows:
 
 ### Configure the Observation Framework
 
-To configure the Observation Framework create the `observation-config.ini` in the cloned repositories directory. The current default config file is located in the [Observation Framework's repository](https://github.com/cta-wave/device-observation-framework/blob/main/config.ini)
+> [!NOTE]
+> This step is only needed if you want to change the default Observation Framework configurations. For example, this is necessary if the Observation Framework and the Test Runner are not running on the same host.
 
-To allow the Observation Framework to add the results to the Test Runner's session set the correct domain name of the Test Runner in the config file:
+To configure the Observation Framework, create a file named `observation-config.ini` in the root directory of this repository (`dpctf-deploy`). Copy and paste the content from `config.ini` located in the [Observation Framework's repository](https://github.com/cta-wave/device-observation-framework/blob/v2.0.1/config.ini). You can then make any necessary changes to `observation-config.ini`.
 
-`dpctf-deploy/observation-config.ini`
+Usualy, the only configuration parameter you need to change is `test_runner_url`. This allows the Observation Framework to send results to your Test Runner if it is running on a different host. To do this, set the correct URL of the Test Runner in the `observation-config.ini` file:
 
 ```ini
-test_runner_url = http://yourhost.domain.tld
+test_runner_url = http://yourhost.domain.tld:8000
 ```
 
 ### Running the analysis
@@ -447,13 +448,16 @@ Linux / macOS / WSL2:
 ./analyse-recording.sh <mp4-filepath> <options>
 ```
 
+> [!NOTE]
+> If you get permission denied error, please use `sudo`!
+
 Windows:
 
 ```console
 .\analyse-recording.bat <mp4-filepath> <options>
 ```
 
-For additional options please refer the [the documentation](https://github.com/cta-wave/device-observation-framework/blob/main/README.md#additional-options)
+For additional options please refer the [the documentation](https://github.com/cta-wave/device-observation-framework/blob/v2.0.1/README.md#additional-options)
 
 ### Getting the analysis results
 

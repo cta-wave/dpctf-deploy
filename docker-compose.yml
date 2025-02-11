@@ -3,7 +3,7 @@ version: '3'
 services:
   dpctf:
     container_name: dpctf
-    image: dpctf:v2.0.0
+    image: dpctf:v2.1.0
     restart: unless-stopped
     ports:
       - "8000:8000"
