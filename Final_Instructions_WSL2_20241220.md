@@ -8,8 +8,7 @@ I.	Part I: Installing Host Machine Required Software
 
 2. Installing WSL, Ubuntu and Git for Linux 
 
-	2.1 Check versions for WSL, Ubuntu, and Git 
-	 Open Powershell As Admin and Ck wsl version (mp4) 
+	2.1 Check versions for WSL, Ubuntu, and Git  
 
 	2.2. Uninstall WSL/Ubuntu (Optional) 
 
@@ -17,31 +16,29 @@ I.	Part I: Installing Host Machine Required Software
 
 	2.4. Setup Ubuntu Username and Password 
 
-3.	Linux Administrator Operations 
+3.	Linux Administrator Operations  
 	3.1. Install git for Linux (if not installed) 
 
 4.	Verify LXSSMANAGER is running
-Start Service LXSS (mp4) 
 
-5.	Clean Up Prior to Installing Docker 
-	5.1.	Uninstall Docker Desktop
-	5.2. Check for Docker for Linux
-	5.3.	Uninstall Docker
+5.	Clean Up Prior to Installing Docker  
+	5.1.	Uninstall Docker Desktop  
+	5.2. Check for Docker for Linux  
+	5.3. Uninstall Docker  
 	5.4. Remove Existing Containers/Images
 
-6. Install Docker in Ubuntu 
-	6.1. Obtain a Docker ID 
-Create docker hub account (mp4)
-6.2. Install Docker 
-6.3. Conﬁgure the Linux host machine to work better with Docker 
-6.4. Verify the Docker installation 
-6.5. Important Docker Commands: 
+6. Install Docker in Ubuntu  
+6.1. Obtain a Docker ID  
+6.2. Install Docker  
+6.3. Conﬁgure the Linux host machine to work better with Docker  
+6.4. Verify the Docker installation  
+6.5. Important Docker Commands:  
 
 **II. Part II: Build and Run the Test Suite** 
-1. Build the Test Runner 
-	1.1. First Time Building the Test Runner 
-	1.2. Agree to the EULA: 
-	1.3. Update or rebuild the Test Runner see: Update Test Runner 
+1. Build the Test Runner  
+	1.1. First Time Building the Test Runner  
+	1.2. Agree to the EULA:  
+	1.3. Update or rebuild the Test Runner see: Update Test Runner  
 
 2. Import Content 
 
@@ -54,28 +51,27 @@ Create docker hub account (mp4)
 	4.1. Run a test (Single Device (Host and DUT running on the same device  
 	4.2. Run a test on a 2-device setup 
 
-5. Analyze a Recording (“Phase 3”)
-	5.1. Build the image 
-	5.2. Add Results 
-	5.3. Conﬁgure the Observation Framework
-	5.4. Run the analysis
-	5.5. Getting the analysis results 
-	5.6. Debugging 
+5. Analyze a Recording (“Phase 3”)  
+	5.1. Build the image   
+	5.2. Add Results   
+	5.3. Conﬁgure the Observation Framework  
+	5.4. Run the analysis  
+	5.5. Getting the analysis results  
+	5.6. Debugging  
 
-6.  Additional Notes 
-	6.1. Steps to Create an Inbound Firewall Rule 
-	6.2. Conﬁguring IP address
-	6.3. Adding the observation-conﬁg.ini ﬁle 
+6.  Additional Notes  
+	6.1. Steps to Create an Inbound Firewall Rule  
+	6.2. Conﬁguring IP address  
+	6.3. Adding the observation-conﬁg.ini ﬁle  
 
 7.  Helpful Links 
 
-## Installation of the WAVE Streaming Media Test Suite – Devices on Computers Running Docker CE for Linux and Windows with WSL2
+## Installation of the WAVE Streaming Media Test Suite – Devices on Computers Running Docker CE for Linux and Windows with WSL2  
 
-These instructions are for the user intending to install the WAVE Streaming Media Test Suite – Devices on a Windows 10/11 machine, running Ubuntu Linux on that machine using the Windows WSL2 services. These instructions have been tested speciﬁcally for those installation parameters, although the knowledgeable developer will be able to adapt the instructions to their preferences, such as running a different Linux distro instead of Ubuntu.
+These instructions are for the user intending to install the WAVE Streaming Media Test Suite – Devices on a Windows 10/11 machine, running Ubuntu Linux on that machine and using the Windows WSL2 services. They have been tested speciﬁcally for those installation parameters, although the knowledgeable developer will be able to adapt the instructions to their preferences, such as running a different Linux distro instead of Ubuntu.  
 
 The WAVE Project offers the Test Suite and these instructions as open source (for details see License.md at https://github.com/cta-wave/dpctf-deploy/blob/master/LICENSE.md on the main Github Deployment page, https://github.com/cta-wave/dpctf-deploy).
-However, we regret that we cannot provide general technical support. Bugs or feature requests may be ﬁled at https://github.com/cta-wave/dpctf-deploy/issues.
-
+However, we regret that we cannot provide general technical support.  Bugs or feature requests may be ﬁled at https://github.com/cta-wave/dpctf-deploy/issues.  
 
 ## Part I: Installing Host Machine Required Software
 
@@ -84,23 +80,23 @@ However, we regret that we cannot provide general technical support. Bugs or fea
 https://github.com/cta-wave/dpctf-deploy?tab=readme-ov-file#host-machine-requirements
 
 GENERAL NOTES: For additional information and instructions see README
-https://github.com/cta-wave/dpctf-deploy
-•  These instructions are for Windows 10 build 19041+ or Windows 11 build 20262+, WSL2
-and a recent Ubuntu distribution (recommend 20.04 or higher).
-•  These instructions are NOT  for use with Docker Desktop
-• It is recommended you update Windows and then existing or newly installed WSL2, Linux
-and Docker packages before starting to install and build the test suite.
-• It is recommended that the Host PC have 2 monitors to view the instructions during the
+https://github.com/cta-wave/dpctf-deploy  
+- These instructions are for Windows 10 build 19041+ or Windows 11 build 20262+, WSL2
+and a recent Ubuntu distribution (recommend 20.04 or higher).  
+- These instructions are NOT  for use with Docker Desktop  
+- It is recommended you update Windows and then existing or newly installed WSL2, Linux
+and Docker packages before starting to install and build the test suite.  
+- It is recommended that the Host PC have 2 monitors to view the instructions during the
 installation of the required packages and the Test Suite Build. It also allows the installer to
-copy and paste commands from the instructions and external sources.
- There have been instances where previous installations of WSL2, Ubuntu and Docker have
+copy and paste commands from the instructions and external sources.  
+- There have been instances where previous installations of WSL2, Ubuntu and Docker have
 caused issues when building and/or running the Test Suite. If you run into issues during the
 installation or running the Test Suite, consider uninstalling WSL, Ubuntu, Git for Linux and
-Docker and reinstalling them and delete the Test Suite before reinstalling.
-•  WSL2 is required
-• It is highly recommended you start with a clean installation by uninstalling all prior
+Docker and reinstalling them and delete the Test Suite before reinstalling.  
+- WSL2 is required  
+- It is highly recommended you start with a clean installation by uninstalling all prior
 versions of WSL2, Ubuntu and Docker for Linux and reinstall them.
-However, if WSL2, Ubuntu (and Git for Linux) are already installed,  working, and up
+However, if WSL2, Ubuntu (and Git for Linux) are already installed, working, and up
 to date (see section 2.1 below to check), you may choose to skip to section 4 (LSXX)
 followed by section 5.4 below.
 
@@ -113,13 +109,13 @@ the WAVE folders (dpctf-deploy-master and device-observation-framework
 folders), and delete the container and image. Then follow the instructions for
 downloading and installing the Test Runner. See Part  II, 2.1 for more details.
 
-## 2. Installing WSL, Ubuntu and Git for Linux\
+## 2. Installing WSL, Ubuntu and Git for Linux
 
 **2.1 Check versions for WSL, Ubuntu, and Git**
 Open Pwershell as Admin and Check WSL Version (MP4). The following link will show how:		
 			https://www.youtube.com/watch?v=9xDLfXUNw6c&list=PL2kEGXJDqB9TAHLG15t4kaA1zZv77cHq5&index=12&pp=iAQB
 
-1.	WSL2 is required to run the test suite using Docker CE. To check your WSL version, open a	Windows Powershell as an administrator, type” wsl” and hit enter. You may need to enter your password for Linux. It will return with the “$” prompt if you have Ubuntu (or another Linux distro). If it does, type ***wsl.exe --list --verbose*** 
+1.	WSL2 is required to run the test suite using Docker CE. To check your WSL version, open a Windows Powershell as an administrator, type” wsl” and hit enter. You may need to enter your password for Linux. It will return with the “$” prompt if you have Ubuntu (or another Linux distro). If it does, type ***wsl.exe --list --verbose*** 
 	If you are running WSL 2 with one or more Linux distributions you should see something like:
   NAME            STATE           VERSION
   Ubuntu          Running         2
@@ -140,15 +136,15 @@ If not installed, go to section 3.1  “Install git for Linux”.
 NOTE:  If you decide to start with a clean installation of WSL and Ubuntu
 (recommended), you must ﬁrst uninstall them.
 
-1.  Uninstall WSL: There are many sites on uninstalling WSL.  Examples:
-	•  Windows 11:  See https://pureinfotech.com/uninstall-wsl-windows-11/
-			•  Windows 10: See https://pureinfotech.com/uninstall-wsl2-windows-10/
+1.  Uninstall WSL: There are many sites on uninstalling WSL.  Examples:  
+	•  Windows 11:  See https://pureinfotech.com/uninstall-wsl-windows-11/  
+	•  Windows 10: See https://pureinfotech.com/uninstall-wsl2-windows-10/
 
 2. To completely uninstall an Ubuntu distribution from WSL (without removing WSL2): 
 	See: 
 	https://www.windowscentral.com/how-completely-remove-linux-distro-wsl  
 
-**2.3. Install WSL2 and Ubuntu after uninstalling WSL/Ubuntu**
+**2.3. Install WSL2 and Ubuntu after uninstalling WSL/Ubuntu**  
 This step may not be required if you have up to date versions of WSL2 and Ubuntu already
 installed and choose not to uninstall and reinstall them. However, it is recommended to
 start with a clean installation to avoid complications arising from prior installations.
@@ -173,8 +169,7 @@ https://support.microsoft.com/en-us/windows/enable-virtualization-on-windows-11-
 		 This ensures that any Linux distribution will use WSL2.
 
 5.  Check to see that Ubuntu was installed when WSL2 was installed. Type
-				lsb_release -a It will show the version #. Ignore the message 
-				“No LSB modules are available”.
+				lsb_release -a It will show the version #. If you see  “No LSB modules are available”, type WSL and run lsb_release again.
 6. If Ubuntu is not installed, you will need to install it.  See the following link 
 		    https://linuxsimply.com/linux-basics/os-installation/wsl/ubuntu-on-wsl2/. 
 		    It will show you
@@ -187,9 +182,8 @@ https://support.microsoft.com/en-us/windows/enable-virtualization-on-windows-11-
 Linux bash terminal.
 
 2. If this is the ﬁrst time you run the terminal, follow prompts to add a Linux User Name and PW,
-Note that these are not your Windows/user name or PW.  
-
-Setup Ubuntu Username_Password and Check version (mp4) https://www.youtube.com/watch?v=sKn7Xez-7E4&list=PL2kEGXJDqB9TAHLG15t4kaA1zZv77cHq5&index=11&pp=iAQB  
+Note that these are not your Windows/user name or PW. See  
+Setup Ubuntu Username_Password and Check version https://www.youtube.com/watch?v=sKn7Xez-7E4&list=PL2kEGXJDqB9TAHLG15t4kaA1zZv77cHq5&index=11&pp=iAQB  
 
 3. Update/Upgade  packages: Type ***sudo apt update && sudo apt upgrade***
 
@@ -205,7 +199,7 @@ NOTE: Depending on whether your $Path includes the Path to your Unix directory, 
 Powershell commands such as ***netsh*** and  ***ipconﬁg*** may  require them to be prefaced with
 “./” e.g. ***./netsh…*** or ***./ipconﬁg***.
 
-## 3. Linux Administrator Operations\
+## 3. Linux Administrator Operations
 
 **3.1. Install git for Linux (if not installed)**
 
@@ -217,8 +211,8 @@ Powershell commands such as ***netsh*** and  ***ipconﬁg*** may  require them t
 2.  Conﬁgure git. See https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
 
 3. Run\
-***git config --global user.name "John Doe"
-git config --global user.email johndoe@example.com***
+***git config --global user.name "John Doe"***  
+***git config --global user.email johndoe@example.com***
 
 ## 4. Verify LXSSMANAGER is running.
 This service makes available a subsystem that deals with Linux executables (LX’s).
@@ -230,6 +224,8 @@ See a video on how to "Start Service LXSS"  at https://www.youtube.com/watch?v=m
 3.  If this service is not running, right click it and select START or RESTART
 
 NOTE: You must repeat this after any restart of your PC.
+
+4.  Some newer WSL/Windows installations do not have the LXSSMANAGER Service. If you do not find the LXSSMANAGER in Services, check to see that the WSL Service is running. It should run automatically on startup. If it is not Running, right click on it and select Start of RESTART.
 
 ## 5. Clean Up Prior to Installing Docker
 In this step, we check versions and uninstall items if necessary. If this is a new install on a clean
@@ -266,7 +262,7 @@ images before re-installing.  Older containers and images may contain errors or 
 ## 6. Install Docker in Ubuntu
 
 **6.1.  Obtain a Docker ID**
-Before installing Docker you will need ﬁrst to obtain a Docker ID and PW at https://hub.docker.com/signup
+Before installing Docker you will need ﬁrst to obtain a Docker ID and PW at https://hub.docker.com/signup  
 Watch a video "Create docker hub account" at https://www.youtube.com/watch?v=MDyyF2ksIuM&list=PL2kEGXJDqB9TAHLG15t4kaA1zZv77cHq5&index=9&pp=iAQB
 
 **6.2.  Install Docker**
@@ -294,8 +290,8 @@ If docker-compose is not installed, run
  ***sudo apt-get install docker-compose-plugin***
 Then recheck the version to conﬁrm it is installed.
 
-2.  To ensure Docker is running correctly, in bash terminal Run
-***sudo docker run hello-world***
+2.  To ensure Docker is running correctly, in bash terminal Run  
+***sudo docker run hello-world***  
 This should return **“Hello from Docker!”** if successful
 
 Watch a video on "Conﬁrm Docker Working_Hello World" at https://www.youtube.com/watch?v=-6yIxpROxcc&list=PL2kEGXJDqB9TAHLG15t4kaA1zZv77cHq5&index=8&pp=iAQB
@@ -306,9 +302,9 @@ your PC or at the end of the day (in case of an update) always stop Docker to
 avoid corruption of docker files (see commands below). Restart the service or
 container to run the Test Suite.**
 
-If you forget to stop the service/container before shutting down or restarting your computer (or an update restarts it) and Docker fails to restart, try each of the following in order:
+If you forget to stop the service/container before shutting down or restarting your computer (or an update restarts it) and Docker fails to restart, try each of the following in order. After check if it runs after each:
 
-- restart LSXX
+- If LSXXMANAGER is installed your system restart it – see section 4, Verify LXSSMANAGER
 - stop and restart the Docker Service
 - restart the computer
 - If that fails, clean out Docker and rebuild the Test Runner. See II section 2.1  “To cleanout Docker and rebuild the Test Suite“ below.
@@ -316,15 +312,15 @@ If you forget to stop the service/container before shutting down or restarting y
 1.  Docker Login/Logout: Login with your Docker ID to push and pull images from Docker Hub. 
 ***docker login***
 ***docker logout***
-If you don't have a Docker ID, go to https://hub.docker.com to create one.\
+If you don't have a Docker ID, go to https://hub.docker.com to create one.
 
 2.  Start / Stop Docker. Use these commands. Run
 
-	***sudo service docker start
-sudo service docker stop***
+	***sudo service docker start***  
+***sudo service docker stop***
 
-3.  To start and stop a single container Run
-***sudo docker start [container name]***    e.g. ***docker start dpctf***
+3.  To start and stop a single container Run  
+***sudo docker start [container name]***    e.g. ***docker start dpctf***  
 ***sudo docker stop [container]*** e.g. ***docker stop dpctf***
 
 ## End of Part I: Installing Host Machine Required Software
@@ -334,7 +330,7 @@ sudo service docker stop***
 Now that the platform is conﬁgured with WSL2, Ubuntu, git, Docker, etc., you are ready to install
 and run the WAVE Streaming Media Test Suite – Devices.
 
-The following instructions include additional information that is not in the Deploy README but that may be useful, especially when installing in a Windows/WSL environment and for those without experience working in a Linux environment. See also the Deploy README at https://github.com/cta-wave/dpctf-deploy?tab=readme-ov-ﬁle#phase-1-deployment-of-the-test-runner-one-time-action-to-be-performed-by-it-personnel,
+The following instructions include additional information that is not in the Deploy README but that may be useful, especially when installing in a Windows/WSL environment and for those without experience working in a Linux environment. See also the Deploy README at https://github.com/cta-wave/dpctf-deploy?tab=readme-ov-ﬁle#phase-1-deployment-of-the-test-runner-one-time-action-to-be-performed-by-it-personnel.
 
 ## 1. Build the Test Runner
 
@@ -364,9 +360,10 @@ For a video on what the run should look like See the video ***Build the Test Run
 For the test runner to start you are required to agree to the EULA.
 Set "AGREE_EULA" to "yes" in the **docker-compose.yml** file, which can be found in the **dpctf-deploy** folder.
 
-For PDF Instructions on agreeing to the EULA see https://urldefense.proofpoint.com/v2/url?u=https-3A__cdn.cta.tech_cta_media_media_resources_standards_pdfs_agree-2Dto-2Dthe-2Deula.pdf&d=DwMFAg&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=vZsx0OyHlytMout9k-eCCcoTdDUNge2znk4bpXdFyRo&m=--K-99_tldxF2Hy8HaeJNJ1S4ZExKkokkZHX3tolqK2_aHo9W3N66DOG2vZydvAe&s=k-UchTXlB3zUY2ypSzFHpDYywa8ihuSjmXjEpuvWyNY&e=
+For Instructions on agreeing to the EULA see https://urldefense.proofpoint.com/v2/url?u=https-3A__cdn.cta.tech_cta_media_media_resources_standards_pdfs_agree-2Dto-2Dthe-2Deula.pdf&d=DwMFAg&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=vZsx0OyHlytMout9k-eCCcoTdDUNge2znk4bpXdFyRo&m=--K-99_tldxF2Hy8HaeJNJ1S4ZExKkokkZHX3tolqK2_aHo9W3N66DOG2vZydvAe&s=k-UchTXlB3zUY2ypSzFHpDYywa8ihuSjmXjEpuvWyNY&e=
 
-**1.3.  Update or rebuild the Test Runner see: Update Test Runner** at
+**1.3.  To update or rebuild the Test Runner (e.g. different version or in case
+of problems) see: Update Test Runner** at
 https://github.com/cta-wave/dpctf-deploy/blob/master/README.md#update-test-runner
 
 ## 2. Import Content
@@ -495,6 +492,12 @@ For a video on configuring the Observation Framework see "Conﬁgure the Observa
 1.  To create the observation-conﬁg.ini ﬁle see Note 6.3 Adding the observation-config.ini file. 
 Alternatively you can follow the Deploy instructions at: https://github.com/cta-wave/dpctf-deploy?tab=readme-ov-file#configure-the-observation-framework
 
+Alternatively you can follow the Deploy instructions at: https://github.com/cta-
+wave/dpctf-deploy?tab=readme-ov-ﬁle#conﬁgure-the-observation-framework
+Note: This step is only needed if you want to change the default Observation Framework
+conﬁgurations. For example, this is necessary if the Observation Framework and the Test
+Runner are not running on the same host (2-device setup).
+
 2.  To view the text you entered Run ***sudo cat observation-conﬁg.ini***
 
 **5.4.  Run the analysis**
@@ -554,47 +557,42 @@ NOTE: Which Host IP address you use depends on whether you are using Ethernet or
 
 3. To ﬁnd your Host and WSL IP addresses see "IP Conﬁg and wsl IP address" at: https://urldefense.proofpoint.com/v2/url?u=https-3A__cdn.cta.tech_cta_media_media_resources_standards_pdfs_ip-2Dconfig-2Dand-2Dwsl-2Dip-2Daddress-2Dscreenshot.pdf&d=DwMFAg&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=vZsx0OyHlytMout9k-eCCcoTdDUNge2znk4bpXdFyRo&m=--K-99_tldxF2Hy8HaeJNJ1S4ZExKkokkZHX3tolqK2_aHo9W3N66DOG2vZydvAe&s=dIrdmlzPOr4QcDJQln9hrQ_cLt5v_7k9YJLGrz9BUtU&e=
 
-4.  Using the above WSL IP addresses, in Windows PowerShell (must be run as Admin by Admin User!) run:
-***netsh.exe interface portproxy add v4tov4 listenport=8000***
-**listenaddress=0.0.0.0 connectport=8000 connectaddress=[wsl_ip]**
+4.  Using the above WSL IP addresses, in Windows PowerShell (must be run as Admin by Admin User!) run:  
+**netsh.exe interface portproxy add v4tov4 listenport=8000**
+**listenaddress=0.0.0.0 connectport=8000 connectaddress=[wsl_ip]**  
 
-	**netsh.exe interface portproxy add v4tov4 listenport=8443**
-**listenaddress=0.0.0.0 connectport=8443 connectaddress=[wsl_ip]**
+**netsh.exe interface portproxy add v4tov4 listenport=8443**
+**listenaddress=0.0.0.0 connectport=8443 connectaddress=[wsl_ip]**  
 
-NOTE:  Make sure you use the correct  IP addresses [host_ip] & [wsl_ip].
+NOTE:  Make sure you use the correct  IP addresses [host_ip] & [wsl_ip].  
+For a screenshot of the commands see "Conﬁgure access to the Test Runner WSL Proxy" at  https://urldefense.proofpoint.com/v2/url?u=https-3A__cdn.cta.tech_cta_media_media_resources_standards_pdfs_config-2Daccess-2Dto-2Dtest-2Drunner-2Dwsl-2Dproxy.pdf&d=DwMFAg&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=vZsx0OyHlytMout9k-eCCcoTdDUNge2znk4bpXdFyRo&m=--K-99_tldxF2Hy8HaeJNJ1S4ZExKkokkZHX3tolqK2_aHo9W3N66DOG2vZydvAe&s=NIWI6GE7b7Pq6aNrNIzt37FijzejEya9t6lieur5HZs&e=
 
-For a screenshot of the commands see the screenshot "Conﬁgure access to the Test Runner WSL Proxy" at  https://urldefense.proofpoint.com/v2/url?u=https-3A__cdn.cta.tech_cta_media_media_resources_standards_pdfs_config-2Daccess-2Dto-2Dtest-2Drunner-2Dwsl-2Dproxy.pdf&d=DwMFAg&c=euGZstcaTDllvimEN8b7jXrwqOf-v5A_CdpgnVfiiMM&r=vZsx0OyHlytMout9k-eCCcoTdDUNge2znk4bpXdFyRo&m=--K-99_tldxF2Hy8HaeJNJ1S4ZExKkokkZHX3tolqK2_aHo9W3N66DOG2vZydvAe&s=NIWI6GE7b7Pq6aNrNIzt37FijzejEya9t6lieur5HZs&e=
-
-**6.3.  Adding the observation-conﬁg.ini ﬁle**
-
+**6.3.  Adding the observation-conﬁg.ini ﬁle**  
 For more information see  https://www.wikihow.com/Create-a-File-in-a-Directory-in-Linux
 
-1.  To conﬁgure the Observation Framework create the observation-conﬁg.ini ﬁle in the dpctf-deploy folder using a Linux bash terminal follow these instructions:
+1.  To conﬁgure the Observation Framework create the observation-conﬁg.ini ﬁle in the dpctf-deploy folder using a Linux bash terminal follow these instructions:  
 
-•  cd to the dpctf-deploy directory
-•  Run
-
-***cat >observation-conﬁg.ini***
-press enter. It will create and open the observation-conﬁg.ini ﬁle. It will
+- cd to the dpctf-deploy directory and Run  
+***cat >observation-conﬁg.ini***  
+- press enter.  
+It will create and open the observation-conﬁg.ini ﬁle. It will
 show a blank line since you have not entered any text yet. 
-Next:
-•  Copy and paste the observation-conﬁg.ini text into the blank line from https://github.com/cta-wave/device-observation-framework/blob/main/config.ini
 
-press **Ctrl+d** to save
-press **ctrl X** to exit
+- Copy and paste the observation-conﬁg.ini text into the blank line from https://github.com/cta-wave/device-observation-framework/blob/main/config.ini  
+- press **Ctrl+d** to save  
+- press **ctrl X** to exit
 
-2. To view the text you entered Run
-
-***cat observation-conﬁg.ini***
-
+2. To view the text you entered Run  
+- ***cat observation-conﬁg.ini***  
 or open the ﬁle using notepad.
 
 **7. Helpful Links**
+
 **Test Suite Installation README**
 https://github.com/cta-wave/dpctf-deploy?tab=readme-ov-ﬁle#
 
-***Docker and WSL2 without Docker Desktop***
-*** https://dev.to/rombru/docker-and-wsl2-without-docker-desktop-3pg3
+**Docker and WSL2 without Docker Desktop**
+https://dev.to/rombru/docker-and-wsl2-without-docker-desktop-3pg3
 
 **Check WSL version**
 https://superuser.com/questions/1719857/how-to-find-out-wsl2-version 
@@ -602,12 +600,12 @@ https://superuser.com/questions/1719857/how-to-find-out-wsl2-version
 **Upgrade WSL to WSL2**
 https://pureinfotech.com/upgrade-wsl2-wsl1-windows-10/
 
-**Uninstall WSL and Ubuntu** 
-Windows 11: https://pureinfotech.com/uninstall-wsl-windows-11 
+**Uninstall WSL and Ubuntu**  
+Windows 11: https://pureinfotech.com/uninstall-wsl-windows-11  
 Windows 10: https://pureinfotech.com/uninstall-wsl2-windows-10   
 
-**How to Install Ubuntu in WSL2 in Just 3 Steps**
-** https://linuxsimply.com/linux-basics/os-installation/wsl/ubuntu-on-wsl2/
+**How to Install Ubuntu in WSL2 in Just 3 Steps** 
+https://linuxsimply.com/linux-basics/os-installation/wsl/ubuntu-on-wsl2/
 
 **Update Ubuntu**
 https://ubuntu.com/tutorials/upgrading-ubuntu-desktop#1-before-you-start
