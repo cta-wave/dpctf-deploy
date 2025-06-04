@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 set reload_runner=0
 set reload_tests=0
-set tests_branch="v2.1.0"
+set tests_branch="v3.0.0"
 set has_tests_branch=0
 set test_runner_commit="v2.2.0"
 set image_tag="v3.0.0"

@@ -8,7 +8,7 @@ fi
 
 reload_runner=false
 reload_tests=false
-tests_branch="v2.1.0"
+tests_branch="v3.0.0"
 has_tests_branch=false
 test_runner_commit="v2.2.0"
 image_tag="v3.0.0"
