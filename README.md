@@ -326,18 +326,21 @@ Windows:
 
 ### Use specific version
 
-To use a specific version enter the deploy repository and checkout the version (e.g. v2.0.0):
+> [!CAUTION]
+> While we recommend using the latest version of the test suite for the most up-to-date features and fixes, you can also install previous releases if needed. To do so, visit the [releases](https://github.com/cta-wave/dpctf-deploy/releases) page and select the version (tag) you wish to install — e.g.,`v2.1.0`.
+
+To use a specific release of the test suite, enter the deploy repository and checkout the version (tag) of the release (e.g. `v2.1.0`) you selected from the [releases](https://github.com/cta-wave/dpctf-deploy/releases) page:
 
 Linux / macOS / WSL2:
 
 ```sh
-git checkout v2.0.0
+git checkout v2.1.0
 ```
 
 Windows:
 
 ```console
-git checkout v2.0.0
+git checkout v2.1.0
 ```
 
 Then rebuild the image:
@@ -386,7 +389,7 @@ The tester must execute following steps
 
 ## Phase 3: Analyse recording using device observation framework
 
-The Observation Framework analyzes the video file recorded in phase 2 and automatically adds the results to the existing results of the corresponding session. Just like the Test Runner, the Observation Framework is setup in a docker container.
+The Observation Framework (OF) analyzes the video file recorded in phase 2 and automatically adds the results to the existing results of the corresponding session. Just like the Test Runner, the Observation Framework is setup in a docker container.
 
 ### Clone repository
 
@@ -430,12 +433,12 @@ Windows:
 > [!NOTE]
 > This step is only needed if you want to change the default Observation Framework configurations. For example, this is necessary if the Observation Framework and the Test Runner are not running on the same host.
 
-To configure the Observation Framework, create a file named `observation-config.ini` in the root directory of this repository (`dpctf-deploy`). Copy and paste the content from `config.ini` located in the [Observation Framework's repository](https://github.com/cta-wave/device-observation-framework/blob/v2.0.1/config.ini). You can then make any necessary changes to `observation-config.ini`.
+To configure the Observation Framework, create a file named `observation-config.ini` in the root directory of this repository (`dpctf-deploy`). Copy and paste the content from `config.ini` located in the [Observation Framework's repository](https://github.com/cta-wave/device-observation-framework/blob/v2.1.0/config.ini). You can then make any necessary changes to `observation-config.ini`.
 
 Usualy, the only configuration parameter you need to change is `test_runner_url`. This allows the Observation Framework to send results to your Test Runner if it is running on a different host. To do this, set the correct URL of the Test Runner in the `observation-config.ini` file:
 
 ```ini
-test_runner_url = http://yourhost.domain.tld:8000
+test_runner_url = http://yourhost.domain.tld:8000/_wave/
 ```
 
 ### Running the analysis
@@ -457,7 +460,7 @@ Windows:
 .\analyse-recording.bat <mp4-filepath> <options>
 ```
 
-For additional options please refer the [the documentation](https://github.com/cta-wave/device-observation-framework/blob/v2.0.1/README.md#additional-options)
+For additional options please refer the [the documentation](https://github.com/cta-wave/device-observation-framework/blob/v2.1.0/README.md#additional-options)
 
 ### Getting the analysis results
 
@@ -469,53 +472,26 @@ http://yourhost.domain.tld:8000/_wave/results.html?token=SESSIONTOKEN
 
 The results are also located in the `dpctf-deploy/observation-results` directory.
 
-### Update observation framework
-
-To update the observation framework to the latest version enter the deploy repository and pull the latest changes:
-
-Linux / macOS / WSL2:
-
-```sh
-git pull origin master
-```
-
-Windows:
-
-```console
-git pull origin master
-```
-
-Then rebuild the image:
-
-Linux / macOS / WSL2:
-
-```sh
-./build-dof.sh --reload-dof
-```
-
-Windows:
-
-```console
-.\build-dof.bat --reload-dof
-```
-
 ### Use specific version
 
-To use a specific version enter the deploy repository and checkout the version (e.g. v2.0.0):
+> [!CAUTION]
+> While we recommend using the latest version of the test suite for the most up-to-date features and fixes, you can also install previous releases if needed. To do so, visit the [releases](https://github.com/cta-wave/dpctf-deploy/releases) page and select the version (tag) you wish to install — e.g.,`v2.1.0`.
+
+To use a specific release of the test suite, enter the deploy repository and checkout the version (tag) of the release (e.g. `v2.1.0`) you selected from the [releases](https://github.com/cta-wave/dpctf-deploy/releases) page:
 
 Linux / macOS / WSL2:
 
 ```sh
-git checkout v2.0.0
+git checkout v2.1.0
 ```
 
 Windows:
 
 ```console
-git checkout v2.0.0
+git checkout v2.1.0
 ```
 
-Then rebuild the image:
+Then rebuild the OF image:
 
 Linux / macOS / WSL2:
 
