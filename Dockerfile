@@ -55,6 +55,14 @@ COPY cache/tests-rev.txt /dev/null
 ARG testsbranch
 RUN ./import-tests.sh "$testsbranch"
 
+RUN echo "results/" >> .gitignore
+RUN echo "config.json" >> .gitignore
+RUN echo "certs/" >> .gitignore
+RUN echo "reference-results/" >> .gitignore
+RUN echo "content/" >> .gitignore
+RUN echo "test-config.json" >> .gitignore
+RUN echo "test-subsets.json" >> .gitignore
+
 RUN ./wpt manifest --rebuild --no-download
 
 EXPOSE 8000
