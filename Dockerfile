@@ -36,7 +36,7 @@ RUN git init &&\
     git remote add origin https://github.com/cta-wave/dpctf-test-runner.git
 
 FROM base AS test-runner
-COPY cache/runner-rev.txt /dev/null
+COPY .cache/runner-rev.txt /dev/null
 
 USER root
 RUN npm install --global https://github.com/cta-wave/wptreport.git#dpctf
@@ -50,10 +50,12 @@ RUN git fetch origin $commit && \
 
 
 FROM test-runner AS tests
-COPY cache/tests-rev.txt /dev/null
+COPY .cache/tests-rev.txt /dev/null
+COPY remove-tests.sh .
+RUN ./remove-tests.sh
 
-ARG testsbranch
-RUN ./import-tests.sh "$testsbranch"
+ARG tests_dir
+COPY $tests_dir /home/ubuntu/DPCTF/
 
 RUN echo "results/" >> .gitignore
 RUN echo "config.json" >> .gitignore

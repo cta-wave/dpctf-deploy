@@ -8,16 +8,16 @@ fi
 
 reload_runner=false
 reload_tests=false
-tests_branch="v3.0.0"
-has_tests_branch=false
+tests_dir=".tmp/tests"
+has_tests_dir=false
 test_runner_commit="v2.2.0"
 image_tag="v3.0.0"
 argument_count=0
 
 for var in "$@"; do
-  if [ $has_tests_branch = true ]; then
-    tests_branch="$var"
-    has_tests_branch=false
+  if [ $has_tests_dir = true ]; then
+    tests_dir="$var"
+    has_tests_dir=false
   fi
 
   if [[ "$var" != --* ]]; then
@@ -31,30 +31,24 @@ for var in "$@"; do
   fi
   if [ "$var" == "--reload-runner" ]; then
     reload_runner=true
-  elif [ "$var" == "--reload-tests" ]; then
-    reload_tests=true
-  elif [ "$var" == "--tests-branch" ]; then
-    has_tests_branch=true
+  elif [ "$var" == "--tests-dir" ]; then
+    has_tests_dir=true
   fi
 done
 
-args=""
-
-if [ ! -d "cache" ]; then
-  mkdir cache
+if [ ! -d ".cache" ]; then
+  mkdir .cache
 fi
 
-touch cache/runner-rev.txt
-touch cache/tests-rev.txt
+touch .cache/runner-rev.txt
+touch .cache/tests-rev.txt
 
 if [ $reload_runner = true ]; then
-  #args="$args --build-arg runner-rev=\"$(date | sed "s/ //g")\""
-  date >> cache/runner-rev.txt
+  date >> .cache/runner-rev.txt
 fi
 
 if [ $reload_tests = true ]; then
-  #args="$args --build-arg tests-rev=\"$(date | sed "s/ //g")\""
-  date >> cache/tests-rev.txt
+  date >> .cache/tests-rev.txt
 fi
 
-docker build --network="host" --build-arg commit=$test_runner_commit --build-arg testsbranch="$tests_branch" $args -t dpctf:$image_tag .
+docker build --network="host" --build-arg commit=$test_runner_commit --build-arg tests_dir="$tests_dir" -t dpctf:$image_tag .
