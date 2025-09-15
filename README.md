@@ -360,6 +360,9 @@ Windows:
 
 ## Phase 2: Test execution and recording (to be performed by tester)
 
+> [!NOTE]
+> Where browsers support installation of extensions, some such extensions may interfere with the test. If the video fails to start and run on the DUT browser with extensions installed, turn off the browser extensions on the DUT and repeat the test.
+
 To execute tests, open the landing page on the DUT using the following URL:
 
 ```
