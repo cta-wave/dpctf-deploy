@@ -1,10 +1,11 @@
 #!/bin/bash
 
-mkdir .tmp/
-
-TESTS_REPO_DIR=.tmp/fsmts-tests
-TESTS_DIR=".tmp/tests"
+TMP_DIR=.tmp
+TESTS_REPO_DIR=$TMP_DIR/dpctf-tests
+TESTS_DIR="$TMP_DIR/tests"
 TESTS_BRANCH="master"
+
+mkdir -p $TMP_DIR
 
 has_tests_branch=false
 
@@ -19,10 +20,13 @@ for var in "$@"; do
   fi
 done
 
-git clone -q https://github.com/cta-wave/dpctf-tests.git $TESTS_REPO_DIR
-git -C $TESTS_REPO_DIR checkout -q $TESTS_BRANCH
+if [ ! -d "$TESTS_REPO_DIR" ]; then
+  echo "Cloning tests repository"
+  git clone -q https://github.com/cta-wave/dpctf-tests.git $TESTS_REPO_DIR
+fi
+git -C $TESTS_REPO_DIR checkout -q $TESTS_BRANCH --
 
-mv $TESTS_REPO_DIR/generated $TESTS_DIR
-mv $TESTS_REPO_DIR/test-config.json $TESTS_DIR
-mv $TESTS_REPO_DIR/test-subsets.json $TESTS_DIR
+cp -r $TESTS_REPO_DIR/generated $TESTS_DIR
+cp    $TESTS_REPO_DIR/test-config.json $TESTS_DIR
+cp    $TESTS_REPO_DIR/test-subsets.json $TESTS_DIR
 
