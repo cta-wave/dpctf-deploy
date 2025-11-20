@@ -10,4 +10,4 @@ echo ""
 echo "DATA SIZE WARNING: This script will download a lot of data!"
 echo ""
 
-docker run -it --rm --name import-content -v $(pwd):/usr/src/import-content -w /usr/src/import-content python:3.8 sh ./download-content.sh
+docker run -it --rm --name import-content --network host -v $(pwd):/usr/src/import-content -w /usr/src/import-content python:3.8 sh ./download-content.sh
