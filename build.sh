@@ -6,53 +6,55 @@ if ! $(docker info > /dev/null 2>&1); then
     exit 1;
 fi
 
-image_name="dpctf"
-image_tag="latest"
-tests_dir=".tmp/tests"
-runner_dir=".tmp/runner"
-
-has_tests_dir=false
-has_runner_dir=false
-
+reload_runner=false
+reload_tests=false
+tests_branch="v3.0.0"
+has_tests_branch=false
+test_runner_commit="v2.2.0"
+image_tag="v3.0.0"
 argument_count=0
-argument1=""
-argument2=""
 
 for var in "$@"; do
-  if [ $has_tests_dir = true ]; then
-    tests_dir="$var"
-    has_tests_dir=false
-    continue
-  fi
-  if [ $has_runner_dir = true ]; then
-    runner_dir="$var"
-    has_runner_dir=false
-    continue
+  if [ $has_tests_branch = true ]; then
+    tests_branch="$var"
+    has_tests_branch=false
   fi
 
   if [[ "$var" != --* ]]; then
     if [[ "$argument_count" -eq 0 ]]; then
-      argument1="$var"
+      test_runner_commit="$var"
       argument_count=1
     elif [[ "$argument_count" -eq 1 ]]; then
-      argument2="$var"
+      image_tag="$var"
       argument_count=2
     fi
   fi
-  if [ "$var" == "--runner-dir" ]; then
-    has_runner_dir=true
-  elif [ "$var" == "--tests-dir" ]; then
-    has_tests_dir=true
+  if [ "$var" == "--reload-runner" ]; then
+    reload_runner=true
+  elif [ "$var" == "--reload-tests" ]; then
+    reload_tests=true
+  elif [ "$var" == "--tests-branch" ]; then
+    has_tests_branch=true
   fi
 done
 
-if [[ "$argument_count" -eq 2 ]]; then
-  image_name="$argument1"
-  image_tag="$argument2"
+args=""
+
+if [ ! -d "cache" ]; then
+  mkdir cache
 fi
 
-docker build \
-  --network="host" \
-  --build-arg tests_dir="$tests_dir" \
-  --build-arg runner_dir="$runner_dir" \
-  -t $image_name:$image_tag .
+touch cache/runner-rev.txt
+touch cache/tests-rev.txt
+
+if [ $reload_runner = true ]; then
+  #args="$args --build-arg runner-rev=\"$(date | sed "s/ //g")\""
+  date >> cache/runner-rev.txt
+fi
+
+if [ $reload_tests = true ]; then
+  #args="$args --build-arg tests-rev=\"$(date | sed "s/ //g")\""
+  date >> cache/tests-rev.txt
+fi
+
+docker build --network="host" --build-arg commit=$test_runner_commit --build-arg testsbranch="$tests_branch" $args -t dpctf:$image_tag .

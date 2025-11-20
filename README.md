@@ -81,7 +81,7 @@ To build the image run the build script in the `dpctf-deploy` directoy:
 Linux / macOS / WSL2:
 
 ```sh
-make all
+./build.sh
 ```
 
 Windows:
