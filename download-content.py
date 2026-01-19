@@ -28,6 +28,10 @@ def main():
     for profile_name in json_file:
         vectors = json_file[profile_name]
         for vector_name in vectors:
+            destination_sub_dir = os.path.join(DEST_DIR, vector_name)
+            if os.path.exists(destination_sub_dir):
+                print("Directory '" + destination_sub_dir + "' exists. Skipping ...")
+                continue
             vector = vectors[vector_name]
             if "zipPath" not in vector or "mpdPath" not in vector:
                 print("Vector '" + vector_name + "' does not specify zip or mpd path, skipping ...")
