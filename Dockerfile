@@ -44,7 +44,6 @@ RUN npm install --global https://github.com/cta-wave/wptreport.git#dpctf
 USER ubuntu
 
 FROM test-runner AS tests
-COPY .cache/tests-rev.txt /dev/null
 COPY remove-tests.sh .
 RUN ./remove-tests.sh
 
