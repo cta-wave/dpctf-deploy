@@ -1,8 +1,8 @@
 TESTS_DIR ?= ".tmp/tests"
-TESTS_BRANCH ?= "staging"
+TESTS_BRANCH ?= "v4.0.0"
 RUNNER_DIR ?= ".tmp/runner"
-RUNNER_BRANCH ?= "master"
-IMAGE_TAG ?= "staging"	
+RUNNER_BRANCH ?= "v4.0.0"
+IMAGE_TAG ?= "v4.0.0"	
 IMAGE_NAME ?= "dpctf"
 
 all: import-runner import-tests build

@@ -26,6 +26,7 @@ if [ ! -d "$TESTS_REPO_DIR" ]; then
 fi
 git -C $TESTS_REPO_DIR checkout -q $TESTS_BRANCH --
 
+rm -rf $TESTS_DIR 2>/dev/null
 cp -r $TESTS_REPO_DIR/generated $TESTS_DIR
 cp    $TESTS_REPO_DIR/test-config.json $TESTS_DIR
 cp    $TESTS_REPO_DIR/test-subsets.json $TESTS_DIR
