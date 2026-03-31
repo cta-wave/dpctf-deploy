@@ -81,7 +81,7 @@ To build the image run the build script in the `dpctf-deploy` directoy:
 Linux / macOS / WSL2:
 
 ```sh
-make all
+make build
 ```
 
 Windows:
@@ -95,14 +95,16 @@ Download test content to serve locally (note: this pulls a lot of data and may t
 Linux / macOS / WSL2:
 
 ```sh
-./import.sh
+make import-content
 ```
 
 Windows:
 
 ```console
-.\import.bat
+.\import.bat [content-version]
 ```
+
+If no content version is provided, `master` is used.
 
 ### Configure access to the test runner
 
