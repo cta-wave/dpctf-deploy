@@ -1,7 +1,7 @@
 services:
   dpctf:
     container_name: dpctf
-    image: dpctf:staging
+    image: dpctf:v4.0.0
     restart: unless-stopped
     ports:
       - "8000:8000"

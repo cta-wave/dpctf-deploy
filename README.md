@@ -262,7 +262,7 @@ To start the test runner, change into the `dpctf-deploy` directory and run:
 Linux / macOS / WSL2:
 
 ```sh
-docker-compose up
+docker compose up
 ```
 
 Windows:
