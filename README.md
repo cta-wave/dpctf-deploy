@@ -244,7 +244,7 @@ Your `config.json` should look something like this:
 
 ### Agree to the EULA
 
-For the test runner to start you are required to agree to the [EULA](https://github.com/cta-wave/dpctf-deploy/#agree-to-eula).
+For the test runner to start you are required to agree to the [EULA](./End-User-License-Agreement.md).
 
 Set `AGREE_EULA` to `yes`:
 
