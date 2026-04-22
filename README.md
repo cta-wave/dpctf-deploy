@@ -33,15 +33,10 @@ There are three phases:
 
 ### Host machine requirements
 
-- on Linux (applies also for macOS and Windows with WSL2):
+- on Linux, macOS and Windows with WSL2:
   - docker
   - docker-compose
   - git
-- on Windows (without WSL2):
-  - Docker-Desktop
-    - To access docker the user requires admin permissions (or a special configuration which is out of scope for this guide)
-  - git
-  - Windows Terminal (For running commands)
 - TLS server certificate for a domain that can be resolved by the device under test (we use `yourhost.domain.tld` for the domain)
   Note: While some tests can be run without this, valid certificates are needed for tests of EME and encrypted content.
 - camera that records at 120 fps or more (AVC/h.264)
@@ -60,15 +55,7 @@ Note: If the DUT supports HbbTV then one possibility is to build an MPEG-2 trans
 
 Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
-Linux / macOS / WSL2:
-
 ```sh
-git clone https://github.com/cta-wave/dpctf-deploy
-```
-
-Windows:
-
-```console
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
@@ -78,33 +65,15 @@ Now all files necessary to setup the test runner are located in the `dpctf-deplo
 
 To build the image run the build script in the `dpctf-deploy` directoy:
 
-Linux / macOS / WSL2:
-
 ```sh
 make build
 ```
 
-Windows:
-
-```console
-.\build.bat
-```
-
 Download test content to serve locally (note: this pulls a lot of data and may take a while):
-
-Linux / macOS / WSL2:
 
 ```sh
 make import-content
 ```
-
-Windows:
-
-```console
-.\import.bat [content-version]
-```
-
-If no content version is provided, `master` is used.
 
 ### Configure access to the test runner
 
@@ -259,16 +228,8 @@ environment:
 
 To start the test runner, change into the `dpctf-deploy` directory and run:
 
-Linux / macOS / WSL2:
-
 ```sh
 docker compose up
-```
-
-Windows:
-
-```console
-docker-compose up
 ```
 
 Wait until all http and https are started. The output should like something like this:
@@ -300,30 +261,14 @@ dpctf exited with code 1
 
 To update the test runner to the latest version enter the deploy repository and pull the latest changes:
 
-Linux / macOS / WSL2:
-
 ```sh
-git pull origin master
-```
-
-Windows:
-
-```console
 git pull origin master
 ```
 
 Then rebuild the image:
 
-Linux / macOS / WSL2:
-
 ```sh
-./build.sh --reload-runner --reload-tests
-```
-
-Windows:
-
-```console
-.\build.bat --reload-runner --reload-tests
+make clean build
 ```
 
 ### Use specific version
@@ -333,30 +278,14 @@ Windows:
 
 To use a specific release of the test suite, enter the deploy repository and checkout the version (tag) of the release (e.g. `v2.1.0`) you selected from the [releases](https://github.com/cta-wave/dpctf-deploy/releases) page:
 
-Linux / macOS / WSL2:
-
 ```sh
-git checkout v2.1.0
-```
-
-Windows:
-
-```console
 git checkout v2.1.0
 ```
 
 Then rebuild the image:
 
-Linux / macOS / WSL2:
-
 ```sh
-./build.sh --reload-runner --reload-tests
-```
-
-Windows:
-
-```console
-.\build.bat --reload-runner --reload-tests
+make clean build
 ```
 
 
@@ -400,15 +329,7 @@ The Observation Framework (OF) analyzes the video file recorded in phase 2 and a
 
 Using the git command line tool, you can download the current version of the dpctf-deploy repository to your system:
 
-Linux / macOS / WSL2:
-
 ```sh
-git clone https://github.com/cta-wave/dpctf-deploy
-```
-
-Windows:
-
-```console
 git clone https://github.com/cta-wave/dpctf-deploy
 ```
 
@@ -418,16 +339,8 @@ Now all files necessary to setup the test runner are located in the `dpctf-deplo
 
 To build the image run the build script in the `dpctf-deploy` directoy:
 
-Linux / macOS / WSL2:
-
 ```sh
 ./build-dof.sh
-```
-
-Windows:
-
-```console
-.\build-dof.bat
 ```
 
 ### Configure the Observation Framework
@@ -447,20 +360,12 @@ test_runner_url = http://yourhost.domain.tld:8000/_wave/
 
 Run the analysis by executing the `analyse-recording` script:
 
-Linux / macOS / WSL2:
-
 ```sh
 ./analyse-recording.sh <mp4-filepath> <options>
 ```
 
 > [!NOTE]
 > If you get permission denied error, please use `sudo`!
-
-Windows:
-
-```console
-.\analyse-recording.bat <mp4-filepath> <options>
-```
 
 For additional options please refer the [the documentation](https://github.com/cta-wave/device-observation-framework/blob/v2.1.0/README.md#additional-options)
 
@@ -481,30 +386,14 @@ The results are also located in the `dpctf-deploy/observation-results` directory
 
 To use a specific release of the test suite, enter the deploy repository and checkout the version (tag) of the release (e.g. `v2.1.0`) you selected from the [releases](https://github.com/cta-wave/dpctf-deploy/releases) page:
 
-Linux / macOS / WSL2:
-
 ```sh
-git checkout v2.1.0
-```
-
-Windows:
-
-```console
 git checkout v2.1.0
 ```
 
 Then rebuild the OF image:
 
-Linux / macOS / WSL2:
-
 ```sh
 ./build-dof.sh --reload-dof
-```
-
-Windows:
-
-```console
-.\build-dof.bat --reload-dof
 ```
 
 ### Debugging
