@@ -27,7 +27,17 @@ There are three phases:
    - [Debugging](#debugging)
 
 > [!TIP]
-> **For Windows with WSL2 only**: Detailed additional installation instructions for the "WAVE Streaming Media Test Suite – Devices" on Windows with WSL2 (including the installation of Ubuntu and Docker for Linux) are available at [Final_Instructions_WSL2_20241220](https://github.com/cta-wave/dpctf-deploy/blob/master/Final_Instructions_WSL2_20241220.md) or as a PDF under [doc/Install-Instructions-Windows-with-WSL2.pdf](doc/Install-Instructions-Windows-with-WSL2.pdf?raw=true) (the PDF includes links to instruction videos hosted on YouTube).
+> **For Windows with WSL2 only**: The simplest way to build the "WAVE Streaming
+> Media Test Suite – Devices" on a Windows with WSL2 platform is to follow the
+> instructions in the
+> [WAVE WSL QuickStart Guide](test_suite_scripts/WAVE_WSL_QuickStart_Guide.md)
+> ([PDF version](test_suite_scripts/WAVE_WSL_QuickStart_Guide.pdf?raw=true)).
+> For detailed instructions, including how to do a clean install of the software
+> required to build and run the Test Suite, see the
+> [WAVE WSL User Guide](test_suite_scripts/WAVE_WSL_User_Guide.md)
+> ([PDF version](test_suite_scripts/WAVE_WSL_User_Guide.pdf?raw=true)).
+> All scripts and guides referenced above are in the `test_suite_scripts`
+> folder, which is included when you clone this repository.
 
 ## Phase 1: Deployment of the test runner (one time action, to be performed by IT personnel)
 
