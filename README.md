@@ -305,14 +305,10 @@ or if you have provided valid certificates
 ```
 https://yourhost.domain.tld:8443/_wave/index.html
 ```
-#### Camera requirements:
-The camera needs to be capable of recording video at around 120Hz, full HD. It needs to be capable of wired connection from DUT to record audio at 48kHz, 16-bits jointly with video. When getting started with the WAVE device test suite, the following may be useful purely for experimentation and familiarization with the test runner and test suite.
-* It is possible to use cameras only recording at 60Hz if you limit yourself to experimenting with those tests where the video frame rate is 25/30Hz.
-* If the camera records audio at 44.1 kHz and not 48kHz then either ffmpeg can be used to remove the 44.1kHz audio track or it may be possible to disable the camera recording audio. Disabling the microphone may only result in silence being recorded at 44.1kHz. Removing the audio would mean limiting yourself to experimenting with video only test and video observations for video and audio combined tests.
 
-#### The tester must execute following steps
+The tester must execute following steps
 
-1. position video recording device in front of the display of DUT
+1. position video recording device (e.g. smartphone with 120fps using AVC codec) in front of the display of DUT
    Note: Significant care is needed. Please see [documentation for obtaining recordings](https://github.com/cta-wave/device-observation-framework/blob/main/README.md#obtain-recording-files).
 
 2. Either use a phone to scan the QR-Code -> test runner companion screen will open in phones's Web browser or
